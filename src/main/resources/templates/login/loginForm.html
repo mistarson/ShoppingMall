@@ -33,7 +33,10 @@
             </div>
         </form>
         <div class="text-center">
-            <button class="btn btn-primary btn-xl text-uppercase" type="submit">회원가입</button>
+            <button class="btn btn-primary btn-xl text-uppercase" type="button"
+                    th:onclick="|location.href='@{/members/new}'|">
+                회원가입
+            </button>
         </div>
 
     </div>
