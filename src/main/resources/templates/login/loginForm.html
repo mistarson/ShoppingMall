@@ -4,7 +4,7 @@
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body id="page-top">
+<body>
 <!-- Navigation-->
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
@@ -19,7 +19,8 @@
             </div>
             <div class="form-group">
                 <label for="loginId">로그인 ID</label>
-                <input type="text" id="loginId" th:field="*{loginId}" class="form-control" th:errorclass="field-error"/>
+                <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
+                       th:errorclass="field-error"/>
                 <div class="field-error" th:errors="*{loginId}"/>
             </div>
             <div class="form-group">
@@ -33,7 +34,7 @@
             </div>
         </form>
         <div class="text-center">
-            <button class="btn btn-primary btn-xl text-uppercase" type="button"
+            <button class="login btn btn-primary btn-xl text-uppercase" type="button"
                     th:onclick="|location.href='@{/members/new}'|">
                 회원가입
             </button>
