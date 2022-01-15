@@ -12512,3 +12512,12 @@ section#contact form#contactForm :-ms-input-placeholder {
     color: rgb(223, 70, 85);
 }
 
+section#join {
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-group p {
+    color: rgb(223, 70, 85);
+}
