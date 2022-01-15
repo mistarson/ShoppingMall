@@ -26,6 +26,23 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId).orElseThrow(()-> new Exception("아이디에 해당하는 회원이 없습니다."));
     }
 
+    // 멤버 아이디로 조회
+    public Member findById(Long memberId) throws Exception {
+        return memberRepository.findById(memberId).orElseThrow(()-> new Exception("해당 memberId를 가진 회원은 없습니다."));
+    }
+
+    public Member findMyInfo(Long memberId) throws Exception {
+
+        return setMember(memberId);
+    }
+
+    private Member setMember(Long memberId) throws Exception {
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
+
+        return new Member(findMember.getLoginId(), findMember.getPassword(), findMember.getName(), findMember.getAddress());
+
+    }
+
     //회원가입
     public Long join(JoinForm joinForm) {
 

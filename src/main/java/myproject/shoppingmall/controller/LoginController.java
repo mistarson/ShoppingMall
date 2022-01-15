@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,5 +56,22 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //세션에 로그인 회원 정보를 보관
 
         return "redirect:" + redirectURL;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
+    private void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

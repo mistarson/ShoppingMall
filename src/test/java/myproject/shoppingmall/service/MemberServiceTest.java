@@ -90,4 +90,11 @@ class MemberServiceTest {
 
     }
 
+    @Test
+    void 내정보찾기() throws Exception {
+        Member findMember = memberService.findByLoginId("qeqe");
+        Member myInfo = memberService.findMyInfo(findMember.getId());
+        System.out.println(myInfo.toString());
+    }
+
 }

@@ -11948,10 +11948,11 @@ p {
     margin-top: 0;
 }
 
-h2.section-heading.text-uppercase.login {
+h2.section-heading.text-uppercase.myh2 {
     font-size: 2.5rem;
     margin-top: 0;
     margin-bottom: 60px;
+    color: #fff;
 }
 
 .page-section h3.section-subheading, .page-section .section-subheading.h3 {
@@ -12520,4 +12521,10 @@ section#join {
 
 .form-group p {
     color: rgb(223, 70, 85);
+}
+
+section#myInfo {
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
 }

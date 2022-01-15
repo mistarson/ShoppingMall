@@ -10,7 +10,7 @@
 <section class="page-section" id="contact">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase login">로그인</h2>
+            <h2 class="section-heading text-uppercase myh2">로그인</h2>
         </div>
         <form id="contactForm" action="/login" th:action th:object="${loginForm}" method="post">
             <div th:if="${#fields.hasGlobalErrors()}">
@@ -34,7 +34,7 @@
         </form>
         <div class="text-center">
             <button class="login btn btn-primary btn-xl text-uppercase" type="button"
-                    th:onclick="|location.href='@{/members/new}'|">
+                    th:onclick="|location.href='@{/member/new}'|">
                 회원가입
             </button>
         </div>
