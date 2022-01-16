@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(Model model) throws Exception {
-
+    public String home() throws Exception {
         return "home";
-
     }
 }

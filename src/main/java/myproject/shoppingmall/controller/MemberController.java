@@ -34,8 +34,6 @@ public class MemberController {
         }
         MemberDto memberDto = memberService.EntityToDto(loginMember);
 
-
-
         model.addAttribute("member", memberDto);
         return "member/myInfo";
     }
@@ -50,7 +48,7 @@ public class MemberController {
             return "member/myInfo";
         }
 
-        Member updateMember = memberService.updateMember(loginMember.getId(), memberDto);
+        memberService.updateMember(loginMember.getId(), memberDto);
 
         HttpSession session = request.getSession(false);
 

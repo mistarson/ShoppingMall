@@ -20,25 +20,27 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     // 회원 전체 조회
-    List<Member> findMembers(){ return memberRepository.findAll();}
+    List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
 
     // 로그인 아이디로 조회
     public Member findByLoginId(String loginId) throws Exception {
-        return memberRepository.findByLoginId(loginId).orElseThrow(()-> new Exception("아이디에 해당하는 회원이 없습니다."));
+        return memberRepository.findByLoginId(loginId).orElseThrow(() -> new Exception("아이디에 해당하는 회원이 없습니다."));
     }
 
     // 멤버 아이디로 조회
     public Member findById(Long memberId) throws Exception {
-        return memberRepository.findById(memberId).orElseThrow(()-> new Exception("해당 memberId를 가진 회원은 없습니다."));
+        return memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
     }
 
 
-    private Member setMember(Long memberId) throws Exception {
-        Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
-
-        return new Member(findMember.getLoginId(), findMember.getPassword(), findMember.getName(), findMember.getAddress());
-
-    }
+//    private Member setMember(Long memberId) throws Exception {
+//        Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
+//
+//        return new Member(findMember.getLoginId(), findMember.getPassword(), findMember.getName(), findMember.getAddress());
+//
+//    }
 
     //회원가입
     public Long join(JoinForm joinForm) {
@@ -60,13 +62,13 @@ public class MemberService {
 
     public Member joinFormToEntity(JoinForm joinForm) {
 
-        Member member = new Member();
-        member.setName(joinForm.getName());
-        member.setLoginId(joinForm.getLoginId());
-        member.setPassword(joinForm.getPassword());
-        member.setAddress(new Address(joinForm.getCity(), joinForm.getStreet(), joinForm.getZipcode()));
-
-        return member;
+        return Member.builder()
+                .loginId(joinForm.getLoginId())
+                .password(joinForm.getPassword())
+                .name(joinForm.getName())
+                .email(joinForm.getEmail())
+                .address(new Address(joinForm.getCity(), joinForm.getStreet(), joinForm.getZipcode()))
+                .build();
 
     }
 
@@ -76,6 +78,7 @@ public class MemberService {
         memberDto.setLoginId(loginMember.getLoginId());
         memberDto.setPassword(loginMember.getPassword());
         memberDto.setName(loginMember.getName());
+        memberDto.setEmail(loginMember.getEmail());
         memberDto.setCity(loginMember.getAddress().getCity());
         memberDto.setStreet(loginMember.getAddress().getStreet());
         memberDto.setZipcode(loginMember.getAddress().getZipcode());
@@ -88,10 +91,7 @@ public class MemberService {
 
         Member findMember = findById(id);
 
-        findMember.setLoginId(memberDto.getLoginId());
-        findMember.setPassword(memberDto.getPassword());
-        findMember.setName(memberDto.getName());
-        findMember.setAddress(new Address(memberDto.getCity(), memberDto.getStreet(), memberDto.getZipcode()));
+        findMember.updateMember(memberDto);
 
         return findMember;
     }

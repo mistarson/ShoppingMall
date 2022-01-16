@@ -12527,8 +12527,12 @@ section#myInfo {
     background-color: #212529;
     background-repeat: no-repeat;
     background-position: center;
+    text-align: -webkit-center;
 }
 
-#myInfo {
+section#community {
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
     text-align: -webkit-center;
 }
