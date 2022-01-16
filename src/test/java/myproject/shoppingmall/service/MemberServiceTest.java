@@ -2,12 +2,14 @@ package myproject.shoppingmall.service;
 
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.form.JoinForm;
-import org.junit.jupiter.api.BeforeEach;
+import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +21,12 @@ class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     void 회원전체조회() {
@@ -57,7 +65,7 @@ class MemberServiceTest {
         joinForm.setName("KIM");
         joinForm.setLoginId("123");
         joinForm.setPassword("123");
-        Member member = memberService.DtoToEntity(joinForm);
+        Member member = memberService.joinFormToEntity(joinForm);
 
         //when
         memberService.join(joinForm);
@@ -91,10 +99,42 @@ class MemberServiceTest {
     }
 
     @Test
-    void 내정보찾기() throws Exception {
-        Member findMember = memberService.findByLoginId("qeqe");
-        Member myInfo = memberService.findMyInfo(findMember.getId());
-        System.out.println(myInfo.toString());
+    void EntityToDto() throws Exception{
+        Member member = new Member();
+        member.setLoginId("123");
+        member.setPassword("123");
+        member.setName("KIM");
+
+        MemberDto memberDto = memberService.EntityToDto(member);
+
+        assertThat(member.getLoginId()).isEqualTo(memberDto.getLoginId());
+        assertThat(member.getPassword()).isEqualTo(memberDto.getPassword());
+        assertThat(member.getName()).isEqualTo(memberDto.getName());
+    }
+
+    @Test
+    void 멤버업데이트() throws Exception {
+
+        Member member = new Member();
+        member.setLoginId("123");
+        member.setPassword("123");
+        member.setName("KIM");
+
+        memberRepository.save(member);
+
+        em.flush();
+        em.clear();
+
+        MemberDto memberDto = new MemberDto();
+        memberDto.setLoginId("456");
+        memberDto.setPassword("456");
+        memberDto.setName("SON");
+        memberService.updateMember(member.getId(), memberDto);
+
+        assertThat(memberDto.getLoginId()).isEqualTo("456");
+        assertThat(memberDto.getPassword()).isEqualTo("456");
+        assertThat(memberDto.getName()).isEqualTo("SON");
+
     }
 
 }

@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.form.JoinForm;
-import myproject.shoppingmall.domain.form.LoginForm;
+import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,6 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(()-> new Exception("해당 memberId를 가진 회원은 없습니다."));
     }
 
-    public Member findMyInfo(Long memberId) throws Exception {
-
-        return setMember(memberId);
-    }
 
     private Member setMember(Long memberId) throws Exception {
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
@@ -48,7 +45,7 @@ public class MemberService {
 
         validateDuplicateLoginId(joinForm.getLoginId()); // 중복 회원 검증 로직
 
-        Member member = memberRepository.save(DtoToEntity(joinForm));
+        Member member = memberRepository.save(joinFormToEntity(joinForm));
 
         return member.getId();
     }
@@ -61,7 +58,7 @@ public class MemberService {
         }
     }
 
-    public Member DtoToEntity(JoinForm joinForm) {
+    public Member joinFormToEntity(JoinForm joinForm) {
 
         Member member = new Member();
         member.setName(joinForm.getName());
@@ -73,4 +70,29 @@ public class MemberService {
 
     }
 
+    public MemberDto EntityToDto(Member loginMember) {
+
+        MemberDto memberDto = new MemberDto();
+        memberDto.setLoginId(loginMember.getLoginId());
+        memberDto.setPassword(loginMember.getPassword());
+        memberDto.setName(loginMember.getName());
+        memberDto.setCity(loginMember.getAddress().getCity());
+        memberDto.setStreet(loginMember.getAddress().getStreet());
+        memberDto.setZipcode(loginMember.getAddress().getZipcode());
+
+        return memberDto;
+    }
+
+    @Transactional
+    public Member updateMember(Long id, MemberDto memberDto) throws Exception {
+
+        Member findMember = findById(id);
+
+        findMember.setLoginId(memberDto.getLoginId());
+        findMember.setPassword(memberDto.getPassword());
+        findMember.setName(memberDto.getName());
+        findMember.setAddress(new Address(memberDto.getCity(), memberDto.getStreet(), memberDto.getZipcode()));
+
+        return findMember;
+    }
 }

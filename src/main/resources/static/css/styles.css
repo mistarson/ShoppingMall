@@ -12528,3 +12528,7 @@ section#myInfo {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+#myInfo {
+    text-align: -webkit-center;
+}
