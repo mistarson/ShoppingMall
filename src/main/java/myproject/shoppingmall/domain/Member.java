@@ -1,6 +1,7 @@
 package myproject.shoppingmall.domain;
 
 import lombok.*;
+import myproject.shoppingmall.domain.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
 import org.springframework.util.Assert;
 
@@ -12,8 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-//일관 성 유 지 를 위 해 protected를 사용 하여 무 분 별 한 생 성을 제한 해야 함
-    //Setter 또한 막아 서 일 관 성 을 유지 하게 해 야 함
+
     @Id
     @GeneratedValue
     @Column(name = "member_id", unique = true, nullable = false)
@@ -38,7 +38,7 @@ public class Member {
     private Address address;
 
     @Builder
-    public Member(String loginId, String password, String name, String email,Address address) {
+    public Member(String loginId, String password, String name, String email, Address address) {
         Assert.hasText(loginId, "로그인아이디는 비어있으면 안됨");
         Assert.hasText(password, "password는 비어있으면 안됨");
         Assert.hasText(name, "name은 비어있으면 안됨");
@@ -47,16 +47,16 @@ public class Member {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
-        this.address = address;
         this.email = email;
+        this.address = address;
     }
 
-    public void updateMember(MemberDto memberDto) {
+    public void updateMember(Member member) {
 
-        this.loginId = memberDto.getLoginId();
-        this.password = memberDto.getPassword();
-        this.name = memberDto.getName();
-        this.address = new Address(memberDto.getCity(), memberDto.getStreet(), memberDto.getZipcode());
+        this.loginId = member.getLoginId();
+        this.password = member.getPassword();
+        this.name = member.getName();
+        this.address = member.address;
 
     }
 }

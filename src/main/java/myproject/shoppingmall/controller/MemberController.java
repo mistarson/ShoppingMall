@@ -24,7 +24,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
     @GetMapping("/member")
     public String myInfo(@Login Member loginMember, Model model) throws Exception {
 
@@ -32,7 +31,7 @@ public class MemberController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-        MemberDto memberDto = memberService.EntityToDto(loginMember);
+        MemberDto memberDto = new MemberDto(loginMember);
 
         model.addAttribute("member", memberDto);
         return "member/myInfo";
