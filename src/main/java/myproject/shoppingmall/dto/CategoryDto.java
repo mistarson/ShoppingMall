@@ -1,11 +1,13 @@
 package myproject.shoppingmall.dto;
 
 
+import lombok.Getter;
 import myproject.shoppingmall.domain.Category;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class CategoryDto {
 
     private String name;
