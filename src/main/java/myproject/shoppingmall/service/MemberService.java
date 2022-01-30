@@ -48,7 +48,7 @@ public class MemberService {
 
         validateDuplicateLoginId(joinForm.getLoginId()); // 중복 회원 검증 로직
 
-        Member member = memberRepository.save(joinFormToEntity(joinForm));
+        Member member = memberRepository.save(joinForm.joinFormToEntity());
 
         return member.getId();
     }
@@ -61,39 +61,13 @@ public class MemberService {
         }
     }
 
-    public Member joinFormToEntity(JoinForm joinForm) {
 
-        return Member.builder()
-                .loginId(joinForm.getLoginId())
-                .password(joinForm.getPassword())
-                .name(joinForm.getName())
-                .email(joinForm.getEmail())
-                .address(new Address(joinForm.getCity(), joinForm.getStreet(), joinForm.getZipcode()))
-                .build();
-
-    }
-
-    public MemberDto EntityToDto(Member loginMember) {
-
-        MemberDto memberDto = new MemberDto();
-        memberDto.setLoginId(loginMember.getLoginId());
-        memberDto.setPassword(loginMember.getPassword());
-        memberDto.setName(loginMember.getName());
-        memberDto.setEmail(loginMember.getEmail());
-        memberDto.setCity(loginMember.getAddress().getCity());
-        memberDto.setStreet(loginMember.getAddress().getStreet());
-        memberDto.setZipcode(loginMember.getAddress().getZipcode());
-
-        return memberDto;
-    }
 
     @Transactional
-    public Member updateMember(Long id, MemberDto memberDto) throws Exception {
+    public void updateMember(Long id, MemberDto memberDto) throws Exception {
 
         Member findMember = findById(id);
 
-        findMember.updateMember(memberDto);
-
-        return findMember;
+        findMember.updateMember(memberDto.toEntity());
     }
 }
