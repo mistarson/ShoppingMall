@@ -19,6 +19,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    //TODO 조회는 모든 경우, S
     // 회원 전체 조회
     List<Member> findMembers() {
         return memberRepository.findAll();
