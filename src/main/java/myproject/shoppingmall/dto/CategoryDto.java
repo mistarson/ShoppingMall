@@ -15,6 +15,7 @@ public class CategoryDto {
 
     @Builder
     public CategoryDto(Long categoryId, String categotyName, Long parentId) {
+
         this.categoryId = categoryId;
         this.categotyName = categotyName;
         this.parentId = parentId;
