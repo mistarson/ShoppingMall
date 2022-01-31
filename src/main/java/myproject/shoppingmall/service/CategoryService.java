@@ -21,7 +21,7 @@ public class CategoryService {
                                 .categoryId(c1.getId())
                                 .categotyName(c1.getCategoryName())
                                 .parentId(c1.getParentId()).build())
-                .collect(Collectors.groupingBy(c2 -> c2.getParentId()));
+                .collect(Collectors.groupingBy(CategoryDto::getParentId));
 
         CategoryDto rootCategoryDto = CategoryDto.builder()
                 .categoryId(0L)
@@ -29,6 +29,23 @@ public class CategoryService {
                 .parentId(null)
                 .build();
 
+        addSubCategories(rootCategoryDto, groupingByParent);
+
         return rootCategoryDto;
+    }
+
+    private void addSubCategories(CategoryDto parent, Map<Long, List<CategoryDto>> groupingByParent) {
+
+        List<CategoryDto> subCategories = groupingByParent.get(parent.getCategoryId());
+
+        if (subCategories == null) {
+            return;
+        }
+
+        parent.setSubCategories(subCategories);
+
+        subCategories.stream().forEach(s -> {
+            addSubCategories(s, groupingByParent);
+        });
     }
 }

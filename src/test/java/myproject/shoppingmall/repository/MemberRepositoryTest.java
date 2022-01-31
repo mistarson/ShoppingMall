@@ -24,10 +24,11 @@ class MemberRepositoryTest {
     @Test
     public void loginTest() {
         //given
-        Member member = new Member();
-        member.setLoginId("thsckdgus0");
-        member.setName("thsckd");
-        member.setPassword("123123");
+        Member member = Member.builder()
+                .loginId("thsckdgus0")
+                .name("thsckd")
+                .password("123123")
+                .build();
 
         memberRepository.save(member);
 

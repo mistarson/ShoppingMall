@@ -32,7 +32,7 @@ public class MemberController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-        MemberDto memberDto = memberService.EntityToDto(loginMember);
+        MemberDto memberDto = new MemberDto(loginMember);
 
         model.addAttribute("member", memberDto);
         return "member/myInfo";
