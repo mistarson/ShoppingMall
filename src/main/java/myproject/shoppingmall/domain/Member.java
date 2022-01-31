@@ -1,8 +1,7 @@
 package myproject.shoppingmall.domain;
 
 import lombok.*;
-import myproject.shoppingmall.domain.form.JoinForm;
-import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.aop.BaseEntity;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue

@@ -30,6 +30,7 @@ class CategoryServiceTest {
         assertThat(categoryRoot.getSubCategories().size()).isEqualTo(1);
         assertThat(categoryRoot.getSubCategories().get(0).getSubCategories().size()).isEqualTo(4);
 
+
     }
 
 

@@ -3,13 +3,14 @@ package myproject.shoppingmall.domain;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import myproject.shoppingmall.aop.BaseEntity;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+public class Post extends BaseEntity{
 
     @Id
     @GeneratedValue
