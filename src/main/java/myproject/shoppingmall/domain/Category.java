@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import myproject.shoppingmall.aop.BaseEntity;
+import myproject.shoppingmall.auditing.BaseEntity;
 
 import javax.persistence.*;
 

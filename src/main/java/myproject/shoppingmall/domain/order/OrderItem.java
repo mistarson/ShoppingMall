@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import myproject.shoppingmall.aop.BaseEntity;
+import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.domain.item.Item;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class OrderItem extends BaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "member_id", unique = true, nullable = false)
+    @Column(name = "order_item_id", unique = true, nullable = false)
     private Long id;
 
     private int orderQuantity;

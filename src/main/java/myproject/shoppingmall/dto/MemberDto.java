@@ -39,7 +39,7 @@ public class MemberDto {
         this.zipcode = member.getAddress().getZipcode();
     }
 
-    public Member toEntity() {
+    public Member memberDtoToEntity() {
 
         return Member.builder()
                 .loginId(this.getLoginId())

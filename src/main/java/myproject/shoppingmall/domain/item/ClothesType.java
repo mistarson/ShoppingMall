@@ -1,5 +1,5 @@
 package myproject.shoppingmall.domain.item;
 
 public enum ClothesType {
-    TOP, OUTER, PANTS
+    TOP, OUTER, PANTS, SHOES
 }

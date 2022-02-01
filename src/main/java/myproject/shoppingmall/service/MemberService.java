@@ -1,7 +1,6 @@
 package myproject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
-import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
@@ -68,6 +67,6 @@ public class MemberService {
 
         Member findMember = findById(id);
 
-        findMember.updateMember(memberDto.toEntity());
+        findMember.updateMember(memberDto.memberDtoToEntity());
     }
 }

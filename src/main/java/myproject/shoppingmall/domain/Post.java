@@ -3,7 +3,7 @@ package myproject.shoppingmall.domain;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import myproject.shoppingmall.aop.BaseEntity;
+import myproject.shoppingmall.auditing.BaseEntity;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package myproject.shoppingmall.aop;
+package myproject.shoppingmall.auditing;
 
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

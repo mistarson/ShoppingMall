@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.aop.BaseEntity;
+import myproject.shoppingmall.auditing.BaseEntity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,8 +25,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member orderer;
 
-    // TODO 연관관계의 주인을 MANY쪽에 둘거임(소스는 여기에 조인컬럼을 둠)
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_item_id")
     private List<OrderItem> orderItemList;
 
     @Enumerated(value = EnumType.STRING)
