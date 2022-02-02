@@ -2,6 +2,8 @@ package myproject.shoppingmall.domain.form;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import myproject.shoppingmall.domain.item.*;
 
 @Getter

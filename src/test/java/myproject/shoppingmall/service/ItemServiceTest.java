@@ -2,6 +2,7 @@ package myproject.shoppingmall.service;
 
 import myproject.shoppingmall.domain.form.ItemForm;
 import myproject.shoppingmall.domain.item.Clothes;
+import myproject.shoppingmall.domain.item.ClothesSize;
 import myproject.shoppingmall.domain.item.ClothesType;
 import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.repository.ItemRepository;
@@ -33,6 +34,7 @@ class ItemServiceTest {
     void 아이템저장하기(){
         //given
         ItemForm itemForm = new ItemForm("바지", 3000, 10, "white", 1L, ClothesType.PANTS);
+//        itemForm.setClothesSize(ClothesSize.LARGE);
 
         // when
         Long saveItemId = itemService.saveItem(itemForm);
@@ -41,6 +43,7 @@ class ItemServiceTest {
 
         // then
         Item findItem = itemRepository.findById(saveItemId).get();
+
 
         Assertions.assertThat(findItem.getName()).isEqualTo(itemForm.getName());
 

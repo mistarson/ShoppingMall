@@ -12536,3 +12536,19 @@ section#community {
     background-position: center;
     text-align: -webkit-center;
 }
+
+section#shop {
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.col-items-3 {
+    width: 100%;
+}
+
+.item-box {
+    width: 33%;
+    display: inline-block;
+}
+

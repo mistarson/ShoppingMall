@@ -6,12 +6,44 @@
 <body>
 <!-- Navigation-->
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">Welcome To SCH MALL!</div>
+        <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
+    </div>
+</header>
 
-<section class="page-section" id="contact">
+<section class="page-section" id="shop">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">쇼핑</h2>
         </div>
+
+        <ul class="col-items-3">
+            <li class="item-box">
+                <div>
+                    <a href="/items/{item.id}">
+                        <img src="clothes/1.webp">
+                    </a>
+                </div>
+            </li>
+            <li class="item-box">
+                <div>
+                    <a href="/items/{item.id}">
+                        <img src="clothes/2.webp">
+                    </a>
+                </div>
+            </li>
+            <li class="item-box">
+                <div>
+                    <a href="/items/{item.id}">
+                        <img src="clothes/3.webp">
+                    </a>
+                </div>
+            </li>
+        </ul>
+
     </div>
 </section>
 

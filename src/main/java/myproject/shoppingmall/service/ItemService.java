@@ -6,13 +6,14 @@ import myproject.shoppingmall.domain.item.Clothes;
 import myproject.shoppingmall.domain.item.ClothesType;
 import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.Shoes;
+import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemService {
 
     private final ItemRepository itemRepository;
@@ -25,16 +26,19 @@ public class ItemService {
             Clothes savedClothes = itemRepository.save(newClothes);
 
             return savedClothes.getId();
-
         } else{
             Shoes newShoes = itemForm.itemFormToShoesEntity();
             Shoes savedShoes = itemRepository.save(newShoes);
 
             return savedShoes.getId();
-
         }
+    }
 
+    public ItemDto findItem(Long itemId) {
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
+        return new ItemDto(findItem);
     }
 
 }

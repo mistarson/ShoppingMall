@@ -4,6 +4,7 @@ package myproject.shoppingmall.domain.item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.exception.NotEnoughStockException;
 
