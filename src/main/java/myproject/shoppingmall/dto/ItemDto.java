@@ -1,10 +1,14 @@
 package myproject.shoppingmall.dto;
 
+import lombok.Getter;
+import lombok.ToString;
 import myproject.shoppingmall.domain.item.Clothes;
 import myproject.shoppingmall.domain.item.ClothesSize;
 import myproject.shoppingmall.domain.item.ClothesType;
 import myproject.shoppingmall.domain.item.Item;
 
+@ToString
+@Getter
 public class ItemDto {
 
     private String name;

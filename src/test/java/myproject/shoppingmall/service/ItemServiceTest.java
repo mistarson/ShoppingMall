@@ -5,6 +5,7 @@ import myproject.shoppingmall.domain.item.Clothes;
 import myproject.shoppingmall.domain.item.ClothesSize;
 import myproject.shoppingmall.domain.item.ClothesType;
 import myproject.shoppingmall.domain.item.Item;
+import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.repository.ItemRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -45,9 +49,37 @@ class ItemServiceTest {
         Item findItem = itemRepository.findById(saveItemId).get();
 
 
-        Assertions.assertThat(findItem.getName()).isEqualTo(itemForm.getName());
+        assertThat(findItem.getName()).isEqualTo(itemForm.getName());
 
 
+    }
+
+    @Test
+    void 모든아이템조회() {
+        //given
+        Item item1 = new Item("운동화", 2000, 10, "white", ClothesType.SHOES, 1L);
+        Item item2 = new Item("축구화", 2000, 10, "white", ClothesType.SHOES, 1L);
+        Item item3 = new Item("바지", 2000, 10, "white", ClothesType.PANTS, 1L);
+        Item item4 = new Item("맨투맨", 2000, 10, "white", ClothesType.TOP, 1L);
+        Item item5 = new Item("공항자켓", 2000, 10, "white", ClothesType.OUTER, 1L);
+
+        itemRepository.save(item1);
+        itemRepository.save(item2);
+        itemRepository.save(item3);
+        itemRepository.save(item4);
+        itemRepository.save(item5);
+
+        em.flush();
+        em.clear();
+        //when
+        List<ItemDto> itemList = itemService.findAll();
+
+        //then
+        assertThat(itemList.size()).isEqualTo(5);
+        assertThat(itemList.get(0).getName()).isEqualTo("운동화");
+        for (ItemDto n : itemList) {
+            System.out.println(n);
+        }
     }
 
 }

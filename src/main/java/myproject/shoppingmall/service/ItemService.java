@@ -11,6 +11,9 @@ import myproject.shoppingmall.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -39,6 +42,10 @@ public class ItemService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
         return new ItemDto(findItem);
+    }
+
+    public List<ItemDto> findAll() {
+        return itemRepository.findAll().stream().map(ItemDto::new).collect(Collectors.toList());
     }
 
 }
