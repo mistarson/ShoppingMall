@@ -1,18 +1,10 @@
 package myproject.shoppingmall.service;
 
-import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.domain.form.LoginForm;
+import myproject.shoppingmall.form.LoginForm;
 import myproject.shoppingmall.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

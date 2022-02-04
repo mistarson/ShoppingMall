@@ -1,8 +1,7 @@
 package myproject.shoppingmall.service;
 
 import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.domain.form.JoinForm;
-import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

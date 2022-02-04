@@ -2,7 +2,7 @@ package myproject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.domain.form.JoinForm;
+import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.repository.MemberRepository;
 import org.springframework.stereotype.Service;

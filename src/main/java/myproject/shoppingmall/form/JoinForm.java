@@ -1,4 +1,4 @@
-package myproject.shoppingmall.domain.form;
+package myproject.shoppingmall.form;
 
 import lombok.Data;
 import myproject.shoppingmall.domain.Address;

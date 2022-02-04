@@ -2,7 +2,7 @@ package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.domain.form.LoginForm;
+import myproject.shoppingmall.form.LoginForm;
 import myproject.shoppingmall.service.LoginService;
 import myproject.shoppingmall.session.SessionConst;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

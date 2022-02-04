@@ -4,7 +4,6 @@ package myproject.shoppingmall.domain.item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.exception.NotEnoughStockException;
 
@@ -25,24 +24,22 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    private String imagePath;
+
     private int price;
 
     private int stockQuantity;
-
-    private String color;
-
-    private ClothesType clothesType;
 
     //TODO 카테고리 수정해야함
     private Long categoryId;
 
 
-    public Item(String name, int price, int stockQuantity, String color, ClothesType clothesType,Long categoryId) {
+    @Builder
+    public Item(String name, String imagePath, int price, int stockQuantity,Long categoryId) {
         this.name = name;
+        this.imagePath = imagePath;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.color = color;
-        this.clothesType = clothesType;
         this.categoryId = categoryId;
     }
 
