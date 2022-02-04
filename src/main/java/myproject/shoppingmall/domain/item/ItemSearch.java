@@ -1,5 +1,8 @@
 package myproject.shoppingmall.domain.item;
 
+import lombok.Getter;
+
+@Getter
 public class ItemSearch {
     private String name;
     private Sorter sorter;

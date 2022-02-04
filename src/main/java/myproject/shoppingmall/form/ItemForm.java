@@ -12,7 +12,7 @@ public class ItemForm {
     private int stockQuantity;
     private Long categoryId;
 
-    public ItemForm(String name, String imagePath,int price, int stockQuantity, String color, Long categoryId) {
+    public ItemForm(String name, String imagePath,int price, int stockQuantity, Long categoryId) {
         this.name = name;
         this.imagePath = imagePath;
         this.price = price;

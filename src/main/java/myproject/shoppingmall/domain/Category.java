@@ -10,11 +10,12 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Table(name = "categories")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", unique = true, nullable = false)
     private Long id;
 
