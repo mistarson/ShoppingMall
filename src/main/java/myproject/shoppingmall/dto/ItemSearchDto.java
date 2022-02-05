@@ -1,8 +1,10 @@
 package myproject.shoppingmall.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Getter;
 import myproject.shoppingmall.domain.item.Item;
 
+@Getter
 public class ItemSearchDto {
 
     private Long Id;

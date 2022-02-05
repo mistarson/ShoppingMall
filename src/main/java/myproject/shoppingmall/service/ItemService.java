@@ -38,7 +38,7 @@ public class ItemService {
         return new ItemDto(findItem);
     }
 
-    public List<ItemSearchDto> findAll(ItemSearch itemSearch) {
+    public List<ItemSearchDto> findAllForSearch(ItemSearch itemSearch) {
         return itemRepository.findAll(itemSearch);
     }
 
