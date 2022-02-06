@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ctype")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "ctype")
 public class Item extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
     private Long id;
 
@@ -30,7 +30,6 @@ public class Item extends BaseEntity {
 
     private int stockQuantity;
 
-    //TODO 카테고리 수정해야함
     private Long categoryId;
 
 

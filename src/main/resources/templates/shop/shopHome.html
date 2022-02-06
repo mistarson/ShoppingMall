@@ -19,31 +19,38 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">쇼핑</h2>
         </div>
+        <form th:object="${itemSearch}" class="form-check-inline">
+                <div class="form-group mb-2">
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="상품 이름">
+                </div>
+                <div id="sort">
+                    <select th:field="*{sorter}" class="form-control">
+                        <option value="">정렬기준</option>
+                        <option th:each="sorter : ${T(myproject.shoppingmall.domain.item.Sorter).values()}"
+                                th:value="${sorter}"
+                                th:text="${sorter.getSorter()}"/>
+                    </select>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </div>
+        </form>
 
-        <ul class="col-items-3">
-            <li class="item-box">
-                <div>
-                    <a href="/items/{item.id}">
-                        <img src="clothes/1.webp">
-                    </a>
-                </div>
-            </li>
-            <li class="item-box">
-                <div>
-                    <a href="/items/{item.id}">
-                        <img src="clothes/2.webp">
-                    </a>
-                </div>
-            </li>
-            <li class="item-box">
-                <div>
-                    <a href="/items/{item.id}">
-                        <img src="clothes/3.webp">
-                    </a>
-                </div>
-            </li>
-        </ul>
+            <div class="item-list-box">
 
+
+                <div class="item-info-box">
+                <div class="item-box" th:each="item : ${items}">
+                    <a th:href="@{/items/{itemId}(itemId=${item.getId()})}">
+                        <div>
+                            <img th:src="@{${item.getImagePath()}}" alt="">
+                        </div>
+                        <div class="item-text-info">
+                            <span th:text="${item.name}"></span>
+                            <span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></span>
+                        </div>
+                    </a>
+                </div>
+                </div>
+            </div>
     </div>
 </section>
 
@@ -59,3 +66,16 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
+
+<script>
+    function isNotEmpty() {
+        let searchText = document.getElementById("searchInput").value;
+
+        if (searchText) {
+            return true
+        }
+        else {
+            return false;
+        }
+    }
+</script>

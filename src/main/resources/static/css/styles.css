@@ -12543,12 +12543,29 @@ section#shop {
     background-position: center;
 }
 
-.col-items-3 {
-    width: 100%;
-}
 
 .item-box {
-    width: 33%;
-    display: inline-block;
+margin-bottom: 50px;
 }
 
+.item-list-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-info-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+#sort {
+    margin-bottom: 30px;
+}
+
+.item-text-info {
+    display: flex;
+    flex-direction: column;
+}
