@@ -12513,11 +12513,7 @@ section#contact form#contactForm :-ms-input-placeholder {
     color: rgb(223, 70, 85);
 }
 
-section#join {
-    background-color: #212529;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+
 
 .form-group p {
     color: rgb(223, 70, 85);
@@ -12537,7 +12533,9 @@ section#community {
     text-align: -webkit-center;
 }
 
-section#shop {
+
+
+.black {
     background-color: #212529;
     background-repeat: no-repeat;
     background-position: center;
@@ -12568,4 +12566,23 @@ margin-bottom: 50px;
 .item-text-info {
     display: flex;
     flex-direction: column;
+}
+
+.item-detail-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.item-detail-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemNameContainer {
+    max-width: 90%;
+    border-bottom: 1px solid #CCC;
+}
+
+.itemPriceContainer {
+    padding: 12px 0px;
 }

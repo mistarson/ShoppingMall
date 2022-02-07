@@ -9,15 +9,15 @@ import java.util.List;
 @Getter @Setter
 public class CategoryDto {
     private Long categoryId;
-    private String categotyName;
+    private String categoryName;
     private Long parentId;
     private List<CategoryDto> subCategories;
 
     @Builder
-    public CategoryDto(Long categoryId, String categotyName, Long parentId) {
+    public CategoryDto(Long categoryId, String categoryName, Long parentId) {
 
         this.categoryId = categoryId;
-        this.categotyName = categotyName;
+        this.categoryName = categoryName;
         this.parentId = parentId;
     }
 }

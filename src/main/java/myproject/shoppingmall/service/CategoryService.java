@@ -19,13 +19,13 @@ public class CategoryService {
         Map<Long, List<CategoryDto>> groupingByParent = categoryRepository.findAll().stream().map(c1 ->
                         CategoryDto.builder()
                                 .categoryId(c1.getId())
-                                .categotyName(c1.getCategoryName())
+                                .categoryName(c1.getCategoryName())
                                 .parentId(c1.getParentId()).build())
                 .collect(Collectors.groupingBy(CategoryDto::getParentId));
 
         CategoryDto rootCategoryDto = CategoryDto.builder()
                 .categoryId(0L)
-                .categotyName("ROOT")
+                .categoryName("ROOT")
                 .parentId(null)
                 .build();
 

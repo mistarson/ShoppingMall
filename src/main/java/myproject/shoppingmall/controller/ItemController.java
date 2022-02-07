@@ -1,7 +1,9 @@
 package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.ItemSearch;
+import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.service.CategoryService;
 import myproject.shoppingmall.service.ItemService;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -41,6 +44,15 @@ public class ItemController {
         model.addAttribute("items", items);
 
         return "shop/shopHome";
+    }
 
+    @GetMapping("/items/{itemId}")
+    public String itemDetail(@PathVariable("itemId") Long itemId, Model model) {
+        ItemDto item = itemService.findItem(itemId);
+
+
+        model.addAttribute("item", item);
+
+        return "shop/itemDetail";
     }
 }

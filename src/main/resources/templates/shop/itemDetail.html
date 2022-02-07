@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<!-- Navigation-->
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<section class="page-section black">
+    <div class="container">
+        <div class="item-detail-container">
+            <div>
+                <img th:src="@{${item.imagePath}}" alt="">
+            </div>
+
+            <div class="item-detail-box">
+                <div class="itemNameContainer">
+                    <h2 class="itemName" th:text="${item.name}"></h2>
+                </div>
+                <div class="itemPriceContainer">
+                    <h2 class="itemPrice" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></h2>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</section>
+
+
+<div th:replace="fragments/footer :: footer"/>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

@@ -29,12 +29,12 @@ insert into categories(category_name, parent_id) values ('남아', 4);
 insert into categories(category_name, parent_id) values ('공용', 4);
 
 -- 스포츠
-insert into categories(category_name, parent_id) values ('여성', 5);
+insert into categories(category_name, parent_id) values ('여성', 5); --18
 insert into categories(category_name, parent_id) values ('남성', 5);
 insert into categories(category_name, parent_id) values ('유아', 5);
 
 -- 신발/가방/잡화
-insert into categories(category_name, parent_id) values ('시계', 6);
+insert into categories(category_name, parent_id) values ('시계', 6); --21
 insert into categories(category_name, parent_id) values ('신발', 6);
 insert into categories(category_name, parent_id) values ('가방', 6);
 insert into categories(category_name, parent_id) values ('모자', 6);
@@ -45,14 +45,29 @@ values ('qwe', '123', '손창현', 'yeowuli2@naver.com');
 
 -- 아이템 --
 insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티검정','clothes/1.webp', 35000, 10, 12);
+values ('컨버스후드티','clothes/1.webp', 35000, 10, 12);
 
 insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티그레이','clothes/2.webp', 35000, 10, 12);
+values ('컨버스후드티','clothes/2.webp', 35000, 10, 12);
 
 insert into item(name, image_path, price, stock_quantity, category_id)
 values ('나이키바지','clothes/3.webp', 45000, 10, 14);
 
 insert into item(name, image_path, price, stock_quantity, category_id)
 values ('나이키바지','clothes/4.webp', 45000, 10, 14);
+
+insert into item(name, image_path, price, stock_quantity, category_id)
+values ('나이키맨투맨','clothes/5.webp', 65000, 10, 12);
+
+insert into item(name, image_path, price, stock_quantity, category_id)
+values ('나이키맨투맨','clothes/6.webp', 65000, 10, 12);
+
+insert into item(name, image_path, price, stock_quantity, category_id)
+values ('나이키운동화','clothes/7.webp', 85000, 10, 12);
+
+insert into item(name, image_path, price, stock_quantity, category_id)
+values ('나이키운동화','clothes/8.webp', 85000, 10, 22);
+
+insert into item(name, image_path, price, stock_quantity, category_id)
+values ('나이키운동화','clothes/9.webp', 85000, 10, 22);
 

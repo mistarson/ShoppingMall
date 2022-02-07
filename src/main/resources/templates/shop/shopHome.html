@@ -6,20 +6,71 @@
 <body>
 <!-- Navigation-->
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-<!-- Masthead-->
-<header class="masthead">
-    <div class="container">
-        <div class="masthead-subheading">Welcome To SCH MALL!</div>
-        <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
-    </div>
-</header>
 
-<section class="page-section" id="shop">
+<section class="page-section black">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">쇼핑</h2>
         </div>
-        <form th:object="${itemSearch}" class="form-check-inline">
+
+<!--        <div class="categories">-->
+<!--            <div class="level1">-->
+<!--                <div th:each="category, idx : ${rootCategory.subCategories}" th:class="'level1_' + ${idx.index}">-->
+<!--                    <i th:if="${category.categoryName} eq '의류'" class="fas fa-tshirt"></i>-->
+<!--                    <span th:text="${category.categoryName}"></span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="level2">-->
+<!--                &lt;!&ndash; 패션  &ndash;&gt;-->
+<!--                <div th:each="category, idx : ${rootCategory.subCategories.get(0).subCategories}"-->
+<!--                     th:class="'category level2_0 level2_0_' + ${idx.index}">-->
+<!--                    <span th:text="${category.categoryName}"></span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="level3">-->
+<!--                &lt;!&ndash;  패션 차하위  &ndash;&gt;-->
+<!--                <div class="">-->
+<!--                    <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(0).subCategories}"-->
+<!--                         th:class="'category level3_category level3_0_0 level3_0_0_' + ${idx.index}">-->
+<!--                        <a class="level3_category_a"-->
+<!--                           th:href="@{/catalog?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                            <span th:text="${category.categoryName}"></span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(1).subCategories}"-->
+<!--                         th:class="'category level3_category level3_0_1 level3_0_1_' + ${idx.index}">-->
+<!--                        <a class="level3_category_a"-->
+<!--                           th:href="@{/catalog?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                            <span th:text="${category.categoryName}"></span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(2).subCategories}"-->
+<!--                         th:class="'category level3_category level3_0_2 level3_0_2_' + ${idx.index}">-->
+<!--                        <a class="level3_category_a"-->
+<!--                           th:href="@{/catalog?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                            <span th:text="${category.categoryName}"></span>-->
+<!--                        </a></div>-->
+<!--                    <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(3).subCategories}"-->
+<!--                         th:class="'category level3_category level3_0_3 level3_0_3_' + ${idx.index}">-->
+<!--                        <a class="level3_category_a"-->
+<!--                           th:href="@{/catalog?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                            <span th:text="${category.categoryName}"></span>-->
+<!--                        </a></div>-->
+<!--                    <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(4).subCategories}"-->
+<!--                         th:class="'category level3_category level3_0_4 level3_0_4_' + ${idx.index}">-->
+<!--                        <a class="level3_category_a"-->
+<!--                           th:href="@{/catalog?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                            <span th:text="${category.categoryName}"></span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+            <form th:object="${itemSearch}" class="form-check-inline">
                 <div class="form-group mb-2">
                     <input type="text" th:field="*{name}" class="form-control" placeholder="상품 이름">
                 </div>
@@ -30,28 +81,28 @@
                                 th:value="${sorter}"
                                 th:text="${sorter.getSorter()}"/>
                     </select>
-                <button type="submit" class="btn btn-primary mb-2">검색</button>
-            </div>
-        </form>
+                    <button type="submit" class="btn btn-primary mb-2">검색</button>
+                </div>
+            </form>
 
             <div class="item-list-box">
 
 
                 <div class="item-info-box">
-                <div class="item-box" th:each="item : ${items}">
-                    <a th:href="@{/items/{itemId}(itemId=${item.getId()})}">
-                        <div>
-                            <img th:src="@{${item.getImagePath()}}" alt="">
-                        </div>
-                        <div class="item-text-info">
-                            <span th:text="${item.name}"></span>
-                            <span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></span>
-                        </div>
-                    </a>
-                </div>
+                    <div class="item-box" th:each="item : ${items}">
+                        <a th:href="@{/items/{itemId}(itemId=${item.getId()})}">
+                            <div>
+                                <img th:src="@{${item.getImagePath()}}" alt="">
+                            </div>
+                            <div class="item-text-info">
+                                <span th:text="${item.name}"></span>
+                                <span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-    </div>
+        </div>
 </section>
 
 <div th:replace="fragments/footer :: footer"/>
@@ -67,15 +118,254 @@
 </body>
 </html>
 
-<script>
-    function isNotEmpty() {
-        let searchText = document.getElementById("searchInput").value;
+<!--<style>-->
+<!--    @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);-->
+<!--    body{-->
+<!--        font-family: 'Noto Sans KR', sans-serif;-->
+<!--    }-->
 
-        if (searchText) {
-            return true
-        }
-        else {
-            return false;
-        }
-    }
-</script>
+<!--    #categoryMenu {-->
+<!--        margin-top: 10px;-->
+<!--        width: 5vw;-->
+<!--        display: flex;-->
+<!--        flex-direction: column;-->
+<!--        align-items: center;-->
+<!--    }-->
+
+<!--    .category_icon {-->
+<!--    }-->
+
+<!--    .category_text {-->
+<!--        font-size: 12px;-->
+<!--    }-->
+
+<!--    .categories {-->
+<!--        display: flex;-->
+<!--        position: relative;-->
+<!--    }-->
+
+<!--    .categories {-->
+<!--        display: none;-->
+<!--    }-->
+
+<!--    .category {-->
+<!--        display: none;-->
+<!--        margin: 2px;-->
+<!--    }-->
+
+<!--    .level1_0, .level1_1, .level1_2, .level1_3, .category:hover {-->
+<!--        cursor: pointer;-->
+<!--    }-->
+
+<!--    .level1 {-->
+<!--        position: absolute;-->
+<!--        top: -20px;-->
+<!--        width: 150px;-->
+<!--        height: 200px;-->
+<!--        border: 1px solid #ddd;-->
+<!--        background-color: white;-->
+<!--        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);-->
+<!--    }-->
+
+<!--    .level2 {-->
+<!--        position: absolute;-->
+<!--        top: -20px;-->
+<!--        left: 150px;-->
+<!--        display: none;-->
+<!--        width: 200px;-->
+<!--        height: 200px;-->
+<!--        border: 1px solid #ddd;-->
+<!--        background-color: white;-->
+<!--        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);-->
+<!--    }-->
+
+<!--    .level3 {-->
+<!--        position: absolute;-->
+<!--        top: -20px;-->
+<!--        left: 350px;-->
+<!--        display: none;-->
+<!--        width: 200px;-->
+<!--        height: 300px;-->
+<!--        border: 1px solid #ddd;-->
+<!--        background-color: white;-->
+<!--        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);-->
+<!--    }-->
+
+<!--    .level3 a {-->
+<!--        color: #111111;-->
+<!--        text-decoration: none;-->
+<!--    }-->
+<!--</style>-->
+
+<!--<script>-->
+
+<!--    $(function() {-->
+<!--        $("#categoryMenu").mouseover(function() {-->
+<!--            $(".categories").css("display", "flex");-->
+<!--            $(".categories").css("flex-direction", "row");-->
+<!--            $(".level1").css("display", "inline-block");-->
+<!--        });-->
+
+<!--        $("#categoryMenu").mouseleave(function() {-->
+<!--            $(".level1").css("display", "none");-->
+<!--        });-->
+
+<!--        // 카테고리 안보이게-->
+<!--        $(".categories, .level1Categories").mouseleave(function() {-->
+<!--            $(".categories, .category, .level1, .level2, .level3").css("display", "none");-->
+<!--            $(".level1_0, .level1_1, .level1_2, .level1_3").css("color", "#111111");-->
+<!--        });-->
+
+<!--        // level 1 ====================-->
+<!--        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function() {-->
+<!--            $(".level1").css("display", "block");-->
+<!--            $(".level1_0, .level1_1, .level1_2, .level1_3").css("color", "#111111");-->
+<!--            $(".category").css("color", "#111111");-->
+<!--            $(".level2").css("display", "block");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "none");-->
+<!--        });-->
+
+<!--        // 다음 카테고리를 보이기 위해 다른 카테고리를 모두 숨김-->
+<!--        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function() {-->
+<!--            $(".level2_0, .level2_1, .level2_2, .level2_3, .level3_0_0, .level3_0_1, .level3_0_2, .level3_0_3, .level3_0_4, .level3_1_0, .level3_1_1, .level3_1_2, .level3_1_3, .level3_1_4, .level3_2_0, .level3_2_1, .level3_2_2, .level3_2_3, .level3_2_4, .level3_3_0, .level3_3_1, .level3_3_2, .level3_3_3, .level3_3_4, .level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("display", "none");-->
+<!--        });-->
+<!--        $(".level1_0").mouseover(function() {-->
+<!--            $(".level2_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level1_1").mouseover(function() {-->
+<!--            $(".level2_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level1_2").mouseover(function() {-->
+<!--            $(".level2_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level1_3").mouseover(function() {-->
+<!--            $(".level2_3").css("display", "flex");-->
+<!--        });-->
+
+<!--        // level2 ======================-->
+<!--        $(".level2_0_0, .level2_0_1, .level2_0_2, .level2_0_3, .level2_0_4").mouseover(function() {-->
+<!--            $(".level3_0_0, .level3_0_1, .level3_0_2, .level3_0_3, .level3_0_4").css("display", "none");-->
+<!--            $(".level2_0_0, .level2_0_1, .level2_0_2, .level2_0_3, .level2_0_4").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "block");-->
+<!--        });-->
+
+<!--        $(".level2_0_0").mouseover(function() {-->
+<!--            $(".level3_0_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_0_1").mouseover(function() {-->
+<!--            $(".level3_0_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_0_2").mouseover(function() {-->
+<!--            $(".level3_0_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_0_3").mouseover(function() {-->
+<!--            $(".level3_0_3").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_0_4").mouseover(function() {-->
+<!--            $(".level3_0_4").css("display", "flex");-->
+<!--        });-->
+
+
+<!--        $(".level2_1_0, .level2_1_1, .level2_1_2, .level2_1_3, .level2_1_4").mouseover(function() {-->
+<!--            $(".level3_1_0, .level3_1_1, .level3_1_2, .level3_1_3, .level3_1_4").css("display", "none");-->
+<!--            $(".level2_1_0, .level2_1_1, .level2_1_2, .level2_1_3, .level2_1_4").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "block");-->
+<!--        });-->
+
+<!--        $(".level2_1_0").mouseover(function() {-->
+<!--            $(".level3_1_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_1_1").mouseover(function() {-->
+<!--            $(".level3_1_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_1_2").mouseover(function() {-->
+<!--            $(".level3_1_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_1_3").mouseover(function() {-->
+<!--            $(".level3_1_3").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_1_4").mouseover(function() {-->
+<!--            $(".level3_1_4").css("display", "flex");-->
+<!--        });-->
+
+<!--        $(".level2_2_0, .level2_2_1, .level2_2_2, .level2_2_3, .level2_2_4").mouseover(function() {-->
+<!--            $(".level3_2_0, .level3_2_1, .level3_2_2, .level3_2_3, .level3_2_4").css("display", "none");-->
+<!--            $(".level2_2_0, .level2_2_1, .level2_2_2, .level2_2_3, .level2_2_4").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "block");-->
+<!--        });-->
+
+<!--        $(".level2_2_0").mouseover(function() {-->
+<!--            $(".level3_2_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_2_1").mouseover(function() {-->
+<!--            $(".level3_2_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_2_2").mouseover(function() {-->
+<!--            $(".level3_2_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_2_3").mouseover(function() {-->
+<!--            $(".level3_2_3").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_2_4").mouseover(function() {-->
+<!--            $(".level3_2_4").css("display", "flex");-->
+<!--        });-->
+
+
+<!--        $(".level2_3_0, .level2_3_1, .level2_3_2, .level2_3_3, .level2_3_4").mouseover(function() {-->
+<!--            $(".level3_3_0, .level3_3_1, .level3_3_2, .level3_3_3, .level3_3_4").css("display", "none");-->
+<!--            $(".level2_3_0, .level2_3_1, .level2_3_2, .level2_3_3, .level2_3_4").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "block");-->
+<!--        });-->
+
+<!--        $(".level2_3_0").mouseover(function() {-->
+<!--            $(".level3_3_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_3_1").mouseover(function() {-->
+<!--            $(".level3_3_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_3_2").mouseover(function() {-->
+<!--            $(".level3_3_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_3_3").mouseover(function() {-->
+<!--            $(".level3_3_3").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_3_4").mouseover(function() {-->
+<!--            $(".level3_3_4").css("display", "flex");-->
+<!--        });-->
+
+
+<!--        $(".level2_4_0, .level2_4_1, .level2_4_2, .level2_4_3, .level2_4_4").mouseover(function() {-->
+<!--            $(".level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("display", "none");-->
+<!--            $(".level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--            $(".level3").css("display", "block");-->
+<!--        });-->
+
+<!--        $(".level2_4_0").mouseover(function() {-->
+<!--            $(".level3_4_0").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_4_1").mouseover(function() {-->
+<!--            $(".level3_4_1").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_4_2").mouseover(function() {-->
+<!--            $(".level3_4_2").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_4_3").mouseover(function() {-->
+<!--            $(".level3_4_3").css("display", "flex");-->
+<!--        });-->
+<!--        $(".level2_4_4").mouseover(function() {-->
+<!--            $(".level3_4_4").css("display", "flex");-->
+<!--        });-->
+
+
+<!--        $(".level3_category_a").mouseover(function() {-->
+<!--            $(".level3_category_a").css("color", "#111111");-->
+<!--            $(this).css("color", "#007BFF");-->
+<!--        })-->
+<!--    });-->
+<!--</script>-->

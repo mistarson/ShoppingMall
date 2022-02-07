@@ -1,12 +1,9 @@
 package myproject.shoppingmall.dto;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
 
-import javax.persistence.Embedded;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
@@ -34,9 +31,11 @@ public class MemberDto {
         this.password = member.getPassword();
         this.name = member.getName();
         this.email = member.getEmail();
-        this.city = member.getAddress().getCity();
-        this.street = member.getAddress().getStreet();
-        this.zipcode = member.getAddress().getZipcode();
+        if (member.getAddress() != null) {
+            this.city = member.getAddress().getCity();
+            this.street = member.getAddress().getStreet();
+            this.zipcode = member.getAddress().getZipcode();
+        }
     }
 
     public Member memberDtoToEntity() {
