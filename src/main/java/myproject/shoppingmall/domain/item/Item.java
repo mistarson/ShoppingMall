@@ -8,6 +8,7 @@ import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.exception.NotEnoughStockException;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,7 +25,8 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    private String imagePath;
+    @OneToMany(mappedBy = "item")
+    private List<ItemImagePath> itemImagePathList;
 
     private int price;
 
@@ -34,9 +36,9 @@ public class Item extends BaseEntity {
 
 
     @Builder
-    public Item(String name, String imagePath, int price, int stockQuantity,Long categoryId) {
+    public Item(String name, List<ItemImagePath> itemImagePathList, int price, int stockQuantity,Long categoryId) {
         this.name = name;
-        this.imagePath = imagePath;
+        this.itemImagePathList = itemImagePathList;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.categoryId = categoryId;

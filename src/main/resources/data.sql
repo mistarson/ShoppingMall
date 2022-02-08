@@ -45,10 +45,10 @@ values ('qwe', '123', '손창현', 'yeowuli2@naver.com');
 
 -- 아이템 --
 insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티','clothes/1.webp', 35000, 10, 12);
+values ('컨버스후드티','clothes/1/1.webp', 35000, 10, 12);
 
 insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티','clothes/2.webp', 35000, 10, 12);
+values ('컨버스후드티','clothes/2/1.webp', 35000, 10, 12);
 
 insert into item(name, image_path, price, stock_quantity, category_id)
 values ('나이키바지','clothes/3.webp', 45000, 10, 14);

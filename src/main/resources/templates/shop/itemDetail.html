@@ -11,7 +11,7 @@
     <div class="container">
         <div class="item-detail-container">
             <div>
-                <img th:src="@{${item.imagePath}}" alt="">
+                <img th:src="@{http://localhost:8080/{imagePath}(imagePath=${item.imagePath})}" alt="">
             </div>
 
             <div class="item-detail-box">
@@ -21,6 +21,30 @@
                 <div class="itemPriceContainer">
                     <h2 class="itemPrice" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></h2>
                 </div>
+                    <div th:if="${item.stockQuantity &lt; 1}" class="soldOut">
+                    <i class="fas fa-ban" style="color: #CCC;"></i> 해당 상품은 품절입니다.
+                </div>
+
+                <div th:unless="${item.stockQuantity &lt; 1}" class="orderContainer">
+                    <form th:onsubmit="return validateOrderCount()">
+                        <div class="form-group">
+                            <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
+                                   style="display: none;">
+                            <input id="orderCountInput" type="number" th:value="1" th:min="1" th:max="${item.stockQuantity}"
+                                   th:name="orderCount">
+                            <button th:formmethod="post" th:formaction="@{/carts}" id="addToCartBtn" class="btn btn-light">
+                                장바구니
+                            </button>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <button id="orderBtn" class="btn btn-primary">
+                            바로구매
+                        </button>
+                    </div>
+                </div>
+
+
             </div>
 
         </div>
@@ -42,3 +66,15 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
+
+<script>
+    function validateOrderCount() {
+        let orderCount = parseInt(document.getElementById("orderCountInput").value);
+
+        if(orderCount <= 0) {
+            alert("주문 수량은 1개 이상이어야 합니다.");
+            return false;
+        }
+        return true;
+    }
+</script>

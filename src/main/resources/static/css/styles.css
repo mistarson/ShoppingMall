@@ -12571,18 +12571,32 @@ margin-bottom: 50px;
 .item-detail-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .item-detail-box {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    width: 60%;
 }
 
 .itemNameContainer {
     max-width: 90%;
     border-bottom: 1px solid #CCC;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .itemPriceContainer {
     padding: 12px 0px;
+}
+
+.itemName {
+
+}
+
+.soldOut {
+    color: #bf9600;
 }

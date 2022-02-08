@@ -1,7 +1,6 @@
 package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
-import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.dto.ItemSearchDto;
