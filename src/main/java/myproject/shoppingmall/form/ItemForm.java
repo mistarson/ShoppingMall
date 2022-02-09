@@ -23,7 +23,6 @@ public class ItemForm {
     public Item itemFormToEntity() {
         return Item.builder()
                 .name(name)
-                .imagePath(imagePath)
                 .price(price)
                 .stockQuantity(stockQuantity)
                 .categoryId(categoryId)

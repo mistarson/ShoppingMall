@@ -1,12 +1,10 @@
 package myproject.shoppingmall.service;
 
-import myproject.shoppingmall.domain.item.ItemSearch;
-import myproject.shoppingmall.domain.item.Sorter;
+import myproject.shoppingmall.domain.item.*;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.form.ItemForm;
-import myproject.shoppingmall.domain.item.ClothesType;
-import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.dto.ItemDto;
+import myproject.shoppingmall.repository.ImageRepository;
 import myproject.shoppingmall.repository.ItemRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +27,9 @@ class ItemServiceTest {
     ItemService itemService;
 
     @Autowired
+    ImageRepository imageRepository;
+
+    @Autowired
     ItemRepository itemRepository;
 
     @Autowired
@@ -36,11 +37,25 @@ class ItemServiceTest {
 
     @BeforeEach
     void init() {
-        Item item1 = new Item("운동화", "qwe", 23000, 10,22L );
-        Item item2 = new Item("축구화", "qwe", 50000, 10,22L);
-        Item item3 = new Item("바지", "qwe", 30000, 10,14L);
-        Item item4 = new Item("맨투맨", "qwe", 40000, 10,12L);
-        Item item5 = new Item("티셔츠", "qwe", 10000, 10,11L);
+        Image image1 = Image.builder().imagePath("qwe").build();
+        Image image2 = Image.builder().imagePath("qwe").build();
+        Image image3 = Image.builder().imagePath("qwe").build();
+        Image image4 = Image.builder().imagePath("qwe").build();
+        Image image5 = Image.builder().imagePath("qwe").build();
+        Image image6 = Image.builder().imagePath("qwe").build();
+
+        Item item1 = new Item("운동화", 23000, 10, 22L, image1, image6);
+        Item item2 = new Item("축구화", 50000, 10, 22L, image2);
+        Item item3 = new Item("바지",30000, 10, 14L, image3);
+        Item item4 = new Item("맨투맨", 40000, 10, 12L, image4);
+        Item item5 = new Item("티셔츠", 10000, 10, 11L, image5);
+
+        imageRepository.save(image1);
+        imageRepository.save(image2);
+        imageRepository.save(image3);
+        imageRepository.save(image4);
+        imageRepository.save(image5);
+        imageRepository.save(image6);
 
         itemRepository.save(item1);
         itemRepository.save(item2);
@@ -57,7 +72,6 @@ class ItemServiceTest {
 
         //given
         ItemForm itemForm = new ItemForm("바지", "sd", 1000, 10, 1L);
-//        itemForm.setClothesSize(ClothesSize.LARGE);
 
         // when
         Long saveItemId = itemService.saveItem(itemForm);
@@ -70,6 +84,32 @@ class ItemServiceTest {
 
         assertThat(findItem.getName()).isEqualTo(itemForm.getName());
 
+
+    }
+
+    @Test
+    void 아이템조회(){
+        //given
+        Image image1 = Image.builder().imagePath("qwe").build();
+        Image image2 = Image.builder().imagePath("qwe").build();
+        Item item = new Item("운동화", 23000, 10, 22L, image1, image2);
+
+        imageRepository.save(image1);
+        imageRepository.save(image2);
+
+        Item savedItem = itemRepository.save(item);
+
+        em.flush();
+        em.clear();
+
+        // when
+        ItemDto findItem = itemService.findItem(savedItem.getId());
+
+        // then
+        assertThat(findItem.getName()).isEqualTo("운동화");
+        assertThat(findItem.getImageList().get(0)).isEqualTo("qwe");
+        assertThat(findItem.getImageList().get(1)).isEqualTo("qwe");
+        assertThat(findItem.getImageList().size()).isEqualTo(2);
 
     }
 
@@ -102,6 +142,7 @@ class ItemServiceTest {
         //then
         assertThat(allForSearch.size()).isEqualTo(1);
         assertThat(allForSearch.get(0).getName()).isEqualTo("운동화");
+        assertThat(allForSearch.get(0).getImageList().size()).isEqualTo(2);
 
     }
 

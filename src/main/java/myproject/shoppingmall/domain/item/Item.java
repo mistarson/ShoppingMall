@@ -1,6 +1,7 @@
 package myproject.shoppingmall.domain.item;
 
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,15 +9,16 @@ import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.exception.NotEnoughStockException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name = "ctype")
 public class Item extends BaseEntity {
-
+// TODO 추후에 사이즈, 컬러 추가
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
@@ -25,8 +27,8 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "item")
-    private List<ItemImagePath> itemImagePathList;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Image> imageList = new ArrayList<>();
 
     private int price;
 
@@ -36,12 +38,20 @@ public class Item extends BaseEntity {
 
 
     @Builder
-    public Item(String name, List<ItemImagePath> itemImagePathList, int price, int stockQuantity,Long categoryId) {
+    public Item(String name, int price, int stockQuantity, Long categoryId, Image... imageList) {
         this.name = name;
-        this.itemImagePathList = itemImagePathList;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.categoryId = categoryId;
+        for (Image image : imageList) {
+            addImage(image);
+        }
+    }
+
+    //==연관관계 편의 메소드==//
+    public void addImage(Image image) {
+        imageList.add(image);
+        image.setImage(this);
     }
 
     //==비즈니스 로직==//

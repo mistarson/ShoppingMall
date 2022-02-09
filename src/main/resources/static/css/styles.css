@@ -12578,7 +12578,7 @@ margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 60%;
+    width: 75%;
 }
 
 .itemNameContainer {
@@ -12593,10 +12593,39 @@ margin-bottom: 50px;
     padding: 12px 0px;
 }
 
-.itemName {
-
+.h2-item {
+    color: white;
 }
+
 
 .soldOut {
     color: #bf9600;
+}
+
+.item-image-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.item-image {
+    width: 370px;
+    margin: 10px;
+}
+
+.item-main-image {
+    width: 390px;
+    height: 450px;
+}
+
+.order-box {
+    display: flex;
+    margin-top: 30px;
+}
+
+.btn-order {
+    width: 100%;
+    height: 60px;
+    font-size: 18px;
+    font-weight: 300;
 }

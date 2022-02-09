@@ -44,30 +44,76 @@ insert into member(login_id, password, name, email)
 values ('qwe', '123', '손창현', 'yeowuli2@naver.com');
 
 -- 아이템 --
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티','clothes/1/1.webp', 35000, 10, 12);
+insert into item(name, price, stock_quantity, category_id)
+values ('컨버스후드티', 35000, 10, 12);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('컨버스후드티','clothes/2/1.webp', 35000, 10, 12);
+-- insert into image(image_path, item_id)
+-- values ('clothes/1/1.webp',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키바지','clothes/3.webp', 45000, 10, 14);
+insert into image(image_path, item_id)
+values ('clothes/1/IMG_0039.JPG',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키바지','clothes/4.webp', 45000, 10, 14);
+insert into image(image_path, item_id)
+values ('clothes/1/IMG_0040.JPG',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키맨투맨','clothes/5.webp', 65000, 10, 12);
+insert into image(image_path, item_id)
+values ('clothes/1/IMG_0041.JPG',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키맨투맨','clothes/6.webp', 65000, 10, 12);
+insert into image(image_path, item_id)
+values ('clothes/1/IMG_0042.JPG',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키운동화','clothes/7.webp', 85000, 10, 12);
+insert into image(image_path, item_id)
+values ('clothes/1/IMG_0043.JPG',1);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키운동화','clothes/8.webp', 85000, 10, 22);
 
-insert into item(name, image_path, price, stock_quantity, category_id)
-values ('나이키운동화','clothes/9.webp', 85000, 10, 22);
+
+insert into item(name, price,stock_quantity, category_id)
+values ('컨버스후드티', 35000, 10, 12);
+
+insert into image(image_path, item_id)
+values ('clothes/2/1.webp',2);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키바지', 45000, 10, 14);
+
+insert into image(image_path, item_id)
+values ('clothes/3/1.webp',3);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키바지', 45000, 10, 14);
+
+insert into image(image_path, item_id)
+values ('clothes/4/1.webp',4);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키맨투맨', 65000, 10, 12);
+
+insert into image(image_path, item_id)
+values ('clothes/5/1.webp',5);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키맨투맨', 65000, 10, 12);
+
+insert into image(image_path, item_id)
+values ('clothes/6/1.webp',6);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키운동화', 85000, 10, 12);
+
+insert into image(image_path, item_id)
+values ('clothes/7/1.webp',7);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키운동화', 85000, 10, 22);
+
+insert into image(image_path, item_id)
+values ('clothes/8/1.webp',8);
+
+insert into item(name, price, stock_quantity, category_id)
+values ('나이키운동화', 85000, 10, 22);
+
+insert into image(image_path, item_id)
+values ('clothes/9/1.webp',9);
+
+
 

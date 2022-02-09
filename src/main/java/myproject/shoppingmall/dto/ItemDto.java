@@ -2,7 +2,11 @@ package myproject.shoppingmall.dto;
 
 import lombok.Getter;
 import lombok.ToString;
+import myproject.shoppingmall.domain.item.Image;
 import myproject.shoppingmall.domain.item.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
@@ -10,7 +14,7 @@ public class ItemDto {
 
     private Long id;
     private String name;
-    private String imagePath;
+    private List<String> imageList = new ArrayList<>();
     private int price;
     private int stockQuantity;
     private Long categoryId;
@@ -19,10 +23,12 @@ public class ItemDto {
     public ItemDto(Item item) {
         this.id = item.getId();
         this.name = item.getName();
-        this.imagePath = item.getImagePath();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
         this.categoryId = item.getCategoryId();
+        for (Image image : item.getImageList()) {
+            imageList.add(image.getImagePath());
+        }
     }
 
 }
