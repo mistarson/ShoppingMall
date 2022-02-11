@@ -2,6 +2,7 @@ package myproject.shoppingmall.domain;
 
 import lombok.*;
 import myproject.shoppingmall.auditing.BaseEntity;
+import myproject.shoppingmall.domain.order.Order;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class Member extends BaseEntity{
 
     @Column(length = 50, nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orderList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();

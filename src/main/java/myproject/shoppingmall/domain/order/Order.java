@@ -8,6 +8,8 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.auditing.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -17,38 +19,52 @@ import java.util.List;
 public class Order extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member orderer;
+    private Member member;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_item_id")
-    private List<OrderItem> orderItemList;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
     private int totalPrice;
 
     @Builder
-    public Order(Member orderer, List<OrderItem> orderItemList, Delivery delivery) {
-        this.orderer = orderer;
-        this.orderItemList = orderItemList;
+    public Order(Member member, Delivery delivery, OrderItem... orderItems) {
         this.delivery = delivery;
+        this.status = OrderStatus.ORDER;
+        this.setMember(member);
+        for (OrderItem orderItem : orderItems) {
+            this.addOrderItem(orderItem);
+        }
+        this.setTotalPrice();
+    }
+
+    //== 연관관계 편의 메서드==//
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrderList().add(this);
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItemList.add(orderItem);
+        orderItem.setOrder(this);
     }
 
     private void setTotalPrice() {
         this.totalPrice = this.orderItemList.stream()
-                .mapToInt(OrderItem::getOrderQuantity)
+                .mapToInt(OrderItem::getTotalPrice)
                 .sum();
     }
 

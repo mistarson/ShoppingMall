@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import myproject.shoppingmall.auditing.BaseEntity;
 import myproject.shoppingmall.domain.item.Item;
+import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id", unique = true, nullable = false)
     private Long id;
 
@@ -26,12 +27,20 @@ public class OrderItem extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Builder
     public OrderItem(Item item, int orderQuantity) {
         order(item, orderQuantity);
         totalPrice = item.getPrice() * orderQuantity;
         this.item = item;
         this.orderQuantity = orderQuantity;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     private void order(Item item, int orderQuantity) {
