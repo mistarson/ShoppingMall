@@ -2,6 +2,7 @@ package myproject.shoppingmall.domain;
 
 import lombok.*;
 import myproject.shoppingmall.auditing.BaseEntity;
+import myproject.shoppingmall.domain.cart.Cart;
 import myproject.shoppingmall.domain.order.Order;
 import org.springframework.util.Assert;
 
@@ -39,6 +40,8 @@ public class Member extends BaseEntity{
 
     @Embedded
     private Address address;
+
+
 
     @Builder
     public Member(String loginId, String password, String name, String email, Address address) {
