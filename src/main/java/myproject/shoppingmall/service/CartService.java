@@ -18,21 +18,30 @@ public class CartService {
     @Transactional
     public void addCartItem(Long memberId, CartItemDto cartItemDto) {
 
-        Cart cart = cartRepository.findByMemberId(memberId);
-        CartItem addCartItem = cartItemDto.cartItemDtoToEntity();
+        Cart addCart = cartRepository.findByMemberId(memberId);
 
-        for (int i = 0; i < cart.getItemIdList().size(); i++) {
-            if (cart.getItemIdList().get(i).getItemId().equals(addCartItem.getItemId())) {
-                cart.getItemIdList().get(i).addOrderQuantity(addCartItem.getOrderQuantity());
+        for (int i = 0; i < addCart.getItemIdList().size(); i++) {
+            if (addCart.getItemIdList().get(i).getItemId().equals(cartItemDto.getItemId())) {
+                addCart.getItemIdList().get(i).addOrderQuantity(cartItemDto.getOrderQuantity());
                 return;
             }
         }
 
-        cart.addCartItem(addCartItem);
+        CartItem addCartItem = cartItemDto.cartItemDtoToEntity();
+        addCart.addCartItem(addCartItem);
 
     }
 
     public void removeCartItem(Long memberId, CartItemDto cartItemDto) {
+
+        Cart removeCart = cartRepository.findByMemberId(memberId);
+
+        for (int i = 0; i < removeCart.getItemIdList().size(); i++) {
+            if (removeCart.getItemIdList().get(i).getItemId().equals(cartItemDto.getItemId())) {
+                removeCart.getItemIdList().remove(i);
+                return;
+            }
+        }
 
     }
 
