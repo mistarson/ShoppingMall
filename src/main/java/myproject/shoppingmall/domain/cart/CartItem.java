@@ -1,6 +1,7 @@
 package myproject.shoppingmall.domain.cart;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class CartItem {
     private Long itemId;
     private int orderQuantity;
 
+    @Builder
     public CartItem(Long itemId, int orderQuantity) {
         this.itemId = itemId;
         this.orderQuantity = orderQuantity;
@@ -30,5 +32,9 @@ public class CartItem {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public void addOrderQuantity(int addQuantity) {
+        this.orderQuantity += addQuantity;
     }
 }

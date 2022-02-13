@@ -1,6 +1,7 @@
 package myproject.shoppingmall.dto;
 
 import lombok.Getter;
+import myproject.shoppingmall.domain.cart.CartItem;
 
 @Getter
 public class CartItemDto {
@@ -11,4 +12,13 @@ public class CartItemDto {
         this.itemId = itemId;
         this.orderQuantity = orderQuantity;
     }
+
+    public CartItem cartItemDtoToEntity() {
+        return CartItem.builder()
+                .itemId(itemId)
+                .orderQuantity(orderQuantity)
+                .build();
+    }
+
+
 }

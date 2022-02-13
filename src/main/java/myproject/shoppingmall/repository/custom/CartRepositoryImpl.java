@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.cart.Cart;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 import java.util.function.Supplier;
 
 import static myproject.shoppingmall.domain.QMember.*;
@@ -21,12 +20,12 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
     }
 
     @Override
-    public List<Cart> findByMemberId(Long memberId) {
+    public Cart findByMemberId(Long memberId) {
         return queryFactory
                 .selectFrom(cart)
                 .leftJoin(cart.member, member)
                 .where(memberIdEq(memberId))
-                .fetch();
+                .fetchOne();
     }
 
     private BooleanBuilder memberIdEq(Long memberId) {

@@ -1,10 +1,10 @@
-package myproject.shoppingmall.repository;
+package myproject.shoppingmall.service;
 
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.cart.Cart;
-import myproject.shoppingmall.domain.cart.CartItem;
 import myproject.shoppingmall.domain.item.Item;
-import org.assertj.core.api.Assertions;
+import myproject.shoppingmall.dto.CartItemDto;
+import myproject.shoppingmall.repository.CartRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,25 +12,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class CartRepositoryTest {
+class CartServiceTest {
+
+    @Autowired
+    CartService cartService;
 
     @Autowired
     CartRepository cartRepository;
 
     @Autowired
-    CartItemRepository cartItemRepository;
-
-    @Autowired
     EntityManager em;
-
+    
     @Test
-    void 장바구니만들기(){
+    void 장바구니에아이템추가하기(){
         //given
         Member member = Member.builder()
                 .loginId("thsckdgus0")
@@ -47,67 +45,65 @@ class CartRepositoryTest {
         em.persist(item1);
         em.persist(item2);
 
-        CartItem cartItem1 = new CartItem(item1.getId(), 5);
-        CartItem cartItem2 = new CartItem(item2.getId(), 10);
-
         Cart cart = Cart.builder().member(member).build();
 
-        cart.addCartItem(cartItem1);
-        cart.addCartItem(cartItem2);
+        CartItemDto cartItemDto1 = new CartItemDto(item1.getId(), 3);
+        CartItemDto cartItemDto2 = new CartItemDto(item2.getId(), 5);
 
         em.persist(cart);
 
         em.flush();
         em.clear();
+        
         // when
 
-        Cart findCart = cartRepository.findById(cart.getId()).get();
-        CartItem findCartItem1 = cartItemRepository.findById(cartItem1.getItemId()).get();
-        CartItem findCartItem2 = cartItemRepository.findById(cartItem2.getItemId()).get();
-
-        // then
-
-    }
-
-    @Test
-    void 멤버아이디로장바구니찾기(){
-        //given
-
-        Member member = Member.builder()
-                .loginId("thsckdgus0")
-                .name("thsckd")
-                .password("123123")
-                .email("123")
-                .build();
-
-        em.persist(member);
-
-        Item item1 = new Item("운동화", 23000, 10, 22L);
-        Item item2 = new Item("축구화", 43000, 30, 22L);
-
-        em.persist(item1);
-        em.persist(item2);
-
-        CartItem cartItem1 = new CartItem(item1.getId(), 5);
-        CartItem cartItem2 = new CartItem(item2.getId(), 10);
-
-        Cart cart = Cart.builder().member(member).build();
-
-        cart.addCartItem(cartItem1);
-        cart.addCartItem(cartItem2);
-
-        em.persist(cart);
-
-        em.flush();
-        em.clear();
-
-        // when
+        cartService.addCartItem(member.getId(), cartItemDto1);
+        cartService.addCartItem(member.getId(), cartItemDto2);
 
         Cart findCart = cartRepository.findByMemberId(member.getId());
 
         // then
+        assertThat(findCart.getItemIdList().size()).isEqualTo(2);
+        assertThat(findCart.getItemIdList().get(0).getItemId()).isEqualTo(1);
+        
+    }
 
-        Assertions.assertThat(findCart.getItemIdList().size()).isEqualTo(2);
+    @Test
+    void 장바구니에똑같은아이템추가(){
+        //given
+        Member member = Member.builder()
+                .loginId("thsckdgus0")
+                .name("thsckd")
+                .password("123123")
+                .email("123")
+                .build();
+
+        em.persist(member);
+
+        Item item1 = new Item("운동화", 23000, 10, 22L);
+
+        em.persist(item1);
+
+        Cart cart = Cart.builder().member(member).build();
+
+        CartItemDto cartItemDto1 = new CartItemDto(item1.getId(), 3);
+
+        em.persist(cart);
+
+        em.flush();
+        em.clear();
+
+        // when
+
+        cartService.addCartItem(member.getId(), cartItemDto1);
+        cartService.addCartItem(member.getId(), cartItemDto1);
+
+        Cart findCart = cartRepository.findByMemberId(member.getId());
+
+
+        // then
+        assertThat(findCart.getItemIdList().size()).isEqualTo(1);
+        assertThat(findCart.getItemIdList().get(0).getOrderQuantity()).isEqualTo(6);
 
     }
 
