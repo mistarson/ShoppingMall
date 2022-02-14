@@ -29,17 +29,16 @@
                 </div>
 
                 <div th:unless="${item.stockQuantity &lt; 1}">
-                    <form th:onsubmit="return validateOrderCount()">
+                    <form action="/carts" method="post">
                         <div class="form-group">
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
                             <label style="display: block">수량</label>
                             <input id="orderCountInput" type="number" th:value="1" th:min="1"
                                    th:max="${item.stockQuantity}"
-                                   th:name="orderCount">
+                                   th:name="orderQuantity">
                             <div class="order-box">
-                                <button th:formmethod="post" th:formaction="@{/carts}" id="addToCartBtn"
-                                        class="btn btn-light btn-order">
+                                <button formmethod="post" class="btn btn-light btn-order">
                                     장바구니
                                 </button>
                                 <button id="orderBtn" class="btn btn-primary btn-order">
@@ -72,13 +71,5 @@
 </html>
 
 <script>
-    function validateOrderCount() {
-        let orderCount = parseInt(document.getElementById("orderCountInput").value);
 
-        if (orderCount <= 0) {
-            alert("주문 수량은 1개 이상이어야 합니다.");
-            return false;
-        }
-        return true;
-    }
 </script>
