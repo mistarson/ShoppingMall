@@ -1,14 +1,17 @@
 package myproject.shoppingmall.form;
 
 import lombok.Getter;
-import myproject.shoppingmall.dto.CartItemDto;
+import lombok.Setter;
+import myproject.shoppingmall.domain.cart.CartItem;
 
 @Getter
+@Setter
 public class AddCartItemForm {
     private Long itemId;
     private int orderQuantity;
 
-    public CartItemDto formToDto() {
-        return new CartItemDto(itemId, orderQuantity);
+    public CartItem formToEntity() {
+        return CartItem.builder().itemId(itemId).orderQuantity(orderQuantity).build();
+
     }
 }
