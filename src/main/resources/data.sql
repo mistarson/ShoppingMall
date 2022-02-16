@@ -51,7 +51,7 @@ values ('컨버스후드티', 35000, 10, 12);
 -- values ('clothes/1/1.webp',1);
 
 insert into image(image_path, item_id)
-values ('clothes/1/IMG_0039.JPG',1);
+values ('clothes/1/main.JPG',1);
 
 insert into image(image_path, item_id)
 values ('clothes/1/IMG_0040.JPG',1);
@@ -71,7 +71,7 @@ insert into item(name, price,stock_quantity, category_id)
 values ('컨버스후드티', 35000, 10, 12);
 
 insert into image(image_path, item_id)
-values ('clothes/2/1.webp',2);
+values ('clothes/2/main.webp',2);
 
 insert into item(name, price, stock_quantity, category_id)
 values ('나이키바지', 45000, 10, 14);

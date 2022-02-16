@@ -1,6 +1,7 @@
 package myproject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.cart.Cart;
 import myproject.shoppingmall.domain.cart.CartItem;
 import myproject.shoppingmall.dto.CartItemDto;
@@ -19,12 +20,19 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final MemberService memberService;
     private final CartItemRepository cartItemRepository;
 
     @Transactional
-    public void addCartItem(Long memberId, AddCartItemForm addCartItemForm) {
+    public void addCartItem(Long memberId, AddCartItemForm addCartItemForm) throws Exception {
 
         Cart addCart = cartRepository.findByMemberId(memberId);
+
+        if (addCart == null) {
+            Member member = memberService.findById(memberId);
+            addCart = Cart.builder().member(member).build();
+            cartRepository.save(addCart);
+        }
 
         for (int i = 0; i < addCart.getItemIdList().size(); i++) {
             if (addCart.getItemIdList().get(i).getItemId().equals(addCartItemForm.getItemId())) {
@@ -35,7 +43,6 @@ public class CartService {
 
         CartItem addCartItem = addCartItemForm.formToEntity();
         addCart.addCartItem(addCartItem);
-
     }
 
 //    public void removeCartItem(Long memberId, CartItemDto cartItemDto) {
@@ -50,8 +57,8 @@ public class CartService {
 //        }
 //    }
 
-//    public List<CartItemDto> findAllCartItem(Long memberId) {
-//        cartItemRepository.findAllCartItem(memberId);
-//    }
+    public List<CartItemDto> findAllCartItem(Long memberId) {
+        return cartItemRepository.findAllCartItem(memberId);
+    }
 
 }

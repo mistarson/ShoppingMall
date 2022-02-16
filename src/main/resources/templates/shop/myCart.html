@@ -22,29 +22,29 @@
                 <th>수량</th>
                 <th>총 금액</th>
                 </thead>
-                <tbody th:each="cartLine: ${cartLineList}">
+                <tbody th:each="cartItem: ${cartItems}">
                 <tr>
                     <td class="checkBoxTd">
                         <input type="checkbox" class="checkBox">
                     </td>
                     <td class="itemImageTd">
-                        <a th:href="@{/items/{itemId}(itemId=${cartLine.getItemId()})}">
-                            <img class="itemImage" th:src="@{${cartLine.itemImagePath}}" alt="">
+                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                            <img class="itemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
                         </a>
                     </td>
                     <td class="itemInfoTd">
-                        <a th:href="@{/items/{itemId}(itemId=${cartLine.getItemId()})}">
-                            <span th:text="${cartLine.getItemName()}"></span>
+                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                            <span th:text="${cartItem.getItemName()}"></span>
                         </a>
                     </td>
                     <td class="itemPriceTd">
-                        <span th:text="${#numbers.formatInteger(cartLine.itemPrice, 3, 'COMMA')}"></span>
+                        <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
                     </td>
                     <td class="orderCountTd">
                         <!-- itemId를 가져오기 위한 필드 -->
-                        <input class="itemId" type="text" style="display: none;" th:value="${cartLine.getItemId()}"
+                        <input class="itemId" type="text" style="display: none;" th:value="${cartItem.getItemId()}"
                                th:name="itemId">
-                        <input class="orderCount" type="number" th:value="${cartLine.getOrderCount()}" th:min="1" th:max="${cartLine.stockQuantity}"
+                        <input class="orderCount" type="number" th:value="${cartItem.getOrderQuantity()}" th:min="1" th:max="${cartItem.quantity}"
                                th:name="orderCount">
                         <button class="btn btn-light orderCountModifyBtn">
                             변경
@@ -55,7 +55,7 @@
                     </td>
                     <td class="totalPriceTd">
                     <span
-                            th:text="${#numbers.formatInteger(cartLine.itemPrice * cartLine.orderCount, 3, 'COMMA')}"></span>
+                            th:text="${#numbers.formatInteger(cartItem.itemPrice * cartItem.orderQuantity, 3, 'COMMA')}"></span>
                     </td>
                 </tr>
                 </tbody>
@@ -77,3 +77,32 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
+<style>
+    .itemImageTd {
+        max-width: 230px;
+        max-height: 230px;
+    }
+
+    .itemInfoTd {
+        max-width: 347px;
+    }
+
+    .itemPriceTd {
+        max-width: 173px;
+        max-height: 100px;
+    }
+
+    .orderCountTd {
+        max-width: 65px;
+        max-height: 100px;
+    }
+
+    .orderCount {
+        max-width: 40px;
+    }
+
+    .totalPriceTd {
+        max-width: 173px;
+        max-height: 100px;
+    }
+</style>
