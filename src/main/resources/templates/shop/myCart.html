@@ -14,7 +14,7 @@
         </div>
 
             <table class="table">
-                <thead>
+                <thead class="thead-color">
                 <th><input id="checkAll" type="checkbox"></th>
                 <th>이미지</th>
                 <th>상품정보</th>
@@ -22,14 +22,14 @@
                 <th>수량</th>
                 <th>총 금액</th>
                 </thead>
-                <tbody th:each="cartItem: ${cartItems}">
-                <tr>
+                <tbody class="tbody-color" th:each="cartItem: ${cartItems}">
+                <tr class="tr-color">
                     <td class="checkBoxTd">
                         <input type="checkbox" class="checkBox">
                     </td>
                     <td class="itemImageTd">
                         <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
-                            <img class="itemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
+                            <img class="cartItemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
                         </a>
                     </td>
                     <td class="itemInfoTd">
@@ -77,32 +77,3 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
-<style>
-    .itemImageTd {
-        max-width: 230px;
-        max-height: 230px;
-    }
-
-    .itemInfoTd {
-        max-width: 347px;
-    }
-
-    .itemPriceTd {
-        max-width: 173px;
-        max-height: 100px;
-    }
-
-    .orderCountTd {
-        max-width: 65px;
-        max-height: 100px;
-    }
-
-    .orderCount {
-        max-width: 40px;
-    }
-
-    .totalPriceTd {
-        max-width: 173px;
-        max-height: 100px;
-    }
-</style>

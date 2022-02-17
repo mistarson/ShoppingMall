@@ -71,7 +71,7 @@ insert into item(name, price,stock_quantity, category_id)
 values ('컨버스후드티', 35000, 10, 12);
 
 insert into image(image_path, item_id)
-values ('clothes/2/main.webp',2);
+values ('clothes/2/main.JPG',2);
 
 insert into item(name, price, stock_quantity, category_id)
 values ('나이키바지', 45000, 10, 14);

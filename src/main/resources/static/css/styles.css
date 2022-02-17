@@ -12629,3 +12629,48 @@ margin-bottom: 50px;
     font-size: 18px;
     font-weight: 300;
 }
+
+.itemImageTd {
+    max-width: 230px;
+    max-height: 230px;
+}
+
+.cartItemImage {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.itemInfoTd {
+    max-width: 347px;
+}
+
+.itemPriceTd {
+    max-width: 173px;
+    max-height: 100px;
+}
+
+.orderCountTd {
+    max-width: 65px;
+    max-height: 100px;
+}
+
+.orderCount {
+    max-width: 40px;
+}
+
+.totalPriceTd {
+    max-width: 173px;
+    max-height: 100px;
+}
+
+.thead-color {
+    color: rgb(232, 230, 227);
+}
+
+.tbody-color {
+    color: rgb(232, 230, 227);
+}
+
+.tr-color {
+    color: rgb(232, 230, 227);
+}
