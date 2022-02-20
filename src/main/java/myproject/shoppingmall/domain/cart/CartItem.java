@@ -34,6 +34,10 @@ public class CartItem {
         this.cart = cart;
     }
 
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
+
     public void addOrderQuantity(int addQuantity) {
         this.orderQuantity += addQuantity;
     }

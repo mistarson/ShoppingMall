@@ -6,6 +6,7 @@ import myproject.shoppingmall.domain.cart.Cart;
 import myproject.shoppingmall.domain.cart.CartItem;
 import myproject.shoppingmall.dto.CartItemDto;
 import myproject.shoppingmall.form.AddCartItemForm;
+import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.repository.CartItemRepository;
 import myproject.shoppingmall.repository.CartRepository;
 import org.springframework.stereotype.Service;
@@ -26,23 +27,32 @@ public class CartService {
     @Transactional
     public void addCartItem(Long memberId, AddCartItemForm addCartItemForm) throws Exception {
 
-        Cart addCart = cartRepository.findByMemberId(memberId);
+        Cart findCart = cartRepository.findByMemberId(memberId);
 
-        if (addCart == null) {
+        if (findCart == null) {
             Member member = memberService.findById(memberId);
-            addCart = Cart.builder().member(member).build();
-            cartRepository.save(addCart);
+            findCart = Cart.builder().member(member).build();
+            cartRepository.save(findCart);
         }
 
-        for (int i = 0; i < addCart.getItemIdList().size(); i++) {
-            if (addCart.getItemIdList().get(i).getItemId().equals(addCartItemForm.getItemId())) {
-                addCart.getItemIdList().get(i).addOrderQuantity(addCartItemForm.getOrderQuantity());
+        for (int i = 0; i < findCart.getItemIdList().size(); i++) {
+            if (findCart.getItemIdList().get(i).getItemId().equals(addCartItemForm.getItemId())) {
+                findCart.getItemIdList().get(i).addOrderQuantity(addCartItemForm.getOrderQuantity());
                 return;
             }
         }
 
         CartItem addCartItem = addCartItemForm.formToEntity();
-        addCart.addCartItem(addCartItem);
+        findCart.addCartItem(addCartItem);
+    }
+
+    @Transactional
+    public void modifyOrderQuantity(Long memberId, ModifyOrderQuantityForm modifyOrderQuantityForm) {
+
+        Cart findCart = cartRepository.findByMemberId(memberId);
+
+        findCart.modifyOrderQuantity(modifyOrderQuantityForm);
+
     }
 
 //    public void removeCartItem(Long memberId, CartItemDto cartItemDto) {

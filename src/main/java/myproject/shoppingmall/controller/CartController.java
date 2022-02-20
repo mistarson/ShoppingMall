@@ -5,11 +5,15 @@ import myproject.shoppingmall.argumentresolver.Login;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.dto.CartItemDto;
 import myproject.shoppingmall.form.AddCartItemForm;
+import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.service.CartService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -36,6 +40,15 @@ public class CartController {
         cartService.addCartItem(member.getId(), addCartItemForm);
 
         return "redirect:/carts";
+    }
+
+    @PutMapping("/carts")
+    @ResponseBody
+    public ResponseEntity modifyOrderQuantity(@Login Member member, ModifyOrderQuantityForm modifyOrderQuantityForm) {
+
+        cartService.modifyOrderQuantity(member.getId(), modifyOrderQuantityForm);
+
+        return ResponseEntity.ok().build();
     }
 
 

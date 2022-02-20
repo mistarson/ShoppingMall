@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.Member;
+import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,6 +32,14 @@ public class Cart {
     @Builder
     public Cart(Member member) {
         this.member = member;
+    }
+
+    public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) {
+        for (int i = 0; i < itemIdList.size(); i++) {
+            if (itemIdList.get(i).getItemId().equals(modifyOrderQuantityForm.getItemId())) {
+                itemIdList.get(i).setOrderQuantity(modifyOrderQuantityForm.getOrderQuantity());
+            }
+        }
     }
 
     //== 연관관계 편의 메서드==//
