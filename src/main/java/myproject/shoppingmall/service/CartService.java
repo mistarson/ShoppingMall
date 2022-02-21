@@ -55,6 +55,15 @@ public class CartService {
 
     }
 
+    @Transactional
+    public void removeCartItem(Long memberId, Long itemId) {
+
+        Cart findCart = cartRepository.findByMemberId(memberId);
+
+        findCart.removeCartItem(itemId);
+
+    }
+
 //    public void removeCartItem(Long memberId, CartItemDto cartItemDto) {
 //
 //        Cart removeCart = cartRepository.findByMemberId(memberId);
@@ -70,5 +79,6 @@ public class CartService {
     public List<CartItemDto> findAllCartItem(Long memberId) {
         return cartItemRepository.findAllCartItem(memberId);
     }
+
 
 }

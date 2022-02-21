@@ -7,12 +7,11 @@ import myproject.shoppingmall.dto.CartItemDto;
 import myproject.shoppingmall.form.AddCartItemForm;
 import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.service.CartService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -42,13 +41,20 @@ public class CartController {
         return "redirect:/carts";
     }
 
-    @PutMapping("/carts")
-    @ResponseBody
-    public ResponseEntity modifyOrderQuantity(@Login Member member, ModifyOrderQuantityForm modifyOrderQuantityForm) {
+    @PostMapping("/carts/modify")
+    public String modifyOrderQuantity(@Login Member member, ModifyOrderQuantityForm modifyOrderQuantityForm) {
 
         cartService.modifyOrderQuantity(member.getId(), modifyOrderQuantityForm);
 
-        return ResponseEntity.ok().build();
+        return "redirect:/carts";
+    }
+
+    @PostMapping("/carts/remove")
+    public String removeCartItem(@Login Member member, @RequestParam("itemId") Long itemId) {
+
+        cartService.removeCartItem(member.getId(), itemId);
+
+        return "redirect:/carts";
     }
 
 

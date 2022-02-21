@@ -42,6 +42,15 @@ public class Cart {
         }
     }
 
+    public void removeCartItem(Long itemId) {
+        for (int i = 0; i < itemIdList.size(); i++) {
+            if (itemIdList.get(i).getItemId().equals(itemId)) {
+                itemIdList.remove(i);
+                return;
+            }
+        }
+    }
+
     //== 연관관계 편의 메서드==//
     public void addCartItem(CartItem cartItem) {
         itemIdList.add(cartItem);
