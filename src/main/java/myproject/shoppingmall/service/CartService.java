@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -33,13 +32,6 @@ public class CartService {
             Member member = memberService.findById(memberId);
             findCart = Cart.builder().member(member).build();
             cartRepository.save(findCart);
-        }
-
-        for (int i = 0; i < findCart.getItemIdList().size(); i++) {
-            if (findCart.getItemIdList().get(i).getItemId().equals(addCartItemForm.getItemId())) {
-                findCart.getItemIdList().get(i).addOrderQuantity(addCartItemForm.getOrderQuantity());
-                return;
-            }
         }
 
         CartItem addCartItem = addCartItemForm.formToEntity();
@@ -63,18 +55,6 @@ public class CartService {
         findCart.removeCartItem(itemId);
 
     }
-
-//    public void removeCartItem(Long memberId, CartItemDto cartItemDto) {
-//
-//        Cart removeCart = cartRepository.findByMemberId(memberId);
-//
-//        for (int i = 0; i < removeCart.getItemIdList().size(); i++) {
-//            if (removeCart.getItemIdList().get(i).getItemId().equals(cartItemDto.getItemId())) {
-//                removeCart.getItemIdList().remove(i);
-//                return;
-//            }
-//        }
-//    }
 
     public List<CartItemDto> findAllCartItem(Long memberId) {
         return cartItemRepository.findAllCartItem(memberId);

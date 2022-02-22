@@ -56,6 +56,4 @@ public class CartController {
 
         return "redirect:/carts";
     }
-
-
 }

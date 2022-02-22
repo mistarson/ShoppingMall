@@ -27,7 +27,7 @@ public class Cart {
 
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> itemIdList = new ArrayList<>();
+    private List<CartItem> cartItemList = new ArrayList<>();
 
     @Builder
     public Cart(Member member) {
@@ -35,17 +35,17 @@ public class Cart {
     }
 
     public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) {
-        for (int i = 0; i < itemIdList.size(); i++) {
-            if (itemIdList.get(i).getItemId().equals(modifyOrderQuantityForm.getItemId())) {
-                itemIdList.get(i).setOrderQuantity(modifyOrderQuantityForm.getOrderQuantity());
+        for (int i = 0; i < cartItemList.size(); i++) {
+            if (cartItemList.get(i).getItemId().equals(modifyOrderQuantityForm.getItemId())) {
+                cartItemList.get(i).setOrderQuantity(modifyOrderQuantityForm.getOrderQuantity());
             }
         }
     }
 
     public void removeCartItem(Long itemId) {
-        for (int i = 0; i < itemIdList.size(); i++) {
-            if (itemIdList.get(i).getItemId().equals(itemId)) {
-                itemIdList.remove(i);
+        for (int i = 0; i < cartItemList.size(); i++) {
+            if (cartItemList.get(i).getItemId().equals(itemId)) {
+                cartItemList.remove(i);
                 return;
             }
         }
@@ -53,7 +53,13 @@ public class Cart {
 
     //== 연관관계 편의 메서드==//
     public void addCartItem(CartItem cartItem) {
-        itemIdList.add(cartItem);
+        for (int i = 0; i < cartItemList.size(); i++) {
+            if (cartItemList.get(i).getItemId().equals(cartItem.getItemId())) {
+                cartItemList.get(i).addOrderQuantity(cartItem.getOrderQuantity());
+                return;
+            }
+        }
+        cartItemList.add(cartItem);
         cartItem.setCart(this);
     }
 }

@@ -12,10 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class CartRepositoryTest {
@@ -107,7 +103,7 @@ class CartRepositoryTest {
 
         // then
 
-        Assertions.assertThat(findCart.getItemIdList().size()).isEqualTo(2);
+        Assertions.assertThat(findCart.getCartItemList().size()).isEqualTo(2);
 
     }
 
