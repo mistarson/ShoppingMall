@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'junit:junit:4.13.1'
 	implementation group: 'org.webjars', name: 'jquery', version: '3.6.0'
+	implementation 'com.google.code.gson:gson'
 
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'

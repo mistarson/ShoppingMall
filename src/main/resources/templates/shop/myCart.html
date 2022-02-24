@@ -2,8 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script async src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script async src="/js/ajax-item-admin.js"></script>
 </head>
 <body>
 <!-- Navigation-->
@@ -133,41 +131,38 @@
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
 
-        // 주문 요청 폼생성 ====================
-        // 선택된 input dom을 만들어 반환
-        function getCartInputList() {
+
+        // form 생성
+        $("#orderBtn").on("click", function () {
             let trList = $("tr");
-            let cartInputList = "";
+            let orderItemListParam = [];
 
             // tr의 첫번째 줄은 head 이므로 1번째 부터
             for (let i = 1; i < trList.length; i++) {
                 // 체크된 아이템만 추가하도록
                 let isSelected = $(trList[i]).find(".checkBox").is(":checked");
                 if (isSelected) {
-                    let itemId = $(trList[i]).find(".orderCountTd .itemId").val();
-                    let orderQuantity = $(trList[i]).find(".orderCountTd .orderQuantity").val();
-
-                    let orderLineListIdx = i - 1;
-                    cartInputList += "<input type='text' name='orderLineList[" + orderLineListIdx + "].itemId' value='" + itemId + "'>";
-                    cartInputList += "<input type='text' name='orderLineList[" + orderLineListIdx + "].orderCount' value='" + orderQuantity + "'>"
+                    let orderItemList = {
+                        itemId: $(trList[i]).find(".orderCountTd .itemId").val(),
+                        orderQuantity: $(trList[i]).find(".orderCountTd .orderCount").val()
+                    };
+                    orderItemListParam.push(orderItemList)
                 }
             }
 
-            if (cartInputList.length == 0) {
+            if (orderItemListParam.length == 0) {
                 throw alert("한 개 이상의 품목을 선택하세요.");
             }
 
-            return cartInputList;
-        }
+            $.ajax({
+                url: "/orders",
+                traditional: true,
+                dataType: "json",
+                contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
+                type        :   "post",
+                data: JSON.stringify(orderItemListParam)
+            })
 
-        // form 생성
-        $("#orderBtn").on("click", function () {
-            let form = $("<form action='/orders' method='post' style='display: none'>" +
-                getCartInputList() +
-                "</form> ");
-            $("body").append(form);
-
-            form.submit();
         });
 
     });
