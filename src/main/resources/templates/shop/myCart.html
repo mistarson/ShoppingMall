@@ -144,9 +144,9 @@
                 if (isSelected) {
                     let orderItemList = {
                         itemId: $(trList[i]).find(".orderCountTd .itemId").val(),
-                        orderQuantity: $(trList[i]).find(".orderCountTd .orderCount").val()
+                        orderQuantity: $(trList[i]).find(".orderCountTd .orderQuantity").val()
                     };
-                    orderItemListParam.push(orderItemList)
+                    orderItemListParam.push(orderItemList);
                 }
             }
 
@@ -155,12 +155,14 @@
             }
 
             $.ajax({
+                method: 'POST',
                 url: "/orders",
                 traditional: true,
+                data: {
+                    data: JSON.stringify(orderItemListParam)
+                },
                 dataType: "json",
-                contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
-                type        :   "post",
-                data: JSON.stringify(orderItemListParam)
+                type: "post",
             })
 
         });

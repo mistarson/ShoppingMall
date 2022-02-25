@@ -30,12 +30,17 @@ public class ItemService {
     }
 
 
-
     public ItemDto findItem(Long itemId) {
         Item findItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
         return new ItemDto(findItem);
+    }
+
+    public Item findById(Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
     }
 
     public List<ItemSearchDto> findAllForSearch(ItemSearch itemSearch) {

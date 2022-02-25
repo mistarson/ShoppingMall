@@ -39,6 +39,7 @@ public class Member extends BaseEntity{
     private List<Post> postList = new ArrayList<>();
 
     @Embedded
+    @Column(nullable = false)
     private Address address;
 
 

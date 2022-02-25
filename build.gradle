@@ -37,6 +37,7 @@ dependencies {
     implementation 'junit:junit:4.13.1'
 	implementation group: 'org.webjars', name: 'jquery', version: '3.6.0'
 	implementation 'com.google.code.gson:gson'
+	implementation group: 'net.sf.json-lib', name: 'json-lib'
 
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'

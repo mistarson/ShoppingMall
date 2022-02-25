@@ -33,10 +33,10 @@ public class OrderItem extends BaseEntity {
 
     @Builder
     public OrderItem(Item item, int orderQuantity) {
-        order(item, orderQuantity);
-        totalPrice = item.getPrice() * orderQuantity;
         this.item = item;
         this.orderQuantity = orderQuantity;
+        order(item, orderQuantity);
+        totalPrice = item.getPrice() * orderQuantity;
     }
 
     public void setOrder(Order order) {

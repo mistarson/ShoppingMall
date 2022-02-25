@@ -2,12 +2,18 @@ package myproject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.Member;
+import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.order.Delivery;
+import myproject.shoppingmall.domain.order.Order;
+import myproject.shoppingmall.domain.order.OrderItem;
+import myproject.shoppingmall.dto.CartItemDto;
+import myproject.shoppingmall.form.RequestOrderItem;
 import myproject.shoppingmall.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,17 +22,35 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final MemberService memberService;
+    private final ItemService itemService;
+    private final CartService cartService;
 
-//    @Transactional
-//    public Long createOrder(Long memberId, List<Long> orderItemIdList) throws Exception {
-//
-//        Member member = memberService.findById(memberId);
-//
-//        Delivery delivery = Delivery.builder().address(member.getAddress()).build();
-//
-//
-//
-//    }
+    @Transactional
+    public Long createOrder(Long memberId, List<RequestOrderItem> requestOrderItemList) throws Exception {
+
+        Member member = memberService.findById(memberId);
+
+        Delivery delivery = Delivery.builder().address(member.getAddress()).build();
+
+        List<OrderItem> orderItemList = requestOrderItemList.stream().map(ro -> {
+                    Item findItem = itemService.findById(ro.getItemId());
+                    return OrderItem.builder().item(findItem).orderQuantity(ro.getOrderQuantity()).build();
+                })
+                .collect(Collectors.toList());
+
+        Order order = Order.builder()
+                .delivery(delivery)
+                .member(member)
+                .orderItems(orderItemList)
+                .build();
+
+        for (int i = 0; i < requestOrderItemList.size(); i++) {
+            cartService.removeCartItem(memberId,requestOrderItemList.get(i).getItemId());
+        }
+
+        return orderRepository.save(order).getId();
+
+    }
 
 
 }

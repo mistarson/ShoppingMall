@@ -41,7 +41,7 @@ public class Order extends BaseEntity {
     private int totalPrice;
 
     @Builder
-    public Order(Member member, Delivery delivery, OrderItem... orderItems) {
+    public Order(Member member, Delivery delivery, List<OrderItem> orderItems) {
         this.delivery = delivery;
         this.status = OrderStatus.ORDER;
         this.setMember(member);
