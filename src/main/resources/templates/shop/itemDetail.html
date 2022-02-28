@@ -29,7 +29,7 @@
                 </div>
 
                 <div th:unless="${item.stockQuantity &lt; 1}">
-                    <form action="/carts" method="post">
+                    <form>
                         <div class="form-group">
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
@@ -38,7 +38,7 @@
                                    th:max="${item.stockQuantity}"
                                    th:name="orderQuantity">
                             <div class="order-box">
-                                <button type="submit" formmethod="post" class="btn btn-light btn-order">
+                                <button type="submit" th:formaction="${'/carts'}" formmethod="post" class="btn btn-light btn-order">
                                     장바구니
                                 </button>
                                 <button id="orderBtn" class="btn btn-primary btn-order">
@@ -69,3 +69,28 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
+
+<script>
+    $(function () {
+
+        // form 생성
+        $("#orderBtn").on("click", function () {
+            let orderItemParam = {
+                "itemId": $(".form-group").find("#itemIdInput").val(),
+                "orderQuantity": $(".form-group").find("#orderCountInput").val()
+            };
+
+            $.ajax({
+                url: "/orders/direct",
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(orderItemParam),
+                dataType: "json",
+            })
+
+        });
+
+    });
+
+
+</script>

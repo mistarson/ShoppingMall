@@ -7,11 +7,13 @@ import myproject.shoppingmall.domain.order.Delivery;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
 import myproject.shoppingmall.dto.CartItemDto;
+import myproject.shoppingmall.form.DirectOrderItemForm;
 import myproject.shoppingmall.form.RequestOrderItem;
 import myproject.shoppingmall.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +55,31 @@ public class OrderService {
     }
 
 
+    @Transactional
+    public Long createDirectOrder(Long memberId, DirectOrderItemForm directOrderItemForm) throws Exception {
+
+        Member member = memberService.findById(memberId);
+
+        Delivery delivery = Delivery.builder().address(member.getAddress()).build();
+
+        OrderItem orderItem = OrderItem.builder()
+                .item(itemService.findById(Long.parseLong(directOrderItemForm.getItemId())))
+                .orderQuantity(Integer.parseInt(directOrderItemForm.getOrderQuantity()))
+                .build();
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        orderItems.add(orderItem);
+
+        Order order = Order.builder()
+                .delivery(delivery)
+                .member(member)
+                .orderItems(orderItems)
+                .build();
+
+        return orderRepository.save(order).getId();
+
+    }
 }
 
 

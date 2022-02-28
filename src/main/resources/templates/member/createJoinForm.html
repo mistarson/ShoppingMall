@@ -36,25 +36,31 @@
             </div>
             <div class="form-group">
                 <label th:for="name">이메일</label>
-                <input type="text" th:field="*{email}" class="form-control" placeholder="이름을 입력하세요"
+                <input type="text" th:field="*{email}" class="form-control" placeholder="이메일을 입력하세요"
                        th:class="${#fields.hasErrors('email')}? 'form-control field-error' : 'form-control'">
                 <p th:if="${#fields.hasErrors('email')}"
                    th:errors="*{email}">Incorrect date</p>
             </div>
             <div class="form-group">
                 <label th:for="city">도시</label>
-                <input type="text" th:field="*{city}" class="form-control"
-                       placeholder="도시를 입력하세요">
+                <input type="text" th:field="*{city}" class="form-control" placeholder="도시를 입력하세요"
+                       th:class="${#fields.hasErrors('city')}? 'form-control field-error' : 'form-control'">
+                <p th:if="${#fields.hasErrors('city')}"
+                   th:errors="*{city}">Incorrect date</p>
             </div>
             <div class="form-group">
                 <label th:for="street">거리</label>
-                <input type="text" th:field="*{street}" class="form-control"
-                       placeholder="거리를 입력하세요">
+                <input type="text" th:field="*{street}" class="form-control" placeholder="거리를 입력하세요"
+                       th:class="${#fields.hasErrors('street')}? 'form-control field-error' : 'form-control'">
+                <p th:if="${#fields.hasErrors('street')}"
+                   th:errors="*{street}">Incorrect date</p>
             </div>
             <div class="form-group">
                 <label th:for="zipcode">우편번호</label>
-                <input type="text" th:field="*{zipcode}" class="form-control"
-                       placeholder="우편번호를 입력하세요">
+                <input type="text" th:field="*{zipcode}" class="form-control" placeholder="우편번호를 입력하세요"
+                       th:class="${#fields.hasErrors('zipcode')}? 'form-control field-error' : 'form-control'">
+                <p th:if="${#fields.hasErrors('zipcode')}"
+                   th:errors="*{zipcode}">Incorrect date</p>
             </div>
             <div class="text-center">
                 <button class="btn btn-primary btn-xl text-uppercase" type="submit">작성 완료</button>
