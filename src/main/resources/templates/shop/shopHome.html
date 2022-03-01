@@ -77,7 +77,7 @@
                 <div id="sort">
                     <select th:field="*{sorter}" class="form-control">
                         <option value="">정렬기준</option>
-                        <option th:each="sorter : ${T(myproject.shoppingmall.domain.item.Sorter).values()}"
+                        <option th:each="sorter : ${T(myproject.shoppingmall.domain.item.ItemSorter).values()}"
                                 th:value="${sorter}"
                                 th:text="${sorter.getSorter()}"/>
                     </select>

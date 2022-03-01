@@ -6,7 +6,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.item.ItemSearch;
-import myproject.shoppingmall.domain.item.Sorter;
+import myproject.shoppingmall.domain.item.ItemSorter;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.dto.QItemSearchDto;
 
@@ -45,11 +45,11 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .fetch();
     }
 
-    private OrderSpecifier sorter(Sorter sorter) {
+    private OrderSpecifier sorter(ItemSorter sorter) {
 
-         if (sorter == Sorter.BYPRICE) {
+         if (sorter == ItemSorter.BYPRICE) {
             return item.price.desc();
-        } else if (sorter == Sorter.BYDATE) {
+        } else if (sorter == ItemSorter.BYDATE) {
             return item.createDate.desc();
         }
 

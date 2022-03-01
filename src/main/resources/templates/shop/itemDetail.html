@@ -41,12 +41,13 @@
                                 <button type="submit" th:formaction="${'/carts'}" formmethod="post" class="btn btn-light btn-order">
                                     장바구니
                                 </button>
-                                <button id="orderBtn" class="btn btn-primary btn-order">
-                                    바로구매
-                                </button>
+
                             </div>
                         </div>
                     </form>
+                    <button id="orderBtn" class="btn btn-primary btn-order">
+                        바로구매
+                    </button>
                 </div>
             </div>
 
@@ -61,7 +62,7 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scripts.js"></script>
+<script src="http://localhost:8080/js/scripts.js"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
@@ -73,20 +74,21 @@
 <script>
     $(function () {
 
-        // form 생성
         $("#orderBtn").on("click", function () {
-            let orderItemParam = {
-                "itemId": $(".form-group").find("#itemIdInput").val(),
-                "orderQuantity": $(".form-group").find("#orderCountInput").val()
-            };
+            let orderItem = "";
 
-            $.ajax({
-                url: "/orders/direct",
-                type: "POST",
-                contentType: "application/json; charset=UTF-8",
-                data: JSON.stringify(orderItemParam),
-                dataType: "json",
-            })
+            let itemId = $(".form-group").find("#itemIdInput").val();
+            let orderQuantity = $(".form-group").find("#orderCountInput").val();
+
+            orderItem += "<input type='text' name='itemId' value='" + itemId + "'>";
+            orderItem += "<input type='text' name='orderQuantity' value='" + orderQuantity + "'>";
+
+            let form = $("<form action='/orders/direct' method='post' style='display: none'>"
+                + orderItem
+                + "</form>");
+            $("body").append(form);
+
+            form.submit();
 
         });
 

@@ -6,7 +6,6 @@ import myproject.shoppingmall.form.ItemForm;
 import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.repository.ImageRepository;
 import myproject.shoppingmall.repository.ItemRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,7 +170,7 @@ class ItemServiceTest {
         //when
 
         ItemSearch itemSearch = new ItemSearch();
-        itemSearch.setSorter(Sorter.BYPRICE);
+        itemSearch.setSorter(ItemSorter.BYPRICE);
 
         List<ItemSearchDto> allForSearch = itemService.findAllForSearch(itemSearch);
 
@@ -189,7 +188,7 @@ class ItemServiceTest {
 
         ItemSearch itemSearch = new ItemSearch();
         itemSearch.setCategoryId(22L);
-        itemSearch.setSorter(Sorter.BYPRICE);
+        itemSearch.setSorter(ItemSorter.BYPRICE);
 
         List<ItemSearchDto> allForSearch = itemService.findAllForSearch(itemSearch);
 

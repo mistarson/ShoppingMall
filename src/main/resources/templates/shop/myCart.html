@@ -92,39 +92,6 @@
 
 <script>
     $(function () {
-        // // 장바구니 수량변경 ====================
-        // $("#orderCountModifyBtn").on("click", function () {
-        //     let itemId = $(this).parent().find(".itemId").val();
-        //     let newOrderCount = $(this).parent().find(".orderQuantity").val();
-        //
-        //     let formData = new FormData();
-        //     formData.append("itemId", itemId);
-        //     formData.append("orderQuantity", newOrderCount);
-        //
-        //     $.ajax({
-        //         url: '/carts',
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         type: 'PUT',
-        //         success: function (data) {
-        //             location.reload();
-        //         }
-        //     });
-        // })
-        //
-        // // 장바구니 삭제 요청 ====================
-        // $(".removeCartItemBtn").on("click", function () {
-        //     let itemId = $(this).parent().find(".itemId").val();
-        //
-        //     $.ajax({
-        //         url: `/carts?itemId=${itemId}`,
-        //         type: 'DELETE',
-        //         success: function (data) {
-        //             location.reload();
-        //         }
-        //     });
-        // })
 
         // 전체 체크박스 컨트롤 ===================
         $("#checkAll").click(function () {
@@ -135,35 +102,31 @@
         // form 생성
         $("#orderBtn").on("click", function () {
             let trList = $("tr");
-            let orderItemListParam = [];
+            let orderItemList = "";
 
             // tr의 첫번째 줄은 head 이므로 1번째 부터
             for (let i = 1; i < trList.length; i++) {
                 // 체크된 아이템만 추가하도록
                 let isSelected = $(trList[i]).find(".checkBox").is(":checked");
                 if (isSelected) {
-                    let orderItemList = {
-                        itemId: $(trList[i]).find(".orderCountTd .itemId").val(),
-                        orderQuantity: $(trList[i]).find(".orderCountTd .orderQuantity").val()
-                    };
-                    orderItemListParam.push(orderItemList);
+                    let itemId = $(trList[i]).find(".orderCountTd .itemId").val();
+                    let orderQuantity = $(trList[i]).find(".orderCountTd .orderQuantity").val();
+
+                    let index = i-1;
+                    orderItemList += "<input type='text' name='orderItemList["+ index + "].itemId' value='" + itemId + "'>";
+                    orderItemList += "<input type='text' name='orderItemList["+ index + "].orderQuantity' value='" + orderQuantity + "'>";
                 }
             }
 
-            if (orderItemListParam.length == 0) {
+            if (orderItemList.length == 0) {
                 throw alert("한 개 이상의 품목을 선택하세요.");
             }
 
-            $.ajax({
-                method: 'POST',
-                url: "/orders",
-                traditional: true,
-                data: {
-                    data: JSON.stringify(orderItemListParam)
-                },
-                dataType: "json",
-                type: "post",
-            })
+            let form = $("<form action='/orders' method='post' style='display: none'>"
+                + orderItemList
+                + "</form>");
+            $("body").append(form);
+            form.submit();
 
         });
 

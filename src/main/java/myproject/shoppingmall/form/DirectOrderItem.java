@@ -6,11 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @NoArgsConstructor @ToString
-public class DirectOrderItemForm {
-    private String itemId;
-    private String orderQuantity;
+public class DirectOrderItem {
+    private Long itemId;
+    private int orderQuantity;
 
-    public DirectOrderItemForm(String itemId, String orderQuantity) {
+    public DirectOrderItem(Long itemId, int orderQuantity) {
         this.itemId = itemId;
         this.orderQuantity = orderQuantity;
     }

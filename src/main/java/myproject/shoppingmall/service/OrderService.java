@@ -6,10 +6,12 @@ import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.order.Delivery;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
-import myproject.shoppingmall.dto.CartItemDto;
-import myproject.shoppingmall.form.DirectOrderItemForm;
+import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItem;
+import myproject.shoppingmall.form.RequestOrderItems;
 import myproject.shoppingmall.repository.OrderRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +30,13 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public Long createOrder(Long memberId, List<RequestOrderItem> requestOrderItemList) throws Exception {
+    public Long createOrder(Long memberId, RequestOrderItems requestOrderItems) throws Exception {
 
         Member member = memberService.findById(memberId);
 
         Delivery delivery = Delivery.builder().address(member.getAddress()).build();
+
+        List<RequestOrderItem> requestOrderItemList = requestOrderItems.getOrderItemList();
 
         List<OrderItem> orderItemList = requestOrderItemList.stream().map(ro -> {
                     Item findItem = itemService.findById(ro.getItemId());
@@ -56,15 +60,15 @@ public class OrderService {
 
 
     @Transactional
-    public Long createDirectOrder(Long memberId, DirectOrderItemForm directOrderItemForm) throws Exception {
+    public Long createDirectOrder(Long memberId, DirectOrderItem directOrderItem) throws Exception {
 
         Member member = memberService.findById(memberId);
 
         Delivery delivery = Delivery.builder().address(member.getAddress()).build();
 
         OrderItem orderItem = OrderItem.builder()
-                .item(itemService.findById(Long.parseLong(directOrderItemForm.getItemId())))
-                .orderQuantity(Integer.parseInt(directOrderItemForm.getOrderQuantity()))
+                .item(itemService.findById(directOrderItem.getItemId()))
+                .orderQuantity(directOrderItem.getOrderQuantity())
                 .build();
 
         List<OrderItem> orderItems = new ArrayList<>();
@@ -79,6 +83,11 @@ public class OrderService {
 
         return orderRepository.save(order).getId();
 
+    }
+
+    public void getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
+
+        orderRepository.getMyOrderList(memberId, orderSearch, pageable);
     }
 }
 

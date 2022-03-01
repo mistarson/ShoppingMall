@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ItemSearch {
     private String name;
-    private Sorter sorter;
+    private ItemSorter sorter;
     private Long categoryId;
 
     public void setCategoryId(Long categoryId) {
