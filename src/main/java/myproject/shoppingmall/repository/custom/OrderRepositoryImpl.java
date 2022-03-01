@@ -1,24 +1,22 @@
 package myproject.shoppingmall.repository.custom;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import myproject.shoppingmall.domain.item.ItemSorter;
 import myproject.shoppingmall.domain.order.*;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.dto.QOrderDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.function.Supplier;
 
 import static myproject.shoppingmall.domain.QMember.member;
-import static myproject.shoppingmall.domain.item.QItem.item;
 import static myproject.shoppingmall.domain.order.QDelivery.*;
 import static myproject.shoppingmall.domain.order.QOrder.*;
 import static myproject.shoppingmall.domain.order.QOrderItem.*;
@@ -35,10 +33,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     public Page<OrderDto> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
         List<OrderDto> results = queryFactory
                 .select(new QOrderDto(order))
+                .from(order)
                 .join(order.member, member).fetchJoin()
                 .join(order.orderItemList, orderItem).fetchJoin()
                 .join(order.delivery, delivery).fetchJoin()
-                .from(order)
                 .where(memberIdEq(memberId),
                         orderStatusEq(orderSearch.getOrderStatus()))
                 .orderBy(sorter(orderSearch.getOrderSorter()))
@@ -46,25 +44,24 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        long total = queryFactory
+        JPAQuery<Order> countQuery = queryFactory
                 .selectFrom(order)
-                .where(memberIdEq(memberId))
-                .fetchCount();
+                .where(memberIdEq(memberId));
 
-        return new PageImpl<>(results, pageable, total);
+        return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchCount);
 
     }
     private OrderSpecifier sorter(OrderSorter sorter) {
         if (sorter == OrderSorter.BYRECENTDATE) {
-            return item.price.desc();
+            return order.createDate.desc();
         } else if (sorter == OrderSorter.BYOLDDATE) {
-            return item.createDate.desc();
+            return order.createDate.desc();
         }
-        return item.createDate.desc();
+        return order.createDate.desc();
     }
 
     private BooleanBuilder memberIdEq(Long memberId) {
-        return nullSafeBuilder(() -> member.id.eq(memberId));
+        return nullSafeBuilder(() -> order.member.id.eq(memberId));
     }
 
     private BooleanBuilder orderStatusEq(OrderStatus orderStatus) {

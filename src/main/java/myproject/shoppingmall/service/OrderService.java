@@ -7,10 +7,12 @@ import myproject.shoppingmall.domain.order.Delivery;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
 import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItem;
 import myproject.shoppingmall.form.RequestOrderItems;
 import myproject.shoppingmall.repository.OrderRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,9 +87,9 @@ public class OrderService {
 
     }
 
-    public void getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
+    public Page<OrderDto> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
 
-        orderRepository.getMyOrderList(memberId, orderSearch, pageable);
+        return orderRepository.getMyOrderList(memberId, orderSearch, pageable);
     }
 }
 
