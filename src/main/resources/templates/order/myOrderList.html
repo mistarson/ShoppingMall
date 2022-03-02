@@ -12,6 +12,37 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">내 주문</h2>
         </div>
+        <table>
+            <thead>
+            <tr>
+                <th>주문번호</th>
+                <th>주문일자</th>
+                <th>주문상품정보</th>
+                <th>결제금액</th>
+                <th>주문상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.orderId}"></td>
+                <td th:text="${#temporals.format(order.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <a class="itemInformationContainer" th:href="@{/orders/{orderId}(orderId=${order.orderId})}">
+                        <div class="representativeImageContainer">
+                            <img class="representativeImage" th:src="@{${order.mainOrderItemImagePath}}">
+                        </div>
+                        <span class="representativeName" th:text="${order.mainOrderItemName + ' 등'}"></span>
+                    </a>
+                </td>
+                <td th:text="${order.totalPrice}"></td>
+                <td>
+                    <div>
+                        <span th:text="${order.orderStatus}"></span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
 
     </div>
@@ -28,3 +59,36 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
+
+<style>
+
+    td {
+        font-size: 13px;
+    }
+
+    .itemInformationContainer {
+        display: flex;
+        max-width: 500px;
+        min-width: 500px;
+    }
+
+    .itemInformationContainer:hover {
+        text-decoration: underline;
+    }
+
+    .representativeImageContainer {
+        width: 60px;
+        height: 60px;
+    }
+
+    .representativeImage {
+        max-width: 100%;
+        max-height: 100%;
+        margin-right: 20px;
+    }
+
+    .representativeName {
+        margin-left: 10px;
+        color: black;
+    }
+</style>
