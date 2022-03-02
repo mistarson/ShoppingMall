@@ -1,8 +1,9 @@
 package myproject.shoppingmall.domain.order;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class OrderSearch {
     private OrderSorter orderSorter;
     private OrderStatus orderStatus;

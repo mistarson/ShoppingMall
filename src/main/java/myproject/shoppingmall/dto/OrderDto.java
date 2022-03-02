@@ -2,12 +2,13 @@ package myproject.shoppingmall.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import lombok.ToString;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderStatus;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @ToString
 public class OrderDto {
     private Long orderId;
     private LocalDateTime createDate;

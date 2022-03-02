@@ -3,8 +3,11 @@ package myproject.shoppingmall.repository.custom;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import myproject.shoppingmall.domain.item.QImage;
+import myproject.shoppingmall.domain.item.QItem;
 import myproject.shoppingmall.domain.order.*;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.dto.QOrderDto;
@@ -16,7 +19,10 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static com.querydsl.jpa.JPAExpressions.*;
 import static myproject.shoppingmall.domain.QMember.member;
+import static myproject.shoppingmall.domain.item.QImage.*;
+import static myproject.shoppingmall.domain.item.QItem.*;
 import static myproject.shoppingmall.domain.order.QDelivery.*;
 import static myproject.shoppingmall.domain.order.QOrder.*;
 import static myproject.shoppingmall.domain.order.QOrderItem.*;
@@ -30,9 +36,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     }
 
     @Override
-    public Page<OrderDto> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
-        List<OrderDto> results = queryFactory
-                .select(new QOrderDto(order))
+    public Page<Order> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
+        List<Order> results = queryFactory
+                .select(order).distinct()
                 .from(order)
                 .join(order.member, member).fetchJoin()
                 .join(order.orderItemList, orderItem).fetchJoin()
@@ -55,7 +61,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
         if (sorter == OrderSorter.BYRECENTDATE) {
             return order.createDate.desc();
         } else if (sorter == OrderSorter.BYOLDDATE) {
-            return order.createDate.desc();
+            return order.createDate.asc();
         }
         return order.createDate.desc();
     }

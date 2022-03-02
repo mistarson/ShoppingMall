@@ -14,6 +14,7 @@ import myproject.shoppingmall.form.RequestOrderItems;
 import myproject.shoppingmall.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +90,11 @@ public class OrderService {
 
     public Page<OrderDto> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
 
-        return orderRepository.getMyOrderList(memberId, orderSearch, pageable);
+        Page<Order> myOrderList = orderRepository.getMyOrderList(memberId, orderSearch, pageable);
+
+
+        return myOrderList.map(OrderDto::new);
+
     }
 }
 

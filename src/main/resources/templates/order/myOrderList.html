@@ -12,7 +12,24 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">내 주문</h2>
         </div>
-        <table>
+        <form th:object="${orderSearch}" class="form-check-inline">
+            <div id="sort">
+                <select th:field="*{orderSorter}" class="form-control">
+                    <option value="">정렬기준</option>
+                    <option th:each="orderSorter : ${T(myproject.shoppingmall.domain.order.OrderSorter).values()}"
+                            th:value="${orderSorter}"
+                            th:text="${orderSorter.getSorter()}"/>
+                </select>
+                <select th:field="*{orderStatus}" class="form-control">
+                    <option value="">주문상태</option>
+                    <option th:each="orderStatus : ${T(myproject.shoppingmall.domain.order.OrderStatus).values()}"
+                            th:value="${orderStatus}"
+                            th:text="${orderStatus}"/>
+                </select>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </div>
+        </form>
+        <table class="font-gray">
             <thead>
             <tr>
                 <th>주문번호</th>
@@ -89,6 +106,5 @@
 
     .representativeName {
         margin-left: 10px;
-        color: black;
     }
 </style>

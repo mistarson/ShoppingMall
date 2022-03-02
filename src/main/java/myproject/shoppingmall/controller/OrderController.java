@@ -3,6 +3,8 @@ package myproject.shoppingmall.controller;
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.argumentresolver.Login;
 import myproject.shoppingmall.domain.Member;
+import myproject.shoppingmall.domain.item.ItemSearch;
+import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderSearch;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
@@ -40,6 +42,9 @@ public class OrderController {
     public String getMyOrderList(@Login Member member, @ModelAttribute OrderSearch orderSearch, Pageable pageable, Model model) {
 
         Page<OrderDto> myOrderList = orderService.getMyOrderList(member.getId(), orderSearch, pageable);
+
+        System.out.println("orderSearch.getOrderSorter() = " + orderSearch.getOrderSorter());
+        System.out.println("orderSearch.getOrderSorter() = " + orderSearch.getOrderStatus());
 
         model.addAttribute("orders", myOrderList.getContent());
         model.addAttribute("totalPage", myOrderList.getTotalPages());
