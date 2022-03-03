@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.QImage;
 import myproject.shoppingmall.domain.item.QItem;
 import myproject.shoppingmall.domain.order.*;
@@ -27,7 +28,7 @@ import static myproject.shoppingmall.domain.order.QDelivery.*;
 import static myproject.shoppingmall.domain.order.QOrder.*;
 import static myproject.shoppingmall.domain.order.QOrderItem.*;
 
-public class OrderRepositoryImpl implements OrderRepositoryCustom{
+public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -50,6 +51,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        List<Item> itemCollect = queryFactory
+                .selectFrom(item)
+                .join(item.imageList, image).fetchJoin()
+                .where(item.id.in(JPAExpressions.select(orderItem.item.id)
+                        .from(orderItem)
+                        .join(orderItem.order, order)
+                        .where(memberIdEq(memberId))
+                ))
+                .fetch();
+
         JPAQuery<Order> countQuery = queryFactory
                 .selectFrom(order)
                 .where(memberIdEq(memberId));
@@ -57,6 +68,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
         return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchCount);
 
     }
+
     private OrderSpecifier sorter(OrderSorter sorter) {
         if (sorter == OrderSorter.BYRECENTDATE) {
             return order.createDate.desc();
@@ -69,6 +81,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     private BooleanBuilder memberIdEq(Long memberId) {
         return nullSafeBuilder(() -> order.member.id.eq(memberId));
     }
+
 
     private BooleanBuilder orderStatusEq(OrderStatus orderStatus) {
         return nullSafeBuilder(() -> order.status.eq(orderStatus));

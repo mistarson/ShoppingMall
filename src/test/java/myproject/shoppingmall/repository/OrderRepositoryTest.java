@@ -131,41 +131,65 @@ class OrderRepositoryTest {
         Image image8 = Image.builder().imagePath("231").build();
 
         item1.addImage(image1);
-        item2.addImage(image2);
-        item3.addImage(image3);
-        item4.addImage(image4);
-        item1.addImage(image5);
-        item2.addImage(image6);
-        item3.addImage(image7);
+        item1.addImage(image2);
+        item2.addImage(image3);
+        item2.addImage(image4);
+        item3.addImage(image5);
+        item3.addImage(image6);
+        item4.addImage(image7);
         item4.addImage(image8);
 
         em.persist(item1);
         em.persist(item2);
+        em.persist(item3);
+        em.persist(item4);
 
         OrderItem orderItem1 = OrderItem.builder()
                 .item(item1)
-                .orderQuantity(10)
+                .orderQuantity(3)
                 .build();
 
         OrderItem orderItem2 = OrderItem.builder()
                 .item(item2)
-                .orderQuantity(10)
+                .orderQuantity(3)
+                .build();
+        OrderItem orderItem3 = OrderItem.builder()
+                .item(item3)
+                .orderQuantity(3)
                 .build();
 
-        List<OrderItem> orderItems = new ArrayList<>();
-        orderItems.add(orderItem1);
-        orderItems.add(orderItem2);
+        OrderItem orderItem4 = OrderItem.builder()
+                .item(item4)
+                .orderQuantity(3)
+                .build();
+
+        List<OrderItem> orderItems1 = new ArrayList<>();
+        orderItems1.add(orderItem1);
+        orderItems1.add(orderItem2);
+
+        List<OrderItem> orderItems2 = new ArrayList<>();
+        orderItems2.add(orderItem3);
+        orderItems2.add(orderItem4);
 
         em.persist(orderItem1);
         em.persist(orderItem2);
+        em.persist(orderItem3);
+        em.persist(orderItem4);
 
-        Order order = Order.builder()
+        Order order1 = Order.builder()
                 .delivery(Delivery.builder().address(member1.getAddress()).build())
                 .member(member1)
-                .orderItems(orderItems)
+                .orderItems(orderItems1)
                 .build();
 
-        em.persist(order);
+        Order order2 = Order.builder()
+                .delivery(Delivery.builder().address(member1.getAddress()).build())
+                .member(member1)
+                .orderItems(orderItems2)
+                .build();
+
+        em.persist(order1);
+        em.persist(order2);
         em.flush();
         em.clear();
 
@@ -175,7 +199,8 @@ class OrderRepositoryTest {
         List<Order> content = myOrderList.getContent();
         int totalPages = myOrderList.getTotalPages();
 
-        System.out.println(content.size());
+        System.out.println("컨텐츠 사이즈: " + content.size());
+        System.out.println("초기화 시작");
 
         for (Order Order : content) {
             System.out.println("orderDto.getOrderId() = " + Order.getId());
