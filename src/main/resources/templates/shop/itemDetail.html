@@ -37,17 +37,19 @@
                             <input id="orderCountInput" type="number" th:value="1" th:min="1"
                                    th:max="${item.stockQuantity}"
                                    th:name="orderQuantity">
-                            <div class="order-box">
-                                <button type="submit" th:formaction="${'/carts'}" formmethod="post" class="btn btn-light btn-order">
+                            <div class="cart-btn-container">
+                                <button type="submit" th:formaction="${'/carts'}" formmethod="post"
+                                        class="btn btn-light btn-order">
                                     장바구니
                                 </button>
-
                             </div>
                         </div>
                     </form>
-                    <button id="orderBtn" class="btn btn-primary btn-order">
-                        바로구매
-                    </button>
+                    <div class="direct-btn-container">
+                        <button id="orderBtn" class="btn btn-primary btn-order">
+                            바로구매
+                        </button>
+                    </div>
                 </div>
             </div>
 

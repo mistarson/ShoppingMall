@@ -7,6 +7,8 @@ import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.form.ItemForm;
 import myproject.shoppingmall.repository.ItemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +45,8 @@ public class ItemService {
 
     }
 
-    public List<ItemSearchDto> findAllForSearch(ItemSearch itemSearch) {
-        return itemRepository.findAll(itemSearch);
+    public Page<ItemSearchDto> findAllForSearch(ItemSearch itemSearch, Pageable pageable) {
+        return itemRepository.findAll(itemSearch, pageable);
     }
 
 }

@@ -9,6 +9,8 @@ import myproject.shoppingmall.form.AddCartItemForm;
 import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.repository.CartItemRepository;
 import myproject.shoppingmall.repository.CartRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +58,8 @@ public class CartService {
 
     }
 
-    public List<CartItemDto> findAllCartItem(Long memberId) {
-        return cartItemRepository.findAllCartItem(memberId);
+    public Page<CartItemDto> findAllCartItem(Long memberId, Pageable pageable) {
+        return cartItemRepository.findAllCartItem(memberId, pageable);
     }
 
 

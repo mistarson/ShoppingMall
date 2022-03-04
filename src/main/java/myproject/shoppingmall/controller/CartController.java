@@ -7,6 +7,8 @@ import myproject.shoppingmall.dto.CartItemDto;
 import myproject.shoppingmall.form.AddCartItemForm;
 import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.service.CartService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +25,12 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/carts")
-    public String showCart(@Login Member member, Model model) {
+    public String showCart(@Login Member member, Model model, Pageable pageable) {
 
-        List<CartItemDto> cartItems = cartService.findAllCartItem(member.getId());
+        Page<CartItemDto> results = cartService.findAllCartItem(member.getId(), pageable);
 
-        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("cartItems", results.getContent());
+        model.addAttribute("totalPage", results.getTotalPages());
 
         return "/shop/myCart";
 

@@ -1,6 +1,7 @@
 package myproject.shoppingmall.repository.custom;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -9,6 +10,10 @@ import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.domain.item.ItemSorter;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.dto.QItemSearchDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -25,24 +30,38 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     }
 
     @Override
-    public List<ItemSearchDto> findAll(ItemSearch itemSearch) {
+    public Page<ItemSearchDto> findAll(ItemSearch itemSearch, Pageable pageable) {
+
+        QueryResults<ItemSearchDto> results;
 
         // TODO 이름검색 안했을 때, 메소드 수정해야함  
         if (itemSearch.getName() == "") {
-            return queryFactory
+            results = queryFactory
                     .select(new QItemSearchDto(item))
                     .from(item)
                     .where(categoryEq(itemSearch.getCategoryId()))
                     .orderBy(sorter(itemSearch.getSorter()))
-                    .fetch();
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+
+
+        } else {
+            results = queryFactory
+                    .select(new QItemSearchDto(item))
+                    .from(item)
+                    .where(itemNameEq(itemSearch.getName()),
+                            categoryEq(itemSearch.getCategoryId()))
+                    .orderBy(sorter(itemSearch.getSorter()))
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
         }
-        return queryFactory
-                .select(new QItemSearchDto(item))
-                .from(item)
-                .where(itemNameEq(itemSearch.getName()),
-                        categoryEq(itemSearch.getCategoryId()))
-                .orderBy(sorter(itemSearch.getSorter()))
-                .fetch();
+        List<ItemSearchDto> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content, pageable, total);
+
     }
 
     private OrderSpecifier sorter(ItemSorter sorter) {

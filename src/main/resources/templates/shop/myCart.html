@@ -67,8 +67,14 @@
             <button id="orderBtn" class="btn btn-light btn-ordering" type="submit">주문하기</button>
         </div>
     </div>
+    <div class="pagination">
+        <ul>
+            <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
+                <a th:href="@{/items(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+            </li>
+        </ul>
+    </div>
 </section>
-
 
 <div th:replace="fragments/footer :: footer"/>
 <!-- Bootstrap core JS-->
@@ -82,13 +88,6 @@
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
-
-<script>
-    function totalPrice() {
-
-
-    }
-</script>
 
 <script>
     $(function () {
@@ -131,6 +130,5 @@
         });
 
     });
-
 
 </script>

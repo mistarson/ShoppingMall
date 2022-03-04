@@ -62,12 +62,12 @@ class CartItemRepositoryTest {
         em.clear();
         // when
 
-        List<CartItemDto> allCartItem = cartItemRepository.findAllCartItem(member.getId());
-
-        // then
-        for (CartItemDto cartItemDto : allCartItem) {
-            System.out.println(cartItemDto);
-        }
+//        List<CartItemDto> allCartItem = cartItemRepository.findAllCartItem(member.getId());
+//
+//        // then
+//        for (CartItemDto cartItemDto : allCartItem) {
+//            System.out.println(cartItemDto);
+//        }
 
     }
 

@@ -7,11 +7,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.item.Item;
-import myproject.shoppingmall.domain.item.QImage;
-import myproject.shoppingmall.domain.item.QItem;
 import myproject.shoppingmall.domain.order.*;
-import myproject.shoppingmall.dto.OrderDto;
-import myproject.shoppingmall.dto.QOrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -20,7 +16,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static com.querydsl.jpa.JPAExpressions.*;
 import static myproject.shoppingmall.domain.QMember.member;
 import static myproject.shoppingmall.domain.item.QImage.*;
 import static myproject.shoppingmall.domain.item.QItem.*;
@@ -36,9 +31,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    //Dto로 가져오게 되면 식별자가 없어 JPA의 distinct기능을 사용하지 못해 어쩔 수 없이 엔티티로 받아옴
     @Override
     public Page<Order> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
-        List<Order> results = queryFactory
+        List<Order> content = queryFactory
                 .select(order).distinct()
                 .from(order)
                 .join(order.member, member).fetchJoin()
@@ -65,7 +61,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .selectFrom(order)
                 .where(memberIdEq(memberId));
 
-        return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchCount);
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
 
     }
 

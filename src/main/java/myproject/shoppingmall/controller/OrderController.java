@@ -43,9 +43,6 @@ public class OrderController {
 
         Page<OrderDto> myOrderList = orderService.getMyOrderList(member.getId(), orderSearch, pageable);
 
-        System.out.println("orderSearch.getOrderSorter() = " + orderSearch.getOrderSorter());
-        System.out.println("orderSearch.getOrderSorter() = " + orderSearch.getOrderStatus());
-
         model.addAttribute("orders", myOrderList.getContent());
         model.addAttribute("totalPage", myOrderList.getTotalPages());
 
