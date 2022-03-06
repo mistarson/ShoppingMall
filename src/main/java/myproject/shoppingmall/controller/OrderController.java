@@ -12,6 +12,7 @@ import myproject.shoppingmall.form.RequestOrderItems;
 import myproject.shoppingmall.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,15 @@ public class OrderController {
         return "redirect:/orders";
     }
 
+    @PostMapping("/orders/cancel")
+    public String cancelOrder(Long orderId) {
+        orderService.cancelOrder(orderId);
+
+        return "redirect:/orders";
+    }
+
     @GetMapping("/orders")
-    public String getMyOrderList(@Login Member member, @ModelAttribute OrderSearch orderSearch, Pageable pageable, Model model) {
+    public String getMyOrderList(@Login Member member, @ModelAttribute OrderSearch orderSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
 
         Page<OrderDto> myOrderList = orderService.getMyOrderList(member.getId(), orderSearch, pageable);
 

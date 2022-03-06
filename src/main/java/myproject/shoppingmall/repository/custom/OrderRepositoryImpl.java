@@ -58,8 +58,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .fetch();
 
         JPAQuery<Order> countQuery = queryFactory
-                .selectFrom(order)
-                .where(memberIdEq(memberId));
+                .select(order).distinct()
+                .from(order)
+                .where(memberIdEq(memberId),
+                        orderStatusEq(orderSearch.getOrderStatus()));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
 

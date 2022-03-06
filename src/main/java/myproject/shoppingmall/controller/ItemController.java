@@ -53,7 +53,6 @@ public class ItemController {
     public String itemDetail(@PathVariable("itemId") Long itemId, Model model) {
         ItemDto item = itemService.findItem(itemId);
 
-
         model.addAttribute("item", item);
 
         return "shop/itemDetail";

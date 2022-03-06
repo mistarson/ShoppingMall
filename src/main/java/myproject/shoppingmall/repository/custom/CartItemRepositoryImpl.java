@@ -47,6 +47,8 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
                                 .from(cart)
                                 .where(cart.member.id.eq(memberId))
                 ).and(image.imagePath.like("%main%")))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<CartItem> countQuery = queryFactory

@@ -12,67 +12,72 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">장바구니</h2>
         </div>
-        <table class="table">
-            <thead class="thead-color">
-            <th><input id="checkAll" type="checkbox"></th>
-            <th>이미지</th>
-            <th>상품정보</th>
-            <th>상품금액</th>
-            <th>수량</th>
-            <th>총 금액</th>
-            </thead>
-            <tbody class="tbody-color" th:each="cartItem: ${cartItems}">
-            <tr class="tr-color">
-                <td class="checkBoxTd">
-                    <input type="checkbox" class="checkBox">
-                </td>
-                <td class="itemImageTd">
-                    <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
-                        <img class="cartItemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
-                    </a>
-                </td>
-                <td class="itemInfoTd">
-                    <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
-                        <span th:text="${cartItem.getItemName()}"></span>
-                    </a>
-                </td>
-                <td class="itemPriceTd">
-                    <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
-                </td>
-                <td class="orderCountTd">
-                    <form method="POST">
-                        <!-- itemId를 가져오기 위한 필드 -->
-                        <input class="itemId" type="text" style="display: none;" th:value="${cartItem.getItemId()}"
-                               th:name="itemId">
-                        <input class="orderQuantity" type="number" th:value="${cartItem.getOrderQuantity()}" th:min="1"
-                               th:max="${cartItem.quantity}"
-                               th:name="orderQuantity">
-                        <button id="orderCountModifyBtn" class="btn btn-light"
-                                type="submit" onclick="javascript:form.action='/carts/modify'">
-                            변경
-                        </button>
-                        <button id="removeCartItemBtn" type="submit" onclick="javascript:form.action='/carts/remove'">
-                            <span>&times;</span>
-                        </button>
-                    </form>
-                </td>
-                <td class="totalPriceTd">
+        <h1 class="no-elements" th:if="${totalPage} == 0">장바구니에 담긴 상품이 없습니다.</h1>
+        <div th:unless="${totalPage} == 0">
+            <table class="table">
+                <thead class="thead-color">
+                <th><input id="checkAll" type="checkbox"></th>
+                <th>이미지</th>
+                <th>상품정보</th>
+                <th>상품금액</th>
+                <th>수량</th>
+                <th>총 금액</th>
+                </thead>
+                <tbody class="tbody-color" th:each="cartItem: ${cartItems}">
+                <tr class="tr-color">
+                    <td class="checkBoxTd">
+                        <input type="checkbox" class="checkBox">
+                    </td>
+                    <td class="itemImageTd">
+                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                            <img class="cartItemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
+                        </a>
+                    </td>
+                    <td class="itemInfoTd">
+                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                            <span th:text="${cartItem.getItemName()}"></span>
+                        </a>
+                    </td>
+                    <td class="itemPriceTd">
+                        <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
+                    </td>
+                    <td class="orderCountTd">
+                        <form method="POST">
+                            <!-- itemId를 가져오기 위한 필드 -->
+                            <input class="itemId" type="text" style="display: none;" th:value="${cartItem.getItemId()}"
+                                   th:name="itemId">
+                            <input class="orderQuantity" type="number" th:value="${cartItem.getOrderQuantity()}"
+                                   th:min="1"
+                                   th:max="${cartItem.quantity}"
+                                   th:name="orderQuantity">
+                            <button id="orderCountModifyBtn" class="btn btn-light"
+                                    type="submit" onclick="javascript:form.action='/carts/modify'">
+                                변경
+                            </button>
+                            <button id="removeCartItemBtn" type="submit"
+                                    onclick="javascript:form.action='/carts/remove'">
+                                <span>&times;</span>
+                            </button>
+                        </form>
+                    </td>
+                    <td class="totalPriceTd">
                     <span
                             th:text="${#numbers.formatInteger(cartItem.itemPrice * cartItem.orderQuantity, 3, 'COMMA')}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div style="text-align: center">
-            <button id="orderBtn" class="btn btn-light btn-ordering" type="submit">주문하기</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center">
+                <button id="orderBtn" class="btn btn-light btn-ordering" type="submit">주문하기</button>
+            </div>
+            <div class="pagination">
+                <ul>
+                    <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
+                        <a th:href="@{/carts(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="pagination">
-        <ul>
-            <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
-                <a th:href="@{/items(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
-            </li>
-        </ul>
     </div>
 </section>
 
@@ -111,9 +116,9 @@
                     let itemId = $(trList[i]).find(".orderCountTd .itemId").val();
                     let orderQuantity = $(trList[i]).find(".orderCountTd .orderQuantity").val();
 
-                    let index = i-1;
-                    orderItemList += "<input type='text' name='orderItemList["+ index + "].itemId' value='" + itemId + "'>";
-                    orderItemList += "<input type='text' name='orderItemList["+ index + "].orderQuantity' value='" + orderQuantity + "'>";
+                    let index = i - 1;
+                    orderItemList += "<input type='text' name='orderItemList[" + index + "].itemId' value='" + itemId + "'>";
+                    orderItemList += "<input type='text' name='orderItemList[" + index + "].orderQuantity' value='" + orderQuantity + "'>";
                 }
             }
 

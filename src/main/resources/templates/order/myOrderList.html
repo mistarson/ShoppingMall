@@ -12,6 +12,11 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">내 주문</h2>
         </div>
+
+        <h1 class="no-elements" th:if="${totalPage} == 0">아직 주문이 없습니다.</h1>
+
+        <div th:unless="${totalPage} == 0">
+
         <form th:object="${orderSearch}" class="form-check-inline">
             <div id="sort">
                 <select th:field="*{orderSorter}" class="form-control">
@@ -55,18 +60,30 @@
                 <td>
                     <div>
                         <span th:text="${order.orderStatus}"></span>
+
+                        <form th:if="${order.orderStatus.toString().equals('ORDER')}" class="cancel-order-form" method="post">
+                            <input type="text" name="orderId" style="display: none" th:value="${order.orderId}">
+                            <button type="submit"
+                                    onclick="javascript:form.action='/orders/cancel'">
+                                <span>&times;</span>
+                            </button>
+                        </form>
                     </div>
+
                 </td>
             </tr>
             </tbody>
         </table>
-    </div>
     <div class="pagination">
         <ul>
             <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
-                <a th:href="@{/items(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                <a th:href="@{/orders(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
             </li>
         </ul>
+    </div>
+
+
+    </div>
     </div>
 </section>
 <div th:replace="fragments/footer :: footer"/>

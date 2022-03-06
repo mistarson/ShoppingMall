@@ -12708,3 +12708,12 @@ margin-bottom: 50px;
 .pagination ul {
     display: inherit;
 }
+
+.no-elements {
+    color: #ffc800;
+    text-align: center;
+}
+
+.cancel-order-form {
+    display: inline-block;
+}

@@ -68,6 +68,14 @@ public class Order extends BaseEntity {
                 .sum();
     }
 
+    //== 비지니스 로직==//
+    public void cancelOrder() {
+        for (OrderItem orderItem : orderItemList) {
+            orderItem.cancel();
+        }
+        status = OrderStatus.CANCEL;
+    }
+
 
 
 }
