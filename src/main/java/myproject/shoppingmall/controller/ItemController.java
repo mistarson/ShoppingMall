@@ -57,4 +57,11 @@ public class ItemController {
 
         return "shop/itemDetail";
     }
+
+    @GetMapping("/category")
+    public String getCategory(Model model) {
+        model.addAttribute("rootCategory", categoryService.createCategoryRoot());
+
+        return "shop/category";
+    }
 }

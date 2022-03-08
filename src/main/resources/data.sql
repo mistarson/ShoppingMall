@@ -159,7 +159,7 @@ values ('clothes/6/IMG_0037.JPG',6);
 
 -- 아이템 7--
 insert into item(name, price, stock_quantity, category_id)
-values ('나이키운동화', 85000, 10, 12);
+values ('나이키운동화', 85000, 10, 22);
 
 insert into image(image_path, item_id)
 values ('clothes/7/main.JPG',7);
