@@ -36,6 +36,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'junit:junit:4.13.1'
 	implementation group: 'org.webjars', name: 'jquery', version: '3.6.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'

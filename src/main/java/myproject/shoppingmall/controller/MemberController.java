@@ -23,6 +23,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+
 //TODO 아규먼트 리졸버를 사용하여 로그인 시, 꼭 엔티티를 사용해야 할까?
     @GetMapping("/member")
     public String myInfo(@Login Member loginMember, Model model) throws Exception {

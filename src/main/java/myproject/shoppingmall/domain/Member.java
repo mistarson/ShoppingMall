@@ -23,7 +23,7 @@ public class Member extends BaseEntity{
     @Column(length = 15, nullable = false)
     private String loginId;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 15, nullable = false)
@@ -42,6 +42,8 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private Address address;
 
+    private String role;
+
 
 
     @Builder
@@ -56,6 +58,7 @@ public class Member extends BaseEntity{
         this.name = name;
         this.email = email;
         this.address = address;
+        this.role = "ROLE_USER";
     }
 
     public void updateMember(Member member) {
@@ -64,6 +67,5 @@ public class Member extends BaseEntity{
         this.password = member.getPassword();
         this.name = member.getName();
         this.address = member.address;
-
     }
 }

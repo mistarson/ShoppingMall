@@ -42,4 +42,7 @@ public class JoinForm {
 
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

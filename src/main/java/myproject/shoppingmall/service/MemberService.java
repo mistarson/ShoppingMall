@@ -5,6 +5,7 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //TODO 조회는 모든 경우, S
     // 회원 전체 조회
@@ -46,6 +48,8 @@ public class MemberService {
     public Long join(JoinForm joinForm) {
 
         validateDuplicateLoginId(joinForm.getLoginId()); // 중복 회원 검증 로직
+
+        joinForm.setPassword(passwordEncoder.encode(joinForm.getPassword()));
 
         Member member = memberRepository.save(joinForm.joinFormToEntity());
 
