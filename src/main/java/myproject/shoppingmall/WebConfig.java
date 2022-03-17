@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override

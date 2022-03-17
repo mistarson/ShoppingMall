@@ -1,5 +1,6 @@
 package myproject.shoppingmall.repository;
 
+import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,10 @@ class MemberRepositoryTest {
         //given
         Member member = Member.builder()
                 .loginId("thsckdgus0")
-                .name("thsckd")
                 .password("123123")
+                .name("thsckd")
+                .email("123@naver.com")
+                .address(new Address("city", "street", "zipcode"))
                 .build();
 
         memberRepository.save(member);

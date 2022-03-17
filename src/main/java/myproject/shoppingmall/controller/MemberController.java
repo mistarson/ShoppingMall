@@ -5,7 +5,10 @@ import myproject.shoppingmall.argumentresolver.Login;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.security.AccountContext;
 import myproject.shoppingmall.service.MemberService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,13 +29,11 @@ public class MemberController {
 
 //TODO 아규먼트 리졸버를 사용하여 로그인 시, 꼭 엔티티를 사용해야 할까?
     @GetMapping("/member")
-    public String myInfo(@Login Member loginMember, Model model) throws Exception {
+    public String myInfo(Authentication authentication, Model model) throws Exception {
 
-        //세션에 회원 데이터가 없으면 home
-        if (loginMember == null) {
-            return "redirect:/login";
-        }
-        MemberDto memberDto = new MemberDto(loginMember);
+        User User = (User) authentication.getPrincipal().;
+
+        MemberDto memberDto = new MemberDto(User.);
 
         model.addAttribute("member", memberDto);
         return "member/myInfo";

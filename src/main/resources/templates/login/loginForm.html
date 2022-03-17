@@ -12,21 +12,32 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">로그인</h2>
         </div>
-        <form id="contactForm" action="/login" th:action th:object="${loginForm}" method="post">
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+<!--        <form id="contactForm" action="/login" th:action th:object="${loginForm}" method="post">-->
+<!--            <div th:if="${#fields.hasGlobalErrors()}">-->
+<!--                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="loginId">로그인 ID</label>-->
+<!--                <input type="text" id="loginId" th:field="*{loginId}" class="form-control"-->
+<!--                       th:errorclass="field-error"/>-->
+<!--                <div class="field-error" th:errors="*{loginId}"/>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="password">비밀번호</label>-->
+<!--                <input type="password" id="password" th:field="*{password}" class="form-control"-->
+<!--                       th:errorclass="field-error">-->
+<!--                <div class="field-error" th:errors="*{password}"/>-->
+<!--            </div>-->
+<!--            <div class="text-center">-->
+<!--                <button class="btn btn-primary btn-xl text-uppercase" type="submit">로그인</button>-->
+<!--            </div>-->
+<!--        </form>-->
+        <form id="contactForm" th:action="@{/login}" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" name="loginId" placeholder="아이디" required="required" autofocus="autofocus">
             </div>
             <div class="form-group">
-                <label for="loginId">로그인 ID</label>
-                <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
-                       th:errorclass="field-error"/>
-                <div class="field-error" th:errors="*{loginId}"/>
-            </div>
-            <div class="form-group">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" th:field="*{password}" class="form-control"
-                       th:errorclass="field-error">
-                <div class="field-error" th:errors="*{password}"/>
+                <input type="password" class="form-control" name="password" placeholder="비밀번호" required="required">
             </div>
             <div class="text-center">
                 <button class="btn btn-primary btn-xl text-uppercase" type="submit">로그인</button>

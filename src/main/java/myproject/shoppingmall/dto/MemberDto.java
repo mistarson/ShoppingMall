@@ -3,6 +3,7 @@ package myproject.shoppingmall.dto;
 import lombok.Getter;
 import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
+import org.springframework.security.core.Authentication;
 
 import javax.validation.constraints.NotEmpty;
 
