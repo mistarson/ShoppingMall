@@ -5,6 +5,10 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.repository.MemberRepository;
+import myproject.shoppingmall.security.AccountContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,13 +68,20 @@ public class MemberService {
         }
     }
 
-
-
     @Transactional
     public void updateMember(Long id, MemberDto memberDto) throws Exception {
 
         Member findMember = findById(id);
 
         findMember.updateMember(memberDto.memberDtoToEntity());
+    }
+
+    //인증 회원 가져오기
+    public MemberDto getLoginMember() throws Exception {
+        AccountContext accountContext = (AccountContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member loginMember = findByLoginId(accountContext.getUsername());
+
+        return new MemberDto(loginMember);
+
     }
 }

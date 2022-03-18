@@ -27,15 +27,13 @@ public class MemberController {
     private final MemberService memberService;
 
 
-//TODO 아규먼트 리졸버를 사용하여 로그인 시, 꼭 엔티티를 사용해야 할까?
     @GetMapping("/member")
-    public String myInfo(Authentication authentication, Model model) throws Exception {
+    public String myInfo(Model model) throws Exception {
 
-        User User = (User) authentication.getPrincipal().;
-
-        MemberDto memberDto = new MemberDto(User.);
+        MemberDto memberDto = memberService.getLoginMember();
 
         model.addAttribute("member", memberDto);
+
         return "member/myInfo";
     }
 
@@ -70,10 +68,6 @@ public class MemberController {
 
     @PostMapping("/member/new")
     public String create(@Valid JoinForm joinForm, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "member/createJoinForm";
-        }
 
         memberService.join(joinForm);
 

@@ -19,6 +19,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
         String loginId = authentication.getName();
         String password = (String) authentication.getCredentials();
 
@@ -29,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("BadCredentialsException: 아이디나 비밀번호가 일치하지 않습니다.");
         }
 
-        return new UsernamePasswordAuthenticationToken(accountContext.getMember(), null, accountContext.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(accountContext, null, accountContext.getAuthorities());
     }
 
     @Override
