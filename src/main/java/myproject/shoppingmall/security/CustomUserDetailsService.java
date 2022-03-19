@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.repository.MemberRepository;
 import myproject.shoppingmall.service.MemberService;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,14 +25,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, BadCredentialsException {
         System.out.println("username = " + username);
 
-        Member findMember = memberRepository.findByLoginId(username).get();
-
-        if (findMember == null) {
-            throw new UsernameNotFoundException("입력한 ID는 없는 ID입니다.");
+        if (memberRepository.findByLoginId(username).isEmpty()) {
+            throw new BadCredentialsException("BadCredentialsException: 아이디나 비밀번호가 일치하지 않습니다.");
         }
+
+        Member findMember = memberRepository.findByLoginId(username).get();
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(findMember.getRole()));

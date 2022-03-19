@@ -27,9 +27,9 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/carts")
-    public String showCart(@Login Member member, Model model, @PageableDefault(size = 20) Pageable pageable) {
+    public String showCart(Model model, @PageableDefault(size = 20) Pageable pageable) throws Exception {
 
-        Page<CartItemDto> results = cartService.findAllCartItem(member.getId(), pageable);
+        Page<CartItemDto> results = cartService.findAllCartItem(pageable);
 
         model.addAttribute("cartItems", results.getContent());
         model.addAttribute("totalPage", results.getTotalPages());
@@ -39,25 +39,25 @@ public class CartController {
     }
 
     @PostMapping("/carts")
-    public String addCartItem(@Login Member member, AddCartItemForm addCartItemForm) throws Exception {
+    public String addCartItem(AddCartItemForm addCartItemForm) throws Exception {
 
-        cartService.addCartItem(member.getId(), addCartItemForm);
+        cartService.addCartItem(addCartItemForm);
 
         return "redirect:/carts";
     }
 
     @PostMapping("/carts/modify")
-    public String modifyOrderQuantity(@Login Member member, ModifyOrderQuantityForm modifyOrderQuantityForm) {
+    public String modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) throws Exception {
 
-        cartService.modifyOrderQuantity(member.getId(), modifyOrderQuantityForm);
+        cartService.modifyOrderQuantity(modifyOrderQuantityForm);
 
         return "redirect:/carts";
     }
 
     @PostMapping("/carts/remove")
-    public String removeCartItem(@Login Member member, @RequestParam("itemId") Long itemId) {
+    public String removeCartItem(@RequestParam("itemId") Long itemId) throws Exception {
 
-        cartService.removeCartItem(member.getId(), itemId);
+        cartService.removeCartItem(itemId);
 
         return "redirect:/carts";
     }

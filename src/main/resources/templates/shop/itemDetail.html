@@ -29,7 +29,7 @@
                 </div>
 
                 <div th:unless="${item.stockQuantity &lt; 1}">
-                    <form>
+                    <form th:action="@{/carts}" method="post">
                         <div class="form-group">
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
@@ -38,8 +38,7 @@
                                    th:max="${item.stockQuantity}"
                                    th:name="orderQuantity">
                             <div class="cart-btn-container">
-                                <button type="submit" th:formaction="${'/carts'}" formmethod="post"
-                                        class="btn btn-light btn-order">
+                                <button type="submit" class="btn btn-light btn-order">
                                     장바구니
                                 </button>
                             </div>

@@ -7,6 +7,7 @@ import myproject.shoppingmall.domain.order.Delivery;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
 import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItem;
@@ -33,9 +34,10 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public Long createOrder(Long memberId, RequestOrderItems requestOrderItems) throws Exception {
+    public Long createOrder(RequestOrderItems requestOrderItems) throws Exception {
 
-        Member member = memberService.findById(memberId);
+        MemberDto memberDto = memberService.getLoginMember();
+        Member member = memberService.findById(memberDto.getId());
 
         Delivery delivery = Delivery.builder().address(member.getAddress()).build();
 
@@ -54,7 +56,7 @@ public class OrderService {
                 .build();
 
         for (int i = 0; i < requestOrderItemList.size(); i++) {
-            cartService.removeCartItem(memberId,requestOrderItemList.get(i).getItemId());
+            cartService.removeCartItem(requestOrderItemList.get(i).getItemId());
         }
 
         return orderRepository.save(order).getId();
@@ -63,9 +65,10 @@ public class OrderService {
 
 
     @Transactional
-    public Long createDirectOrder(Long memberId, DirectOrderItem directOrderItem) throws Exception {
+    public Long createDirectOrder(DirectOrderItem directOrderItem) throws Exception {
 
-        Member member = memberService.findById(memberId);
+        MemberDto memberDto = memberService.getLoginMember();
+        Member member = memberService.findById(memberDto.getId());
 
         Delivery delivery = Delivery.builder().address(member.getAddress()).build();
 
@@ -88,9 +91,11 @@ public class OrderService {
 
     }
 
-    public Page<OrderDto> getMyOrderList(Long memberId, OrderSearch orderSearch, Pageable pageable) {
+    public Page<OrderDto> getMyOrderList(OrderSearch orderSearch, Pageable pageable) throws Exception {
 
-        Page<Order> myOrderList = orderRepository.getMyOrderList(memberId, orderSearch, pageable);
+        MemberDto memberDto = memberService.getLoginMember();
+
+        Page<Order> myOrderList = orderRepository.getMyOrderList(memberDto.getId(), orderSearch, pageable);
 
 
         return myOrderList.map(OrderDto::new);
@@ -104,6 +109,8 @@ public class OrderService {
 
         order.cancelOrder();
     }
+
+    public Or
 }
 
 

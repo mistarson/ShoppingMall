@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<div id="categoryMenu">
+    <i class="category_icon fas fa-bars" style="font-size: 30px; color: black;"></i>
+    <div class="category_text">카테고리</div>
+</div>
+<div>
+    <div class="categories">
+        <!--  LEVEL 1  -->
+        <div class="level1">
+            <div th:each="category, idx : ${rootCategory.subCategories}" th:class="'level1_' + ${idx.index}">
+                <i th:if="${category.categoryName} eq '의류'" class="fas fa-tshirt"></i>
+                <span th:text="${category.categoryName}"></span>
+            </div>
+        </div>
+
+        <!--  LEVEL 2  -->
+        <div class="level2">
+            <!-- 패션  -->
+            <div th:each="category, idx : ${rootCategory.subCategories.get(0).subCategories}"
+                 th:class="'category level2_0 level2_0_' + ${idx.index}">
+                <span th:text="${category.categoryName}"></span>
+            </div>
+        </div>
+
+        <!--  LEVEL 3  -->
+        <div class="level3">
+            <!--  패션 차하위  -->
+            <div class="">
+                <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(0).subCategories}"
+                     th:class="'category level3_category level3_0_0 level3_0_0_' + ${idx.index}">
+                    <a class="level3_category_a"
+                       th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
+                        <span th:text="${category.categoryName}"></span>
+                    </a>
+                </div>
+                <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(1).subCategories}"
+                     th:class="'category level3_category level3_0_1 level3_0_1_' + ${idx.index}">
+                    <a class="level3_category_a"
+                       th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
+                        <span th:text="${category.categoryName}"></span>
+                    </a>
+                </div>
+                <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(2).subCategories}"
+                     th:class="'category level3_category level3_0_2 level3_0_2_' + ${idx.index}">
+                    <a class="level3_category_a"
+                       th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
+                        <span th:text="${category.categoryName}"></span>
+                    </a></div>
+                <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(3).subCategories}"
+                     th:class="'category level3_category level3_0_3 level3_0_3_' + ${idx.index}">
+                    <a class="level3_category_a"
+                       th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
+                        <span th:text="${category.categoryName}"></span>
+                    </a></div>
+                <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(4).subCategories}"
+                     th:class="'category level3_category level3_0_4 level3_0_4_' + ${idx.index}">
+                    <a class="level3_category_a"
+                       th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
+                        <span th:text="${category.categoryName}"></span>
+                    </a></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

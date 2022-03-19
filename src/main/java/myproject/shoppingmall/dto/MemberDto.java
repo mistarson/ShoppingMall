@@ -10,6 +10,8 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 public class MemberDto {
 
+    private Long id;
+
     @NotEmpty(message = "아이디를 입력해주세요.")
     private String loginId;
 
@@ -28,6 +30,7 @@ public class MemberDto {
 
     //
     public MemberDto(Member member) {
+        this.id = member.getId();
         this.loginId = member.getLoginId();
         this.password = member.getPassword();
         this.name = member.getName();

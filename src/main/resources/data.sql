@@ -40,8 +40,8 @@ insert into categories(category_name, parent_id) values ('가방', 6);
 insert into categories(category_name, parent_id) values ('모자', 6);
 
 -- 멤버 --
-insert into member(login_id, password, name, email, city, street, zipcode)
-values ('qwe', '123', '손창현', 'yeowuli2@naver.com', '수원시', '서둔로', '110-110');
+-- insert into member(login_id, password, name, email, city, street, zipcode)
+-- values ('qwe', '123', '손창현', 'yeowuli2@naver.com', '수원시', '서둔로', '110-110');
 
 -- 아이템 1--
 insert into item(name, price, stock_quantity, category_id)

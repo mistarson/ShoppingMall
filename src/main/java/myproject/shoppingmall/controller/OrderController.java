@@ -24,17 +24,17 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/orders")
-    public String createOrder(@Login Member member, @ModelAttribute RequestOrderItems requestOrderItems) throws Exception {
+    public String createOrder(@ModelAttribute RequestOrderItems requestOrderItems) throws Exception {
 
-        orderService.createOrder(member.getId(), requestOrderItems);
+        orderService.createOrder(requestOrderItems);
 
         return "redirect:/orders";
     }
 
     @PostMapping("/orders/direct")
-    public String createDirectOrder(@Login Member member, @ModelAttribute DirectOrderItem directOrderItem) throws Exception {
+    public String createDirectOrder(@ModelAttribute DirectOrderItem directOrderItem) throws Exception {
 
-        orderService.createDirectOrder(member.getId(), directOrderItem);
+        orderService.createDirectOrder(directOrderItem);
 
         return "redirect:/orders";
     }
@@ -47,13 +47,18 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public String getMyOrderList(@Login Member member, @ModelAttribute OrderSearch orderSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
+    public String getMyOrderList(@ModelAttribute OrderSearch orderSearch, @PageableDefault(size = 10) Pageable pageable, Model model) throws Exception {
 
-        Page<OrderDto> myOrderList = orderService.getMyOrderList(member.getId(), orderSearch, pageable);
+        Page<OrderDto> myOrderList = orderService.getMyOrderList(orderSearch, pageable);
 
         model.addAttribute("orders", myOrderList.getContent());
         model.addAttribute("totalPage", myOrderList.getTotalPages());
 
         return "order/myOrderList";
+    }
+
+    @GetMapping("/orders/{orderId}")
+    public String getOrderDetail(@PathVariable("orderId") Long orderId, Model model) {
+        orderService.
     }
 }

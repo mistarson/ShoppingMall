@@ -5,7 +5,11 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.form.LoginForm;
 import myproject.shoppingmall.service.LoginService;
 import myproject.shoppingmall.session.SessionConst;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,8 +28,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(@RequestParam(value = "error", required = false) String error, Model model) {
+
+        model.addAttribute("error", error);
+
         return "login/loginForm";
+
     }
 
 //    @PostMapping("/login")
@@ -57,15 +65,17 @@ public class LoginController {
 //        return "redirect:" + redirectURL;
 //    }
 
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse, authentication);
         }
 
         return "redirect:/";
+
     }
 
 //    private void expireCookie(HttpServletResponse response, String cookieName) {

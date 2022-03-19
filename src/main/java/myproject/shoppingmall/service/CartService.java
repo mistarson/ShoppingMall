@@ -5,6 +5,7 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.cart.Cart;
 import myproject.shoppingmall.domain.cart.CartItem;
 import myproject.shoppingmall.dto.CartItemDto;
+import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.form.AddCartItemForm;
 import myproject.shoppingmall.form.ModifyOrderQuantityForm;
 import myproject.shoppingmall.repository.CartItemRepository;
@@ -26,12 +27,14 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
 
     @Transactional
-    public void addCartItem(Long memberId, AddCartItemForm addCartItemForm) throws Exception {
+    public void addCartItem(AddCartItemForm addCartItemForm) throws Exception {
 
-        Cart findCart = cartRepository.findByMemberId(memberId);
+        MemberDto memberDto = memberService.getLoginMember();
+
+        Cart findCart = cartRepository.findByMemberId(memberDto.getId());
 
         if (findCart == null) {
-            Member member = memberService.findById(memberId);
+            Member member = memberService.findById(memberDto.getId());
             findCart = Cart.builder().member(member).build();
             cartRepository.save(findCart);
         }
@@ -41,25 +44,32 @@ public class CartService {
     }
 
     @Transactional
-    public void modifyOrderQuantity(Long memberId, ModifyOrderQuantityForm modifyOrderQuantityForm) {
+    public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) throws Exception {
 
-        Cart findCart = cartRepository.findByMemberId(memberId);
+        MemberDto memberDto = memberService.getLoginMember();
+
+        Cart findCart = cartRepository.findByMemberId(memberDto.getId());
 
         findCart.modifyOrderQuantity(modifyOrderQuantityForm);
 
     }
 
     @Transactional
-    public void removeCartItem(Long memberId, Long itemId) {
+    public void removeCartItem(Long itemId) throws Exception {
 
-        Cart findCart = cartRepository.findByMemberId(memberId);
+        MemberDto memberDto = memberService.getLoginMember();
+
+        Cart findCart = cartRepository.findByMemberId(memberDto.getId());
 
         findCart.removeCartItem(itemId);
 
     }
 
-    public Page<CartItemDto> findAllCartItem(Long memberId, Pageable pageable) {
-        return cartItemRepository.findAllCartItem(memberId, pageable);
+    public Page<CartItemDto> findAllCartItem(Pageable pageable) throws Exception {
+
+        MemberDto memberDto = memberService.getLoginMember();
+
+        return cartItemRepository.findAllCartItem(memberDto.getId(), pageable);
     }
 
 

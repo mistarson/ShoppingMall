@@ -1,9 +1,11 @@
 package myproject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.Address;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.form.UpdateMemberForm;
 import myproject.shoppingmall.repository.MemberRepository;
 import myproject.shoppingmall.security.AccountContext;
 import org.springframework.security.core.Authentication;
@@ -69,11 +71,15 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Long id, MemberDto memberDto) throws Exception {
+    public void updateMember(UpdateMemberForm updateMemberForm) throws Exception {
 
-        Member findMember = findById(id);
+        MemberDto loginMemberDto = getLoginMember();
 
-        findMember.updateMember(memberDto.memberDtoToEntity());
+        Member findMember = findById(loginMemberDto.getId());
+
+        Address newAddress = new Address(updateMemberForm.getCity(), updateMemberForm.getStreet(), updateMemberForm.getZipcode());
+
+        findMember.updateMember(updateMemberForm.getName(), newAddress);
     }
 
     //인증 회원 가져오기

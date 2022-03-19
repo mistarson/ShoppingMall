@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<!-- Navigation-->
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<section class="page-section black">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase myh2">상세 주문 페이지</h2>
+        </div>
+
+        <table class="font-gray width-100">
+            <thead>
+            <tr>
+                <th>주문번호</th>
+                <th>주문일자</th>
+                <th>주문상품정보</th>
+                <th>결제금액</th>
+                <th>주문상태</th>
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+</section>

@@ -1,23 +1,15 @@
 package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
-import myproject.shoppingmall.argumentresolver.Login;
-import myproject.shoppingmall.domain.Member;
-import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.dto.MemberDto;
-import myproject.shoppingmall.security.AccountContext;
+import myproject.shoppingmall.form.JoinForm;
+import myproject.shoppingmall.form.UpdateMemberForm;
 import myproject.shoppingmall.service.MemberService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -38,22 +30,11 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public String updateMember(@Login Member loginMember,
-                               @ModelAttribute MemberDto memberDto,
-                               HttpServletRequest request,
-                               BindingResult bindingResult) throws Exception {
+    public String updateMember(UpdateMemberForm updateMemberForm) throws Exception {
 
-        if (bindingResult.hasErrors()) {
-            return "member/myInfo";
-        }
+        System.out.println(updateMemberForm);
 
-        memberService.updateMember(loginMember.getId(), memberDto);
-
-        HttpSession session = request.getSession(false);
-
-        if (session != null) {
-            session.invalidate();
-        }
+        memberService.updateMember(updateMemberForm);
 
         return "redirect:/";
     }
@@ -67,7 +48,7 @@ public class MemberController {
     }
 
     @PostMapping("/member/new")
-    public String create(@Valid JoinForm joinForm, BindingResult bindingResult) {
+    public String create(@Valid JoinForm joinForm) {
 
         memberService.join(joinForm);
 

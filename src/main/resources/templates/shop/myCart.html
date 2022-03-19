@@ -42,7 +42,7 @@
                         <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
                     </td>
                     <td class="orderCountTd">
-                        <form method="POST">
+                        <form method="post">
                             <!-- itemId를 가져오기 위한 필드 -->
                             <input class="itemId" type="text" style="display: none;" th:value="${cartItem.getItemId()}"
                                    th:name="itemId">
@@ -51,7 +51,7 @@
                                    th:max="${cartItem.quantity}"
                                    th:name="orderQuantity">
                             <button id="orderCountModifyBtn" class="btn btn-light"
-                                    type="submit" onclick="javascript:form.action='/carts/modify'">
+                                    type="submit" th:onclick="|javascript:form.action='@{/carts/modify}'|">
                                 변경
                             </button>
                             <button id="removeCartItemBtn" type="submit"

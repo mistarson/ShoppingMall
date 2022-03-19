@@ -61,11 +61,9 @@ public class Member extends BaseEntity{
         this.role = "ROLE_USER";
     }
 
-    public void updateMember(Member member) {
+    public void updateMember(String name, Address address) {
 
-        this.loginId = member.getLoginId();
-        this.password = member.getPassword();
-        this.name = member.getName();
-        this.address = member.address;
+        this.name = name;
+        this.address = address;
     }
 }
