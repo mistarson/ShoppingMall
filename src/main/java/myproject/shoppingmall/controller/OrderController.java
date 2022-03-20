@@ -59,6 +59,6 @@ public class OrderController {
 
     @GetMapping("/orders/{orderId}")
     public String getOrderDetail(@PathVariable("orderId") Long orderId, Model model) {
-        orderService.
+        orderService.getOrderDetail(orderId)
     }
 }

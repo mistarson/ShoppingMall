@@ -110,7 +110,9 @@ public class OrderService {
         order.cancelOrder();
     }
 
-    public Or
+    public void getOrderDetail(Long orderId) {
+    }
+
 }
 
 
