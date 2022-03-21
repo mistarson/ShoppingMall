@@ -8,6 +8,7 @@ import myproject.shoppingmall.domain.order.Delivery;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
 import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.dto.OrderDetailDto;
 import myproject.shoppingmall.dto.OrderDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -211,6 +212,116 @@ class OrderRepositoryTest {
         System.out.println("totalPages = " + totalPages);
         // then
         
+    }
+
+    @Test
+    void 주문상세페이지() {
+        //given
+        Member member1 = Member.builder()
+                .loginId("qwe")
+                .password("123")
+                .name("qwe")
+                .email("wee@ew.com")
+                .address(new Address("city", "street", "zipcode"))
+                .build();
+
+        Member member2 = Member.builder()
+                .loginId("asd")
+                .password("123")
+                .name("asd")
+                .email("asd@ew.com")
+                .address(new Address("city", "street", "zipcode"))
+                .build();
+
+        em.persist(member1);
+        em.persist(member2);
+
+
+        Item item1 = new Item("운동화", 23000, 10, 22L);
+        Item item2 = new Item("축구화", 43000, 30, 22L);
+        Item item3 = new Item("농구화", 53000, 30, 22L);
+        Item item4 = new Item("테니스화", 63000, 30, 22L);
+
+        Image image1 = Image.builder().imagePath("231").build();
+        Image image2 = Image.builder().imagePath("231").build();
+        Image image3 = Image.builder().imagePath("231").build();
+        Image image4 = Image.builder().imagePath("231").build();
+        Image image5 = Image.builder().imagePath("231").build();
+        Image image6 = Image.builder().imagePath("231").build();
+        Image image7 = Image.builder().imagePath("231").build();
+        Image image8 = Image.builder().imagePath("231").build();
+
+        item1.addImage(image1);
+        item1.addImage(image2);
+        item2.addImage(image3);
+        item2.addImage(image4);
+        item3.addImage(image5);
+        item3.addImage(image6);
+        item4.addImage(image7);
+        item4.addImage(image8);
+
+        em.persist(item1);
+        em.persist(item2);
+        em.persist(item3);
+        em.persist(item4);
+
+        OrderItem orderItem1 = OrderItem.builder()
+                .item(item1)
+                .orderQuantity(3)
+                .build();
+
+        OrderItem orderItem2 = OrderItem.builder()
+                .item(item2)
+                .orderQuantity(3)
+                .build();
+        OrderItem orderItem3 = OrderItem.builder()
+                .item(item3)
+                .orderQuantity(3)
+                .build();
+
+        OrderItem orderItem4 = OrderItem.builder()
+                .item(item4)
+                .orderQuantity(3)
+                .build();
+
+        List<OrderItem> orderItems1 = new ArrayList<>();
+        orderItems1.add(orderItem1);
+        orderItems1.add(orderItem2);
+
+        List<OrderItem> orderItems2 = new ArrayList<>();
+        orderItems2.add(orderItem3);
+        orderItems2.add(orderItem4);
+
+        em.persist(orderItem1);
+        em.persist(orderItem2);
+        em.persist(orderItem3);
+        em.persist(orderItem4);
+
+        Order order1 = Order.builder()
+                .delivery(Delivery.builder().address(member1.getAddress()).build())
+                .member(member1)
+                .orderItems(orderItems1)
+                .build();
+
+        Order order2 = Order.builder()
+                .delivery(Delivery.builder().address(member1.getAddress()).build())
+                .member(member1)
+                .orderItems(orderItems2)
+                .build();
+
+        em.persist(order1);
+        em.persist(order2);
+        em.flush();
+        em.clear();
+
+        //when
+        Order orderDetail = orderRepository.getOrderDetail(member1.getId(), order1.getId());
+
+        //then
+        System.out.println(orderDetail.getOrderItemList().get(0).getItem().getName());
+        System.out.println(orderDetail.getOrderItemList().get(0).getItem().getPrice());
+        System.out.println(orderDetail.getOrderItemList().get(0).getItem().getImageList().get(0));
+
     }
 
 }

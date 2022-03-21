@@ -8,6 +8,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.order.*;
+import myproject.shoppingmall.dto.OrderDetailDto;
+import myproject.shoppingmall.dto.QOrderDetailDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -67,6 +69,34 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     }
 
+    @Override
+    public Order getOrderDetail(Long memberId, Long orderId) {
+
+//        List<Item> fetch = queryFactory
+//                .selectFrom(item)
+//                .join(item.imageList, image).fetchJoin()
+//                .where(item.id.in(JPAExpressions.select(orderItem.item.id)
+//                        .from(orderItem)
+//                        .join(orderItem.order, order)
+//                        .where(orderIdEq(orderId))
+//                )).fetch();
+
+//        List<OrderItem> fetch = queryFactory
+//                .selectFrom(orderItem)
+//                .join(orderItem.item, item).fetchJoin()
+//                .join(orderItem.item.imageList, image).fetchJoin()
+//                .where(orderItem.order.id.eq(orderId))
+//                .fetch();
+
+        return queryFactory
+                .select(order)
+                .from(order)
+                .join(order.member, member).fetchJoin()
+                .join(order.delivery, delivery).fetchJoin()
+                .where(memberIdEq(memberId).and(orderIdEq(orderId)))
+                .fetchOne();
+    }
+
     private OrderSpecifier sorter(OrderSorter sorter) {
         if (sorter == OrderSorter.BYRECENTDATE) {
             return order.createDate.desc();
@@ -80,6 +110,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return nullSafeBuilder(() -> order.member.id.eq(memberId));
     }
 
+    private BooleanBuilder orderIdEq(Long orderId) { return nullSafeBuilder(() -> order.id.eq(orderId)); }
 
     private BooleanBuilder orderStatusEq(OrderStatus orderStatus) {
         return nullSafeBuilder(() -> order.status.eq(orderStatus));

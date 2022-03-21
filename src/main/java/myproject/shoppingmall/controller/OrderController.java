@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{orderId}")
-    public String getOrderDetail(@PathVariable("orderId") Long orderId, Model model) {
-        orderService.getOrderDetail(orderId)
+    public void getOrderDetail(@PathVariable("orderId") Long orderId, Model model) throws Exception {
+//        return orderService.getOrderDetail(orderId);
     }
 }

@@ -8,6 +8,7 @@ import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderItem;
 import myproject.shoppingmall.domain.order.OrderSearch;
 import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.dto.OrderDetailDto;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItem;
@@ -110,7 +111,10 @@ public class OrderService {
         order.cancelOrder();
     }
 
-    public void getOrderDetail(Long orderId) {
+    public void getOrderDetail(Long orderId) throws Exception{
+        MemberDto loginMember = memberService.getLoginMember();
+
+//        List<OrderDetailDto>
     }
 
 }
