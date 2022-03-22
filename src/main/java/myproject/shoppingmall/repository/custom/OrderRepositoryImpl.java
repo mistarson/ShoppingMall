@@ -7,9 +7,10 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.item.Item;
-import myproject.shoppingmall.domain.order.*;
-import myproject.shoppingmall.dto.OrderDetailDto;
-import myproject.shoppingmall.dto.QOrderDetailDto;
+import myproject.shoppingmall.domain.order.Order;
+import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.domain.order.OrderSorter;
+import myproject.shoppingmall.domain.order.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -19,11 +20,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static myproject.shoppingmall.domain.QMember.member;
-import static myproject.shoppingmall.domain.item.QImage.*;
-import static myproject.shoppingmall.domain.item.QItem.*;
-import static myproject.shoppingmall.domain.order.QDelivery.*;
-import static myproject.shoppingmall.domain.order.QOrder.*;
-import static myproject.shoppingmall.domain.order.QOrderItem.*;
+import static myproject.shoppingmall.domain.item.QImage.image;
+import static myproject.shoppingmall.domain.item.QItem.item;
+import static myproject.shoppingmall.domain.order.QDelivery.delivery;
+import static myproject.shoppingmall.domain.order.QOrder.order;
+import static myproject.shoppingmall.domain.order.QOrderItem.orderItem;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
@@ -72,21 +73,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @Override
     public Order getOrderDetail(Long memberId, Long orderId) {
 
-//        List<Item> fetch = queryFactory
-//                .selectFrom(item)
-//                .join(item.imageList, image).fetchJoin()
-//                .where(item.id.in(JPAExpressions.select(orderItem.item.id)
-//                        .from(orderItem)
-//                        .join(orderItem.order, order)
-//                        .where(orderIdEq(orderId))
-//                )).fetch();
-
-//        List<OrderItem> fetch = queryFactory
-//                .selectFrom(orderItem)
-//                .join(orderItem.item, item).fetchJoin()
-//                .join(orderItem.item.imageList, image).fetchJoin()
-//                .where(orderItem.order.id.eq(orderId))
-//                .fetch();
+        List<Item> fetch = queryFactory
+                .selectFrom(item)
+                .join(item.imageList, image).fetchJoin()
+                .where(item.id.in(JPAExpressions.select(orderItem.item.id)
+                        .from(orderItem)
+                        .join(orderItem.order, order)
+                        .where(orderIdEq(orderId))
+                )).fetch();
 
         return queryFactory
                 .select(order)

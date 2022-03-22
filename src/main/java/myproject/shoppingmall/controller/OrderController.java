@@ -6,6 +6,7 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.domain.order.Order;
 import myproject.shoppingmall.domain.order.OrderSearch;
+import myproject.shoppingmall.dto.OrderDetailDto;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItems;
@@ -58,7 +59,12 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{orderId}")
-    public void getOrderDetail(@PathVariable("orderId") Long orderId, Model model) throws Exception {
-//        return orderService.getOrderDetail(orderId);
+    public String getOrderDetail(@PathVariable("orderId") Long orderId, Model model) throws Exception {
+        OrderDetailDto orderDetail = orderService.getOrderDetail(orderId);
+
+        model.addAttribute("orderDetail", orderDetail);
+
+        return "order/orderDetail";
+
     }
 }

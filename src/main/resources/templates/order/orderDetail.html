@@ -12,18 +12,60 @@
         <div class="text-center">
             <h2 class="section-heading text-uppercase myh2">상세 주문 페이지</h2>
         </div>
-
-        <table class="font-gray width-100">
-            <thead>
+        <div class="orderInfo">
+            <h3 class="orderItem-h3">주문 정보</h3>
+            <div>
+                <span class="text-color">주문일: <strong
+                        th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd HH:mm')}"></strong></span>
+            </div>
+            <div>
+                <span class="text-color">주문번호: <strong th:text="${orderDetail.orderId}"></strong></span>
+            </div>
+            <div>
+                <span class="text-color">주문 상태: <strong th:text="${orderDetail.orderStatus}"></strong></span>
+            </div>
+        </div>
+        <div>
+            <h3 class="orderItem-h3">주문 상품</h3>
+        </div>
+        <table class="font-gray width-100 table">
+            <thead class="thead-color">
             <tr>
-                <th>주문번호</th>
-                <th>주문일자</th>
-                <th>주문상품정보</th>
-                <th>결제금액</th>
-                <th>주문상태</th>
+                <th>상품이미지</th>
+                <th>상품명</th>
+                <th>상품금액</th>
+                <th>수량</th>
+                <th>상품합계금액</th>
             </tr>
             </thead>
+            <tbody class="tbody-color">
+            <tr class="tr-color" th:each="orderItem : ${orderDetail.orderItemList}">
+                <td>
+                    <a th:href="@{/items/{itemId}(itemId=${orderItem.itemId})}">
+                        <div class="orderItem-mainImage-box">
+                            <img class="orderItemImage"
+                                 th:src="@{http://localhost:8080/{imagePath}(imagePath=${orderItem.itemMainImage})}">
+                        </div>
+                    </a>
+                </td>
+                <td th:text="${orderItem.itemName}"></td>
+                <td th:text="${orderItem.itemPrice}"></td>
+                <td th:text="${orderItem.orderQuantity}"></td>
+                <td th:text="${orderItem.totalPrice}"></td>
+            </tr>
+            </tbody>
         </table>
-
     </div>
 </section>
+<div th:replace="fragments/footer :: footer"/>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="http://localhost:8080/js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

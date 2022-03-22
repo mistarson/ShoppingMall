@@ -12716,3 +12716,24 @@ margin-bottom: 50px;
 .cancel-order-form {
     display: inline-block;
 }
+
+.orderItemImage {
+    width: 70px;
+    height: 65px;
+}
+
+.orderItem-h3 {
+    color: white;
+}
+
+.orderInfo-color {
+    color: white;
+}
+
+.orderInfo {
+    margin-bottom: 40px;
+}
+
+.text-color {
+    color: #ced4da;
+}

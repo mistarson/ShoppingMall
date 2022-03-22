@@ -111,10 +111,12 @@ public class OrderService {
         order.cancelOrder();
     }
 
-    public void getOrderDetail(Long orderId) throws Exception{
+    public OrderDetailDto getOrderDetail(Long orderId) throws Exception{
         MemberDto loginMember = memberService.getLoginMember();
 
-//        List<OrderDetailDto>
+        Order order = orderRepository.getOrderDetail(loginMember.getId(), orderId);
+
+        return new OrderDetailDto(order);
     }
 
 }
