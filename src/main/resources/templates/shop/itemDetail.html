@@ -12,7 +12,7 @@
         <div class="item-detail-container">
             <div class="item-image-box">
                 <div th:each="imagePath : ${item.imageList}">
-                    <img class="item-image" th:src="@{http://localhost:8080/{imagePath}(imagePath=${imagePath})}"
+                    <img class="item-image" th:src="@{/{imagePath}(imagePath=${imagePath})}"
                          alt="">
                 </div>
             </div>
