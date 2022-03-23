@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="header" th:fragment="bodyHeader">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img th:src="@{/assets/img/logo.png}" alt="..." /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars ms-1"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/items">쇼핑</a></li>
+          <li class="nav-item"><a class="nav-link" href="/carts">장바구니</a></li>
+          <li class="nav-item"><a class="nav-link" href="/orders">내 주문</a></li>
+          <li class="nav-item"><a class="nav-link" href="/member/">내정보</a></li>
+          <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/login}">로그인</a></li>
+          <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/logout}">로그아웃</a></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
