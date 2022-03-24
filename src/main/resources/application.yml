@@ -19,11 +19,11 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
         naming:
           physical-strategy: org.hibernate.boot.model.naming.MySQL5InnoDBDialect
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
+#    defer-datasource-initialization: true
+#
+#  sql:
+#    init:
+#      mode: always
 
 logging:
   level:
