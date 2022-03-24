@@ -44,7 +44,7 @@
                     <a th:href="@{/items/{itemId}(itemId=${orderItem.itemId})}">
                         <div class="orderItem-mainImage-box">
                             <img class="orderItemImage"
-                                 th:src="@{http://localhost:8080/{imagePath}(imagePath=${orderItem.itemMainImage})}">
+                                 th:src="@{/{imagePath}(imagePath=${orderItem.itemMainImage})}">
                         </div>
                     </a>
                 </td>

@@ -34,7 +34,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
         QueryResults<ItemSearchDto> results;
 
-        // TODO 이름검색 안했을 때, 메소드 수정해야함  
+        // TODO 이름검색 안했을 때, 메소드 수정해야함
         if (itemSearch.getName() == "") {
             results = queryFactory
                     .select(new QItemSearchDto(item))
@@ -44,7 +44,6 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .fetchResults();
-
 
         } else {
             results = queryFactory

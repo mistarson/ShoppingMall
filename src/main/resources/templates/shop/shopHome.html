@@ -39,7 +39,7 @@
                     <div class="item-box" th:each="item : ${items}">
                         <a th:href="@{/items/{itemId}(itemId=${item.getId()})}">
                             <div>
-                                <img class="item-main-image" th:src="@{${item.getImageList().get(0)}}" alt="">
+                                <img class="item-main-image" th:src="@{{imagePath}(imagePath=${item.getImageList().get(0)})}" alt="">
                             </div>
                             <div class="item-text-info">
                                 <span th:text="${item.name}"></span>

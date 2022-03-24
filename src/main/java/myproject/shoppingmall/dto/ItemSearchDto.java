@@ -18,7 +18,6 @@ public class ItemSearchDto {
     private int stockQuantity;
     private Long categoryId;
 
-
     @QueryProjection
     public ItemSearchDto(Item item) {
         this.id = item.getId();
@@ -27,6 +26,7 @@ public class ItemSearchDto {
         this.stockQuantity = item.getStockQuantity();
         this.categoryId = item.getCategoryId();
         for (Image image : item.getImageList()) {
+            System.out.println(image.getImagePath());
             imageList.add(image.getImagePath());
         }
     }

@@ -4,10 +4,12 @@
 //import myproject.shoppingmall.domain.Member;
 //import myproject.shoppingmall.domain.item.Image;
 //import myproject.shoppingmall.domain.item.Item;
+//import myproject.shoppingmall.domain.item.ItemSearch;
 //import myproject.shoppingmall.domain.order.Delivery;
 //import myproject.shoppingmall.domain.order.Order;
 //import myproject.shoppingmall.domain.order.OrderItem;
 //import myproject.shoppingmall.domain.order.OrderSearch;
+//import myproject.shoppingmall.dto.ItemSearchDto;
 //import myproject.shoppingmall.dto.OrderDetailDto;
 //import myproject.shoppingmall.dto.OrderDto;
 //import org.assertj.core.api.Assertions;
@@ -33,6 +35,9 @@
 //
 //    @Autowired
 //    OrderRepository orderRepository;
+//
+//    @Autowired
+//    ItemRepository itemRepository;
 //
 //    @Autowired
 //    EntityManager em;
@@ -145,72 +150,82 @@
 //        em.persist(item3);
 //        em.persist(item4);
 //
-//        OrderItem orderItem1 = OrderItem.builder()
-//                .item(item1)
-//                .orderQuantity(3)
-//                .build();
-//
-//        OrderItem orderItem2 = OrderItem.builder()
-//                .item(item2)
-//                .orderQuantity(3)
-//                .build();
-//        OrderItem orderItem3 = OrderItem.builder()
-//                .item(item3)
-//                .orderQuantity(3)
-//                .build();
-//
-//        OrderItem orderItem4 = OrderItem.builder()
-//                .item(item4)
-//                .orderQuantity(3)
-//                .build();
-//
-//        List<OrderItem> orderItems1 = new ArrayList<>();
-//        orderItems1.add(orderItem1);
-//        orderItems1.add(orderItem2);
-//
-//        List<OrderItem> orderItems2 = new ArrayList<>();
-//        orderItems2.add(orderItem3);
-//        orderItems2.add(orderItem4);
-//
-//        em.persist(orderItem1);
-//        em.persist(orderItem2);
-//        em.persist(orderItem3);
-//        em.persist(orderItem4);
-//
-//        Order order1 = Order.builder()
-//                .delivery(Delivery.builder().address(member1.getAddress()).build())
-//                .member(member1)
-//                .orderItems(orderItems1)
-//                .build();
-//
-//        Order order2 = Order.builder()
-//                .delivery(Delivery.builder().address(member1.getAddress()).build())
-//                .member(member1)
-//                .orderItems(orderItems2)
-//                .build();
-//
-//        em.persist(order1);
-//        em.persist(order2);
+////        OrderItem orderItem1 = OrderItem.builder()
+////                .item(item1)
+////                .orderQuantity(3)
+////                .build();
+////
+////        OrderItem orderItem2 = OrderItem.builder()
+////                .item(item2)
+////                .orderQuantity(3)
+////                .build();
+////        OrderItem orderItem3 = OrderItem.builder()
+////                .item(item3)
+////                .orderQuantity(3)
+////                .build();
+////
+////        OrderItem orderItem4 = OrderItem.builder()
+////                .item(item4)
+////                .orderQuantity(3)
+////                .build();
+////
+////        List<OrderItem> orderItems1 = new ArrayList<>();
+////        orderItems1.add(orderItem1);
+////        orderItems1.add(orderItem2);
+////
+////        List<OrderItem> orderItems2 = new ArrayList<>();
+////        orderItems2.add(orderItem3);
+////        orderItems2.add(orderItem4);
+////
+////        em.persist(orderItem1);
+////        em.persist(orderItem2);
+////        em.persist(orderItem3);
+////        em.persist(orderItem4);
+////
+////        Order order1 = Order.builder()
+////                .delivery(Delivery.builder().address(member1.getAddress()).build())
+////                .member(member1)
+////                .orderItems(orderItems1)
+////                .build();
+////
+////        Order order2 = Order.builder()
+////                .delivery(Delivery.builder().address(member1.getAddress()).build())
+////                .member(member1)
+////                .orderItems(orderItems2)
+////                .build();
+////
+////        em.persist(order1);
+////        em.persist(order2);
 //        em.flush();
 //        em.clear();
 //
-//        // when
-//        Page<Order> myOrderList = orderRepository.getMyOrderList(member1.getId(), new OrderSearch(), PageRequest.of(0, 10));
+////        // when
+////        Page<Order> myOrderList = orderRepository.getMyOrderList(member1.getId(), new OrderSearch(), PageRequest.of(0, 10));
+////
+////        List<Order> content = myOrderList.getContent();
+////        int totalPages = myOrderList.getTotalPages();
+////
+////        System.out.println("컨텐츠 사이즈: " + content.size());
+////        System.out.println("초기화 시작");
+////
+////        for (Order Order : content) {
+////            System.out.println("orderDto.getOrderId() = " + Order.getId());
+////            System.out.println("orderDto.getMainOrderItemName() = " + Order.getOrderItemList().get(0).getItem().getImageList().get(0));
+////            System.out.println("orderDto.getTotalPrice() = " + Order.getTotalPrice());
+////        }
+////
+////        System.out.println("totalPages = " + totalPages);
+////        // then
 //
-//        List<Order> content = myOrderList.getContent();
-//        int totalPages = myOrderList.getTotalPages();
+//        ItemSearch itemSearch = new ItemSearch();
+//        PageRequest pageable = PageRequest.of(0, 5);
+//        Page<ItemSearchDto> all = itemRepository.findAll(itemSearch, pageable);
+//        List<ItemSearchDto> content = all.getContent();
 //
-//        System.out.println("컨텐츠 사이즈: " + content.size());
-//        System.out.println("초기화 시작");
-//
-//        for (Order Order : content) {
-//            System.out.println("orderDto.getOrderId() = " + Order.getId());
-//            System.out.println("orderDto.getMainOrderItemName() = " + Order.getOrderItemList().get(0).getItem().getImageList().get(0));
-//            System.out.println("orderDto.getTotalPrice() = " + Order.getTotalPrice());
+//        for (ItemSearchDto itemSearchDto : content) {
+//            System.out.println(itemSearchDto.getName());
+//            System.out.println(itemSearchDto.getImageList().get(0));
 //        }
-//
-//        System.out.println("totalPages = " + totalPages);
-//        // then
 //
 //    }
 //
