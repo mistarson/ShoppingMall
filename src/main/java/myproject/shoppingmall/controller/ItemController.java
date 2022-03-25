@@ -49,7 +49,7 @@ public class ItemController {
 
         for (ItemSearchDto dto : results.getContent()) {
             System.out.println(dto.getName());
-            System.out.println(dto.getImageList().get(0));
+            System.out.println(dto.getImageList().size());
         }
 
         return "shop/shopHome";

@@ -26,7 +26,6 @@ public class ItemSearchDto {
         this.stockQuantity = item.getStockQuantity();
         this.categoryId = item.getCategoryId();
         for (Image image : item.getImageList()) {
-            System.out.println(image.getImagePath());
             imageList.add(image.getImagePath());
         }
     }

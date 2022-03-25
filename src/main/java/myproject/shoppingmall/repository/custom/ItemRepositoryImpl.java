@@ -8,6 +8,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.domain.item.ItemSorter;
+import myproject.shoppingmall.domain.item.QImage;
 import myproject.shoppingmall.dto.ItemSearchDto;
 import myproject.shoppingmall.dto.QItemSearchDto;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static myproject.shoppingmall.domain.item.QImage.*;
 import static myproject.shoppingmall.domain.item.QItem.*;
 
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
