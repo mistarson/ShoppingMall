@@ -18,7 +18,6 @@ public class ItemSearchDto {
     private int stockQuantity;
     private Long categoryId;
 
-
     @QueryProjection
     public ItemSearchDto(Item item) {
         this.id = item.getId();

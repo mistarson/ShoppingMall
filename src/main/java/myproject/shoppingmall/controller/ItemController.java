@@ -1,6 +1,7 @@
 package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.dto.ItemSearchDto;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,6 +46,11 @@ public class ItemController {
         Page<ItemSearchDto> results = itemService.findAllForSearch(itemSearch, pageable);
         model.addAttribute("items", results.getContent());
         model.addAttribute("totalPage", results.getTotalPages());
+
+        for (ItemSearchDto dto : results.getContent()) {
+            System.out.println(dto.getName());
+            System.out.println(dto.getImageList().size());
+        }
 
         return "shop/shopHome";
     }

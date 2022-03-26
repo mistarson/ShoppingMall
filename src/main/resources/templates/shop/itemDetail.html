@@ -5,14 +5,14 @@
 </head>
 <body>
 <!-- Navigation-->
-<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
 
 <section class="page-section black">
     <div class="container">
         <div class="item-detail-container">
             <div class="item-image-box">
                 <div th:each="imagePath : ${item.imageList}">
-                    <img class="item-image" th:src="@{http://localhost:8080/{imagePath}(imagePath=${imagePath})}"
+                    <img class="item-image" th:src="@{/{imagePath}(imagePath=${imagePath})}"
                          alt="">
                 </div>
             </div>
@@ -63,7 +63,7 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="http://localhost:8080/js/scripts.js"></script>
+<script th:src="@{js/scripts.js}"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

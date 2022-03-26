@@ -5,7 +5,7 @@
 </head>
 <body>
 <!-- Navigation-->
-<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
 
 <section class="page-section black">
     <div class="container">
@@ -95,7 +95,7 @@
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+<script th:src="@{js/scripts.js}"></script>
 </body>
 </html>
 
