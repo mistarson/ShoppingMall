@@ -34,7 +34,7 @@ public class CartController {
         model.addAttribute("cartItems", results.getContent());
         model.addAttribute("totalPage", results.getTotalPages());
 
-        return "/shop/myCart";
+        return "shop/myCart";
 
     }
 
