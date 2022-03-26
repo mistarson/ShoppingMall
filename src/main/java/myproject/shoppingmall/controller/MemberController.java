@@ -44,6 +44,7 @@ public class MemberController {
     public String createForm(Model model) {
 
         model.addAttribute("joinForm", new JoinForm());
+
         return "member/createJoinForm";
     }
 

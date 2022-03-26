@@ -5,9 +5,9 @@ spring:
       max-file-size: 10MB
 
   datasource:
-    url: jdbc:mysql://localhost:3306/mall_db?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 1234
+    url: jdbc:mysql://database-1.cxlfc35byayt.ap-northeast-2.rds.amazonaws.com:3306/mall_db
+    username: admin
+    password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
