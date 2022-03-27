@@ -6,6 +6,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import myproject.shoppingmall.domain.item.Item;
 import myproject.shoppingmall.domain.item.ItemSearch;
 import myproject.shoppingmall.domain.item.ItemSorter;
 import myproject.shoppingmall.domain.item.QImage;
@@ -38,6 +39,13 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
         // TODO 이름검색 안했을 때, 메소드 수정해야함
         if (itemSearch.getName() == null) {
+
+            List<Item> fetch = queryFactory
+                    .selectFrom(item)
+                    .join(item.imageList, image).fetchJoin()
+                    .where(categoryEq(itemSearch.getCategoryId()))
+                    .fetch();
+
             results = queryFactory
                     .select(new QItemSearchDto(item))
                     .from(item)
@@ -47,7 +55,17 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                     .limit(pageable.getPageSize())
                     .fetchResults();
 
+
+
         } else {
+
+            List<Item> fetch = queryFactory
+                    .selectFrom(item)
+                    .join(item.imageList, image).fetchJoin()
+                    .where(itemNameLike(itemSearch.getName()),
+                            categoryEq(itemSearch.getCategoryId()))
+                    .fetch();
+
             results = queryFactory
                     .select(new QItemSearchDto(item))
                     .from(item)
@@ -57,6 +75,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .fetchResults();
+
+
         }
         List<ItemSearchDto> content = results.getResults();
         long total = results.getTotal();
