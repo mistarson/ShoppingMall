@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/member/new", "/login*", "/logout", "/assets/**", "*.ico", "/error").permitAll()
+                .antMatchers("/", "/member/new", "/login*", "/logout", "/error").permitAll()
                 .anyRequest().authenticated();
         http
                 .formLogin()
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/")
                 .usernameParameter("loginId")
-//                .successHandler(authenticationSuccessHandler())
+                .successHandler(authenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
                 .permitAll();
 
@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().antMatchers("/assets/**", "/js/**", "/css/**", "/webjars/**");
     }
 
 }

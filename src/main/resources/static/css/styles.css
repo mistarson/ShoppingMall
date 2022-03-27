@@ -12737,3 +12737,105 @@ margin-bottom: 50px;
 .text-color {
     color: #ced4da;
 }
+
+td {
+    font-size: 13px;
+}
+
+.itemInformationContainer {
+    display: flex;
+    align-items: center;
+}
+
+.itemInformationContainer:hover {
+    text-decoration: underline;
+}
+
+.representativeImageContainer {
+    width: 60px;
+    height: 60px;
+}
+
+.representativeImage {
+    max-width: 100%;
+    max-height: 100%;
+    margin-right: 20px;
+}
+
+.representativeName {
+    margin-left: 20px;
+    padding-top: 15px;
+    font-size: 16px;
+}
+
+#categoryMenu {
+    margin-top: 10px;
+    width: 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category_icon {
+}
+
+.category_text {
+    font-size: 12px;
+}
+
+.categories {
+    display: flex;
+    position: relative;
+}
+
+.categories {
+    display: none;
+}
+
+.category {
+    display: none;
+    margin: 2px;
+}
+
+.level1_0, .level1_1, .level1_2, .level1_3, .category:hover {
+    cursor: pointer;
+}
+
+.level1 {
+    position: absolute;
+    top: -20px;
+    width: 150px;
+    height: 200px;
+    border: 1px solid #ddd;
+    background-color: white;
+    box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.level2 {
+    position: absolute;
+    top: -20px;
+    left: 150px;
+    display: none;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ddd;
+    background-color: white;
+    box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.level3 {
+    position: absolute;
+    top: -20px;
+    left: 350px;
+    display: none;
+    width: 200px;
+    height: 300px;
+    border: 1px solid #ddd;
+    background-color: white;
+    box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.level3 a {
+    color: #111111;
+    text-decoration: none;
+}

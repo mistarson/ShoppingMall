@@ -5,25 +5,25 @@ spring:
       max-file-size: 10MB
 
   datasource:
-    url: jdbc:mysql://database-1.cxlfc35byayt.ap-northeast-2.rds.amazonaws.com:3306/mall_db
-    username: admin
-    password: 12341234
+    url: jdbc:mysql://localhost:3306/mall_db?characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
+    username: root
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     database: mysql
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL57Dialect
         naming:
           physical-strategy: org.hibernate.boot.model.naming.MySQL5InnoDBDialect
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true
 
-#  sql:
-#    init:
-#      mode: always
+  sql:
+    init:
+      mode: always
 
 logging:
   level:
