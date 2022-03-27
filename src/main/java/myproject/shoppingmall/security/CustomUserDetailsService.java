@@ -26,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, BadCredentialsException {
-        System.out.println("username = " + username);
 
         if (memberRepository.findByLoginId(username).isEmpty()) {
             throw new BadCredentialsException("BadCredentialsException: 아이디나 비밀번호가 일치하지 않습니다.");

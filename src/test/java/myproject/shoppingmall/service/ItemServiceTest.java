@@ -122,6 +122,8 @@ class ItemServiceTest {
 
         ItemSearch itemSearch = new ItemSearch();
 
+        itemSearch.setName("운동");
+
         Page<ItemSearchDto> allForSearch = itemService.findAllForSearch(itemSearch, PageRequest.of(0, 5));
 
         //then

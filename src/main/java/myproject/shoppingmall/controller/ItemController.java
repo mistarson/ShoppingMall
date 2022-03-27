@@ -47,11 +47,6 @@ public class ItemController {
         model.addAttribute("items", results.getContent());
         model.addAttribute("totalPage", results.getTotalPages());
 
-        for (ItemSearchDto dto : results.getContent()) {
-            System.out.println(dto.getName());
-            System.out.println(dto.getImageList().size());
-        }
-
         return "shop/shopHome";
     }
 

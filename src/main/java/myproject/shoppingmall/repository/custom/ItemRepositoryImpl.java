@@ -37,7 +37,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         QueryResults<ItemSearchDto> results;
 
         // TODO 이름검색 안했을 때, 메소드 수정해야함
-        if (itemSearch.getName() == "") {
+        if (itemSearch.getName() == null) {
             results = queryFactory
                     .select(new QItemSearchDto(item))
                     .from(item)
@@ -51,7 +51,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
             results = queryFactory
                     .select(new QItemSearchDto(item))
                     .from(item)
-                    .where(itemNameEq(itemSearch.getName()),
+                    .where(itemNameLike(itemSearch.getName()),
                             categoryEq(itemSearch.getCategoryId()))
                     .orderBy(sorter(itemSearch.getSorter()))
                     .offset(pageable.getOffset())
@@ -81,8 +81,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         return nullSafeBuilder(() -> item.categoryId.eq(categoryId));
     }
 
-    private Predicate itemNameEq(String name) {
-        return nullSafeBuilder(() -> item.name.eq(name));
+    private Predicate itemNameLike(String name) {
+        return nullSafeBuilder(() -> item.name.like("%"+name+"%"));
     }
 
     public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {

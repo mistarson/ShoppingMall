@@ -32,8 +32,6 @@ public class MemberController {
     @PostMapping("/member")
     public String updateMember(UpdateMemberForm updateMemberForm) throws Exception {
 
-        System.out.println(updateMemberForm);
-
         memberService.updateMember(updateMemberForm);
 
         return "redirect:/";
