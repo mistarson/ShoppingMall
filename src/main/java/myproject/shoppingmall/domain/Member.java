@@ -7,6 +7,7 @@ import myproject.shoppingmall.domain.order.Order;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,10 @@ public class Member extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", unique = true, nullable = false)
+    @Size(min = 1, max = 10)
     private Long id;
 
-    @Column(length = 15, nullable = false)
+    @Column(length = 10, nullable = false)
     private String loginId;
 
     @Column(nullable = false)
