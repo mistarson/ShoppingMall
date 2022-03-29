@@ -33,10 +33,17 @@
                         <div class="form-group">
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
-                            <label style="display: block">수량</label>
-                            <input id="orderCountInput" type="number" th:value="1" th:min="1"
-                                   th:max="${item.stockQuantity}"
-                                   th:name="orderQuantity">
+                            <div style="display: block">
+                                <label class="itemQuantity-label">수량</label>
+                                <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
+                                       th:max="${item.stockQuantity}"
+                                       th:name="orderQuantity">
+                            </div>
+                            <div style="display: block">
+                                <label class="itemQuantity-label">재고</label>
+                                <input style="width: 15%" type="number"
+                                       th:value="${item.stockQuantity}" readonly>
+                            </div>
                             <div class="cart-btn-container">
                                 <button type="submit" class="btn btn-light btn-order">
                                     장바구니
@@ -100,7 +107,8 @@
 
 <style>
     @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
-    body{
+
+    body {
         font-family: 'Noto Sans KR', sans-serif;
     }
 
@@ -144,7 +152,7 @@
         height: 200px;
         border: 1px solid #ddd;
         background-color: white;
-        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);
+        box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
     }
 
     .level2 {
@@ -156,7 +164,7 @@
         height: 200px;
         border: 1px solid #ddd;
         background-color: white;
-        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);
+        box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
     }
 
     .level3 {
@@ -168,7 +176,7 @@
         height: 300px;
         border: 1px solid #ddd;
         background-color: white;
-        box-shadow: -1px 4px 5px rgba(0,0,0,0.3);
+        box-shadow: -1px 4px 5px rgba(0, 0, 0, 0.3);
     }
 
     .level3 a {
@@ -179,25 +187,25 @@
 </style>
 
 <script>
-    $(function() {
-        $("#categoryMenu").mouseover(function() {
+    $(function () {
+        $("#categoryMenu").mouseover(function () {
             $(".categories").css("display", "flex");
             $(".categories").css("flex-direction", "row");
             $(".level1").css("display", "inline-block");
         });
 
-        $("#categoryMenu").mouseleave(function() {
+        $("#categoryMenu").mouseleave(function () {
             $(".level1").css("display", "none");
         });
 
         // 카테고리 안보이게
-        $(".categories, .level1Categories").mouseleave(function() {
+        $(".categories, .level1Categories").mouseleave(function () {
             $(".categories, .category, .level1, .level2, .level3").css("display", "none");
             $(".level1_0, .level1_1, .level1_2, .level1_3").css("color", "#111111");
         });
 
         // level 1 ====================
-        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function() {
+        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function () {
             $(".level1").css("display", "block");
             $(".level1_0, .level1_1, .level1_2, .level1_3").css("color", "#111111");
             $(".category").css("color", "#111111");
@@ -207,143 +215,143 @@
         });
 
         // 다음 카테고리를 보이기 위해 다른 카테고리를 모두 숨김
-        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function() {
+        $(".level1_0, .level1_1, .level1_2, .level1_3").mouseover(function () {
             $(".level2_0, .level2_1, .level2_2, .level2_3, .level3_0_0, .level3_0_1, .level3_0_2, .level3_0_3, .level3_0_4, .level3_1_0, .level3_1_1, .level3_1_2, .level3_1_3, .level3_1_4, .level3_2_0, .level3_2_1, .level3_2_2, .level3_2_3, .level3_2_4, .level3_3_0, .level3_3_1, .level3_3_2, .level3_3_3, .level3_3_4, .level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("display", "none");
         });
-        $(".level1_0").mouseover(function() {
+        $(".level1_0").mouseover(function () {
             $(".level2_0").css("display", "flex");
         });
-        $(".level1_1").mouseover(function() {
+        $(".level1_1").mouseover(function () {
             $(".level2_1").css("display", "flex");
         });
-        $(".level1_2").mouseover(function() {
+        $(".level1_2").mouseover(function () {
             $(".level2_2").css("display", "flex");
         });
-        $(".level1_3").mouseover(function() {
+        $(".level1_3").mouseover(function () {
             $(".level2_3").css("display", "flex");
         });
 
         // level2 ======================
-        $(".level2_0_0, .level2_0_1, .level2_0_2, .level2_0_3, .level2_0_4").mouseover(function() {
+        $(".level2_0_0, .level2_0_1, .level2_0_2, .level2_0_3, .level2_0_4").mouseover(function () {
             $(".level3_0_0, .level3_0_1, .level3_0_2, .level3_0_3, .level3_0_4").css("display", "none");
             $(".level2_0_0, .level2_0_1, .level2_0_2, .level2_0_3, .level2_0_4").css("color", "#111111");
             $(this).css("color", "#007BFF");
             $(".level3").css("display", "block");
         });
 
-        $(".level2_0_0").mouseover(function() {
+        $(".level2_0_0").mouseover(function () {
             $(".level3_0_0").css("display", "flex");
         });
-        $(".level2_0_1").mouseover(function() {
+        $(".level2_0_1").mouseover(function () {
             $(".level3_0_1").css("display", "flex");
         });
-        $(".level2_0_2").mouseover(function() {
+        $(".level2_0_2").mouseover(function () {
             $(".level3_0_2").css("display", "flex");
         });
-        $(".level2_0_3").mouseover(function() {
+        $(".level2_0_3").mouseover(function () {
             $(".level3_0_3").css("display", "flex");
         });
-        $(".level2_0_4").mouseover(function() {
+        $(".level2_0_4").mouseover(function () {
             $(".level3_0_4").css("display", "flex");
         });
 
 
-        $(".level2_1_0, .level2_1_1, .level2_1_2, .level2_1_3, .level2_1_4").mouseover(function() {
+        $(".level2_1_0, .level2_1_1, .level2_1_2, .level2_1_3, .level2_1_4").mouseover(function () {
             $(".level3_1_0, .level3_1_1, .level3_1_2, .level3_1_3, .level3_1_4").css("display", "none");
             $(".level2_1_0, .level2_1_1, .level2_1_2, .level2_1_3, .level2_1_4").css("color", "#111111");
             $(this).css("color", "#007BFF");
             $(".level3").css("display", "block");
         });
 
-        $(".level2_1_0").mouseover(function() {
+        $(".level2_1_0").mouseover(function () {
             $(".level3_1_0").css("display", "flex");
         });
-        $(".level2_1_1").mouseover(function() {
+        $(".level2_1_1").mouseover(function () {
             $(".level3_1_1").css("display", "flex");
         });
-        $(".level2_1_2").mouseover(function() {
+        $(".level2_1_2").mouseover(function () {
             $(".level3_1_2").css("display", "flex");
         });
-        $(".level2_1_3").mouseover(function() {
+        $(".level2_1_3").mouseover(function () {
             $(".level3_1_3").css("display", "flex");
         });
-        $(".level2_1_4").mouseover(function() {
+        $(".level2_1_4").mouseover(function () {
             $(".level3_1_4").css("display", "flex");
         });
 
-        $(".level2_2_0, .level2_2_1, .level2_2_2, .level2_2_3, .level2_2_4").mouseover(function() {
+        $(".level2_2_0, .level2_2_1, .level2_2_2, .level2_2_3, .level2_2_4").mouseover(function () {
             $(".level3_2_0, .level3_2_1, .level3_2_2, .level3_2_3, .level3_2_4").css("display", "none");
             $(".level2_2_0, .level2_2_1, .level2_2_2, .level2_2_3, .level2_2_4").css("color", "#111111");
             $(this).css("color", "#007BFF");
             $(".level3").css("display", "block");
         });
 
-        $(".level2_2_0").mouseover(function() {
+        $(".level2_2_0").mouseover(function () {
             $(".level3_2_0").css("display", "flex");
         });
-        $(".level2_2_1").mouseover(function() {
+        $(".level2_2_1").mouseover(function () {
             $(".level3_2_1").css("display", "flex");
         });
-        $(".level2_2_2").mouseover(function() {
+        $(".level2_2_2").mouseover(function () {
             $(".level3_2_2").css("display", "flex");
         });
-        $(".level2_2_3").mouseover(function() {
+        $(".level2_2_3").mouseover(function () {
             $(".level3_2_3").css("display", "flex");
         });
-        $(".level2_2_4").mouseover(function() {
+        $(".level2_2_4").mouseover(function () {
             $(".level3_2_4").css("display", "flex");
         });
 
 
-        $(".level2_3_0, .level2_3_1, .level2_3_2, .level2_3_3, .level2_3_4").mouseover(function() {
+        $(".level2_3_0, .level2_3_1, .level2_3_2, .level2_3_3, .level2_3_4").mouseover(function () {
             $(".level3_3_0, .level3_3_1, .level3_3_2, .level3_3_3, .level3_3_4").css("display", "none");
             $(".level2_3_0, .level2_3_1, .level2_3_2, .level2_3_3, .level2_3_4").css("color", "#111111");
             $(this).css("color", "#007BFF");
             $(".level3").css("display", "block");
         });
 
-        $(".level2_3_0").mouseover(function() {
+        $(".level2_3_0").mouseover(function () {
             $(".level3_3_0").css("display", "flex");
         });
-        $(".level2_3_1").mouseover(function() {
+        $(".level2_3_1").mouseover(function () {
             $(".level3_3_1").css("display", "flex");
         });
-        $(".level2_3_2").mouseover(function() {
+        $(".level2_3_2").mouseover(function () {
             $(".level3_3_2").css("display", "flex");
         });
-        $(".level2_3_3").mouseover(function() {
+        $(".level2_3_3").mouseover(function () {
             $(".level3_3_3").css("display", "flex");
         });
-        $(".level2_3_4").mouseover(function() {
+        $(".level2_3_4").mouseover(function () {
             $(".level3_3_4").css("display", "flex");
         });
 
 
-        $(".level2_4_0, .level2_4_1, .level2_4_2, .level2_4_3, .level2_4_4").mouseover(function() {
+        $(".level2_4_0, .level2_4_1, .level2_4_2, .level2_4_3, .level2_4_4").mouseover(function () {
             $(".level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("display", "none");
             $(".level3_4_0, .level3_4_1, .level3_4_2, .level3_4_3, .level3_4_4").css("color", "#111111");
             $(this).css("color", "#007BFF");
             $(".level3").css("display", "block");
         });
 
-        $(".level2_4_0").mouseover(function() {
+        $(".level2_4_0").mouseover(function () {
             $(".level3_4_0").css("display", "flex");
         });
-        $(".level2_4_1").mouseover(function() {
+        $(".level2_4_1").mouseover(function () {
             $(".level3_4_1").css("display", "flex");
         });
-        $(".level2_4_2").mouseover(function() {
+        $(".level2_4_2").mouseover(function () {
             $(".level3_4_2").css("display", "flex");
         });
-        $(".level2_4_3").mouseover(function() {
+        $(".level2_4_3").mouseover(function () {
             $(".level3_4_3").css("display", "flex");
         });
-        $(".level2_4_4").mouseover(function() {
+        $(".level2_4_4").mouseover(function () {
             $(".level3_4_4").css("display", "flex");
         });
 
 
-        $(".level3_category_a").mouseover(function() {
+        $(".level3_category_a").mouseover(function () {
             $(".level3_category_a").css("color", "#111111");
             $(this).css("color", "#007BFF");
         })

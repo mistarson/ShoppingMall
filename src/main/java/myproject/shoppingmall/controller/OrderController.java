@@ -10,6 +10,7 @@ import myproject.shoppingmall.dto.OrderDetailDto;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
 import myproject.shoppingmall.form.RequestOrderItems;
+import myproject.shoppingmall.service.ItemService;
 import myproject.shoppingmall.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ItemService itemService;
 
     @PostMapping("/orders")
     public String createOrder(@ModelAttribute RequestOrderItems requestOrderItems) throws Exception {

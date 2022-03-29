@@ -12737,3 +12737,7 @@ margin-bottom: 50px;
 .text-color {
     color: #ced4da;
 }
+
+.itemQuantity-label {
+    margin-right: 10px;
+}
