@@ -31,7 +31,11 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public String updateMember(UpdateMemberForm updateMemberForm) throws Exception {
+    public String updateMember(UpdateMemberForm updateMemberForm, BindingResult bindingResult) throws Exception {
+
+        if (bindingResult.hasErrors()) {
+            return "member/myInfo";
+        }
 
         memberService.updateMember(updateMemberForm);
 
