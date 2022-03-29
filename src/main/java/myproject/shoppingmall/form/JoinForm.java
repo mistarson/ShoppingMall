@@ -27,12 +27,15 @@ public class JoinForm {
     private String email;
 
     @NotEmpty(message = "주소는 필수입니다.")
+    @Size(min = 1, max = 10)
     private String city;
 
     @NotEmpty(message = "주소는 필수입니다.")
+    @Size(min = 1, max = 10)
     private String street;
 
     @NotEmpty(message = "주소는 필수입니다.")
+    @Size(min = 1, max = 10)
     private String zipcode;
 
     public Member joinFormToEntity() {
