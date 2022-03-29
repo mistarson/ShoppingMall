@@ -12839,3 +12839,7 @@ td {
     color: #111111;
     text-decoration: none;
 }
+
+.itemQuantity-label {
+    margin-right: 10px;
+}

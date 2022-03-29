@@ -30,10 +30,17 @@
                         <div class="form-group">
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
-                            <label style="display: block">수량</label>
-                            <input id="orderCountInput" type="number" th:value="1" th:min="1"
-                                   th:max="${item.stockQuantity}"
-                                   th:name="orderQuantity">
+                            <div style="display: block">
+                                <label class="itemQuantity-label">수량</label>
+                                <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
+                                       th:max="${item.stockQuantity}"
+                                       th:name="orderQuantity">
+                            </div>
+                            <div style="display: block">
+                                <label class="itemQuantity-label">재고</label>
+                                <input style="width: 15%" type="number"
+                                       th:value="${item.stockQuantity}" readonly>
+                            </div>
                             <div class="cart-btn-container">
                                 <button type="submit" class="btn btn-light btn-order">
                                     장바구니
