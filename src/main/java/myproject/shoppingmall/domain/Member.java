@@ -19,19 +19,18 @@ public class Member extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", unique = true, nullable = false)
-    @Size(min = 1, max = 10)
     private Long id;
 
     @Column(length = 10, nullable = false)
     private String loginId;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     private String password;
 
     @Column(length = 15, nullable = false)
     private String name;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 30, nullable = false)
     private String email;
 
     @OneToMany(mappedBy = "member")

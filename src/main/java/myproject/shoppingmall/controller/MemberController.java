@@ -7,10 +7,13 @@ import myproject.shoppingmall.form.UpdateMemberForm;
 import myproject.shoppingmall.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,7 +52,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/new")
-    public String create(@Valid JoinForm joinForm) {
+    public String create(@Valid JoinForm joinForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "member/createJoinForm";
+        }
 
         memberService.join(joinForm);
 
