@@ -31,6 +31,9 @@
                             <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
                                    style="display: none;">
                             <div style="display: block">
+                                <div th:if="${errors?.containsKey('orderQuantity')}">
+                                    <p class="field-error" th:text="${errors['orderQuantity']}">수량 부족</p>
+                                </div>
                                 <label class="itemQuantity-label">수량</label>
                                 <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
                                        th:max="${item.stockQuantity}"

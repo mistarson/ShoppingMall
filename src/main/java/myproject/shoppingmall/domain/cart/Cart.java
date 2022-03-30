@@ -52,14 +52,19 @@ public class Cart {
     }
 
     //== 연관관계 편의 메서드==//
-    public void addCartItem(CartItem cartItem) {
+    public boolean addCartItem(CartItem cartItem, int stockQuantity) {
         for (int i = 0; i < cartItemList.size(); i++) {
             if (cartItemList.get(i).getItemId().equals(cartItem.getItemId())) {
+                if (cartItemList.get(i).getOrderQuantity() + cartItem.getOrderQuantity() > stockQuantity) {
+                    return false;
+                }
                 cartItemList.get(i).addOrderQuantity(cartItem.getOrderQuantity());
-                return;
+                return true;
             }
         }
         cartItemList.add(cartItem);
         cartItem.setCart(this);
+
+        return true;
     }
 }
