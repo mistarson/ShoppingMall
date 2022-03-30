@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -27,13 +28,16 @@ public class MemberController {
 
         MemberDto memberDto = memberService.getLoginMember();
 
-        model.addAttribute("member", memberDto);
+        UpdateMemberForm updateMemberForm = new UpdateMemberForm(memberDto);
+
+        model.addAttribute("updateMemberForm", updateMemberForm);
 
         return "member/myInfo";
     }
 
     @PostMapping("/member")
-    public String updateMember(UpdateMemberForm updateMemberForm, BindingResult bindingResult) throws Exception {
+    public String updateMember(@Valid @ModelAttribute(value = "updateMemberForm") UpdateMemberForm updateMemberForm,
+                               BindingResult bindingResult) throws Exception {
 
         if (bindingResult.hasErrors()) {
             return "member/myInfo";

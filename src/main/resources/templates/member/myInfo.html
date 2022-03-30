@@ -9,7 +9,7 @@
 <section class="page-section" id="myInfo">
     <div class="container">
         <h2 class="section-heading text-uppercase myh2">내정보</h2>
-        <form id="myInfoForm" th:action="@{/member}" th:object="${member}" method="post">
+        <form id="myInfoForm" th:action="@{/member}" th:object="${updateMemberForm}" method="post">
             <div class="form-group">
                 <label th:for="name">회원 ID</label>
                 <input type="text" th:field="*{loginId}" class="form-control" disabled>
