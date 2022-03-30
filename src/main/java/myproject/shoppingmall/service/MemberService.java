@@ -37,6 +37,11 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId).orElseThrow(() -> new Exception("아이디에 해당하는 회원이 없습니다."));
     }
 
+    // 아이디 중복 확인을 위한
+    public Optional<Member> findByLoginIdForValidation(String loginId) {
+        return memberRepository.findByLoginId(loginId);
+    }
+
     // 멤버 아이디로 조회
     public Member findById(Long memberId) throws Exception {
         return memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
@@ -53,21 +58,11 @@ public class MemberService {
     //회원가입
     public Long join(JoinForm joinForm) {
 
-        validateDuplicateLoginId(joinForm.getLoginId()); // 중복 회원 검증 로직
-
         joinForm.setPassword(passwordEncoder.encode(joinForm.getPassword()));
 
         Member member = memberRepository.save(joinForm.joinFormToEntity());
 
         return member.getId();
-    }
-
-    // 중복 회원 검증 로직
-    private void validateDuplicateLoginId(String loginId) {
-        Optional<Member> findMember = memberRepository.findByLoginId(loginId);
-        if (!findMember.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
     }
 
     @Transactional
