@@ -1,12 +1,14 @@
 package myproject.shoppingmall.form;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import myproject.shoppingmall.dto.MemberDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Getter
+@Getter @Setter @NoArgsConstructor
 public class UpdateMemberForm {
 
     @NotEmpty(message = "아이디는 필수입니다.")
