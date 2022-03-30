@@ -32,9 +32,6 @@ public class OrderController {
     @PostMapping("/orders")
     public String createOrder(@ModelAttribute RequestOrderItems requestOrderItems) throws Exception {
 
-        List<RequestOrderItem> orderItemList = requestOrderItems.getOrderItemList();
-
-
         orderService.createOrder(requestOrderItems);
 
         return "redirect:/orders";

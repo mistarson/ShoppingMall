@@ -11,4 +11,5 @@ public interface ItemRepositoryCustom {
 
     Page<ItemSearchDto> findAll(ItemSearch itemSearch, Pageable pageable);
 
+
 }

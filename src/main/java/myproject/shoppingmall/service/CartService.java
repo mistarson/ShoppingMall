@@ -27,7 +27,7 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
 
     @Transactional
-    public void addCartItem(AddCartItemForm addCartItemForm) throws Exception {
+    public boolean addCartItem(AddCartItemForm addCartItemForm, int stockQuantity) throws Exception {
 
         MemberDto memberDto = memberService.getLoginMember();
 
@@ -40,7 +40,12 @@ public class CartService {
         }
 
         CartItem addCartItem = addCartItemForm.formToEntity();
-        findCart.addCartItem(addCartItem);
+
+        if (!findCart.addCartItem(addCartItem, stockQuantity)) {
+            return false;
+        }
+
+        return true;
     }
 
     @Transactional
