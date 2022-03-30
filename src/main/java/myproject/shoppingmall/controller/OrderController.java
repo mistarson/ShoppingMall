@@ -9,6 +9,7 @@ import myproject.shoppingmall.domain.order.OrderSearch;
 import myproject.shoppingmall.dto.OrderDetailDto;
 import myproject.shoppingmall.dto.OrderDto;
 import myproject.shoppingmall.form.DirectOrderItem;
+import myproject.shoppingmall.form.RequestOrderItem;
 import myproject.shoppingmall.form.RequestOrderItems;
 import myproject.shoppingmall.service.ItemService;
 import myproject.shoppingmall.service.OrderService;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class OrderController {
@@ -28,6 +31,9 @@ public class OrderController {
 
     @PostMapping("/orders")
     public String createOrder(@ModelAttribute RequestOrderItems requestOrderItems) throws Exception {
+
+        List<RequestOrderItem> orderItemList = requestOrderItems.getOrderItemList();
+
 
         orderService.createOrder(requestOrderItems);
 
