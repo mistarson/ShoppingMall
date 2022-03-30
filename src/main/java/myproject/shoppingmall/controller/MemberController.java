@@ -1,6 +1,7 @@
 package myproject.shoppingmall.controller;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.form.UpdateMemberForm;
@@ -8,18 +9,19 @@ import myproject.shoppingmall.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-
+    
     @GetMapping("/member")
     public String myInfo(Model model) throws Exception {
 
@@ -54,6 +56,10 @@ public class MemberController {
     @PostMapping("/member/new")
     public String create(@Valid JoinForm joinForm, BindingResult bindingResult) {
 
+        if (validateDuplicateLoginId(joinForm.getLoginId())) {
+            bindingResult.addError(new ObjectError("joinForm", "중복된 아이디가 있습니다."));
+        }
+
         if (bindingResult.hasErrors()) {
             return "member/createJoinForm";
         }
@@ -61,6 +67,15 @@ public class MemberController {
         memberService.join(joinForm);
 
         return "redirect:/";
+    }
+
+    // 중복 회원 검증 로직
+    private boolean validateDuplicateLoginId(String loginId){
+        Optional<Member> findMember = memberService.findByLoginIdForValidateDuplicate(loginId);
+        if (findMember.isPresent()) {
+            return true;
+        }
+        return false;
     }
 
 }
