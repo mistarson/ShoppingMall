@@ -32,6 +32,7 @@ public class UpdateMemberForm {
     private String zipcode;
 
     public UpdateMemberForm(MemberDto memberDto) {
+        this.loginId = memberDto.getLoginId();
         this.name = memberDto.getName();
         this.email = memberDto.getEmail();
         this.city = memberDto.getCity();
