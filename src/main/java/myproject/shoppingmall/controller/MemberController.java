@@ -31,15 +31,20 @@ public class MemberController {
 
         MemberDto memberDto = memberService.getLoginMember();
 
-        model.addAttribute("member", memberDto);
+        UpdateMemberForm updateMemberForm = new UpdateMemberForm(memberDto);
+
+        model.addAttribute("updateMemberForm", updateMemberForm);
 
         return "member/myInfo";
     }
 
     @PostMapping("/member")
-    public String updateMember(UpdateMemberForm updateMemberForm) throws Exception {
+    public String updateMember(@Valid @ModelAttribute(value = "updateMemberForm") UpdateMemberForm updateMemberForm,
+                               BindingResult bindingResult) throws Exception {
 
-        System.out.println(updateMemberForm);
+        if (bindingResult.hasErrors()) {
+            return "member/myInfo";
+        }
 
         memberService.updateMember(updateMemberForm);
 
