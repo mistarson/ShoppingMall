@@ -30,6 +30,10 @@ public class MemberController {
 
         UpdateMemberForm updateMemberForm = new UpdateMemberForm(memberDto);
 
+        System.out.println("updateMemberForm.getLoginId() = " + updateMemberForm.getLoginId());
+        System.out.println("updateMemberForm.getName() = " + updateMemberForm.getName());
+        System.out.println("updateMemberForm.getEmail() = " + updateMemberForm.getEmail());
+
         model.addAttribute("updateMemberForm", updateMemberForm);
 
         return "member/myInfo";

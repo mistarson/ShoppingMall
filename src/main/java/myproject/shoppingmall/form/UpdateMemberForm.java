@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 @Getter
 public class UpdateMemberForm {
 
+    @NotEmpty(message = "아이디는 필수입니다.")
     private String loginId;
 
     @NotEmpty(message = "이름은 필수입니다.")
