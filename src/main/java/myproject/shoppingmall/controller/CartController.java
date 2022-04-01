@@ -52,8 +52,6 @@ public class CartController {
 
             Map<String, String> erros = new HashMap<>();
 
-            System.out.println("");
-
             erros.put("orderQuantity", "재고보다 많은 상품을 주문할 수 없습니다.(장바구니 확인 요망)");
 
             model.addAttribute("item", item);
