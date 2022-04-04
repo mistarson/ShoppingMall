@@ -7,6 +7,10 @@
 ## 배포 URL
 http://3.39.89.144:8080
 
+## 배포 환경
+- AWS EC2 (Ubuntu 18.04)
+- AWS RDS (MySQL 8.0.27)
+
 ## 사용 기술 스택
 - JAVA 11
 - HTML, CSS, Javascript
