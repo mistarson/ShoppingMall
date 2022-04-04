@@ -7,5 +7,15 @@
 ## 배포 URL
 http://3.39.89.144:8080
 
+## 사용 기술 스택
+- JAVA 11
+- HTML, CSS, Javascript
+- Thymeleaf, Jquery
+- Spring Boot
+- Spring MVC
+- Spring Data Jpa
+- Querydsl
+- Spring Security
+
 ## ERD
 ![image](https://user-images.githubusercontent.com/40788498/161572748-7008cb92-3fbf-4f57-a542-a02a55297a10.png)
