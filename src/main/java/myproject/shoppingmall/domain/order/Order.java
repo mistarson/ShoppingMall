@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import myproject.shoppingmall.auditing.BaseByEntity;
 import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.auditing.BaseEntity;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order extends BaseEntity {
+public class Order extends BaseByEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
