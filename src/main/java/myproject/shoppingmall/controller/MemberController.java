@@ -38,14 +38,19 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public String updateMember(@Valid @ModelAttribute(value = "updateMemberForm") UpdateMemberForm updateMemberForm,
+    public String updateMember(@Valid UpdateMemberForm updateMemberForm,
                                BindingResult bindingResult) throws Exception {
 
         if (bindingResult.hasErrors()) {
             return "member/myInfo";
         }
 
-        memberService.updateMember(updateMemberForm);
+        try {
+            memberService.updateMember(updateMemberForm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "member/myInfo";
+        }
 
         return "redirect:/";
     }
