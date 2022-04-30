@@ -3,7 +3,7 @@ package myproject.shoppingmall.form;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import myproject.shoppingmall.dto.MemberDto;
+import myproject.shoppingmall.domain.Member;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -34,12 +34,12 @@ public class UpdateMemberForm {
     @Size(min = 1, max = 10)
     private String zipcode;
 
-    public UpdateMemberForm(MemberDto memberDto) {
-        this.loginId = memberDto.getLoginId();
-        this.name = memberDto.getName();
-        this.email = memberDto.getEmail();
-        this.city = memberDto.getCity();
-        this.street = memberDto.getStreet();
-        this.zipcode = memberDto.getZipcode();
+    public UpdateMemberForm(Member member) {
+        this.loginId = member.getLoginId();
+        this.name = member.getName();
+        this.email = member.getEmail();
+        this.city = member.getAddress().getCity();
+        this.street = member.getAddress().getStreet();
+        this.zipcode = member.getAddress().getZipcode();
     }
 }

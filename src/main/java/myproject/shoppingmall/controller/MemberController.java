@@ -5,7 +5,9 @@ import myproject.shoppingmall.domain.Member;
 import myproject.shoppingmall.dto.MemberDto;
 import myproject.shoppingmall.form.JoinForm;
 import myproject.shoppingmall.form.UpdateMemberForm;
+import myproject.shoppingmall.security.AccountContext;
 import myproject.shoppingmall.service.MemberService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,11 +26,11 @@ public class MemberController {
     private final MemberService memberService;
     
     @GetMapping("/member")
-    public String myInfo(Model model) throws Exception {
+    public String myInfo(@AuthenticationPrincipal AccountContext accountContext, Model model) throws Exception {
 
-        MemberDto memberDto = memberService.getLoginMember();
+        Member loginMember = accountContext.getMember();
 
-        UpdateMemberForm updateMemberForm = new UpdateMemberForm(memberDto);
+        UpdateMemberForm updateMemberForm = new UpdateMemberForm(loginMember);
 
         model.addAttribute("updateMemberForm", updateMemberForm);
 
