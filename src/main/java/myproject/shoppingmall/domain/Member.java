@@ -17,7 +17,7 @@ public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id", unique = true, nullable = false)
+    @Column(name = "member_id")
     private Long id;
 
     @Column(length = 15, nullable = false)
@@ -62,7 +62,6 @@ public class Member extends BaseEntity{
     }
 
     public void updateMember(String name, Address address) {
-
         this.name = name;
         this.address = address;
     }
