@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -47,6 +48,7 @@ public class MemberService {
     }
 
     //회원가입
+    @Transactional
     public Long join(JoinForm joinForm) {
 
         joinForm.setPassword(passwordEncoder.encode(joinForm.getPassword()));

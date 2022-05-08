@@ -7,12 +7,14 @@ import myproject.shoppingmall.dto.CartItemDto;
 import myproject.shoppingmall.dto.ItemDto;
 import myproject.shoppingmall.form.AddCartItemForm;
 import myproject.shoppingmall.form.ModifyOrderQuantityForm;
+import myproject.shoppingmall.security.AccountContext;
 import myproject.shoppingmall.service.CartService;
 import myproject.shoppingmall.service.ItemService;
 import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,9 +67,10 @@ public class CartController {
     }
 
     @PostMapping("/carts/modify")
-    public String modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) throws Exception {
+    public String modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm, @AuthenticationPrincipal AccountContext accountContext) throws Exception {
 
-        cartService.modifyOrderQuantity(modifyOrderQuantityForm);
+
+        cartService.modifyOrderQuantity(modifyOrderQuantityForm, accountContext.getMember());
 
         return "redirect:/carts";
     }

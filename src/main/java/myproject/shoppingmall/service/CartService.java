@@ -49,9 +49,10 @@ public class CartService {
     }
 
     @Transactional
-    public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) throws Exception {
+    public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm, Member member) throws Exception {
 
-        MemberDto memberDto = memberService.getLoginMember();
+
+        MemberDto memberDto = new MemberDto(member);
 
         Cart findCart = cartRepository.findByMemberId(memberDto.getId());
 
