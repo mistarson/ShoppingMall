@@ -1,7 +1,7 @@
 //package myproject.shoppingmall.repository;
 //
-//import myproject.shoppingmall.domain.Address;
-//import myproject.shoppingmall.domain.Member;
+//import myproject.shoppingmall.domain.member.constant.Address;
+//import myproject.shoppingmall.domain.member.entity.Member;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;

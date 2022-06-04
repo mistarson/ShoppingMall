@@ -1,11 +1,11 @@
 //package myproject.shoppingmall.repository;
 //
-//import myproject.shoppingmall.domain.Member;
-//import myproject.shoppingmall.domain.cart.Cart;
-//import myproject.shoppingmall.domain.cart.CartItem;
+//import myproject.shoppingmall.domain.member.entity.Member;
+//import myproject.shoppingmall.domain.cart.entity.Cart;
+//import myproject.shoppingmall.domain.cartItem.entity.CartItem;
 //import myproject.shoppingmall.domain.item.Image;
-//import myproject.shoppingmall.domain.item.Item;
-//import myproject.shoppingmall.dto.CartItemDto;
+//import myproject.shoppingmall.domain.item.entity.Item;
+//import myproject.shoppingmall.web.dto.CartItemDto;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;

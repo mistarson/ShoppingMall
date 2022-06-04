@@ -1,7 +1,7 @@
 //package myproject.shoppingmall.service;
 //
-//import myproject.shoppingmall.form.LoginForm;
-//import myproject.shoppingmall.repository.MemberRepository;
+//import myproject.shoppingmall.web.form.LoginForm;
+//import myproject.shoppingmall.domain.member.repository.MemberRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.transaction.annotation.Transactional;

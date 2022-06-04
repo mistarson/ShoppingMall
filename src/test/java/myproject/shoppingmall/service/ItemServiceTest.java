@@ -1,11 +1,14 @@
 package myproject.shoppingmall.service;
 
-import myproject.shoppingmall.domain.item.*;
-import myproject.shoppingmall.dto.ItemSearchDto;
-import myproject.shoppingmall.form.ItemForm;
-import myproject.shoppingmall.dto.ItemDto;
-import myproject.shoppingmall.repository.ImageRepository;
-import myproject.shoppingmall.repository.ItemRepository;
+import myproject.shoppingmall.domain.item.entity.Item;
+import myproject.shoppingmall.domain.itemImage.entity.ItemImage;
+import myproject.shoppingmall.web.dto.ItemSearchDto;
+import myproject.shoppingmall.web.form.ItemForm;
+import myproject.shoppingmall.web.dto.ItemDto;
+import myproject.shoppingmall.domain.itemImage.repository.ItemImageRepository;
+import myproject.shoppingmall.domain.item.repository.ItemRepository;
+import myproject.shoppingmall.web.item.serivce.ItemService;
+import myproject.shoppingmall.web.item.search.ItemSearch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,7 +29,7 @@ class ItemServiceTest {
     ItemService itemService;
 
     @Autowired
-    ImageRepository imageRepository;
+    ItemImageRepository imageRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -38,12 +39,12 @@ class ItemServiceTest {
 
     @BeforeEach
     void init() {
-        Image image1 = Image.builder().imagePath("qwe").build();
-        Image image2 = Image.builder().imagePath("qwe").build();
-        Image image3 = Image.builder().imagePath("qwe").build();
-        Image image4 = Image.builder().imagePath("qwe").build();
-        Image image5 = Image.builder().imagePath("qwe").build();
-        Image image6 = Image.builder().imagePath("qwe").build();
+        ItemImage image1 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image2 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image3 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image4 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image5 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image6 = ItemImage.builder().imagePath("qwe").build();
 
         Item item1 = new Item("운동화", 23000, 10, 22L, image1, image6);
         Item item2 = new Item("축구화", 50000, 10, 22L, image2);
@@ -91,8 +92,8 @@ class ItemServiceTest {
     @Test
     void 아이템조회(){
         //given
-        Image image1 = Image.builder().imagePath("qwe").build();
-        Image image2 = Image.builder().imagePath("qwe").build();
+        ItemImage image1 = ItemImage.builder().imagePath("qwe").build();
+        ItemImage image2 = ItemImage.builder().imagePath("qwe").build();
         Item item = new Item("운동화", 23000, 10, 22L, image1, image2);
 
         imageRepository.save(image1);

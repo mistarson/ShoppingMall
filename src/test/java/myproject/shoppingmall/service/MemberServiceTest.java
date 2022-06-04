@@ -1,8 +1,8 @@
 //package myproject.shoppingmall.service;
 //
-//import myproject.shoppingmall.domain.Member;
-//import myproject.shoppingmall.form.JoinForm;
-//import myproject.shoppingmall.repository.MemberRepository;
+//import myproject.shoppingmall.domain.member.entity.Member;
+//import myproject.shoppingmall.web.form.JoinForm;
+//import myproject.shoppingmall.domain.member.repository.MemberRepository;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;

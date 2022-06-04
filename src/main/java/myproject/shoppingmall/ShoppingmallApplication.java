@@ -1,6 +1,6 @@
 package myproject.shoppingmall;
 
-import myproject.shoppingmall.security.AccountContext;
+import myproject.shoppingmall.global.security.AccountContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

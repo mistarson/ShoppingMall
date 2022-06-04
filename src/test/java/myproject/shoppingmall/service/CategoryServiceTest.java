@@ -1,7 +1,7 @@
 //package myproject.shoppingmall.service;
 //
-//import myproject.shoppingmall.dto.CategoryDto;
-//import myproject.shoppingmall.repository.CategoryRepository;
+//import myproject.shoppingmall.web.dto.CategoryDto;
+//import myproject.shoppingmall.domain.category.repository.CategoryRepository;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
 //import org.mockito.junit.jupiter.MockitoExtension;
