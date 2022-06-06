@@ -1,86 +1,83 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<!-- Navigation-->
-<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
-<section class="page-section black">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase myh2">내 주문</h2>
-        </div>
-        <h1 class="no-elements" th:if="${totalPage} == 0">아직 주문이 없습니다.</h1>
-        <div th:unless="${totalPage} == 0">
-            <form th:object="${orderSearch}" class="form-check-inline">
-                <div id="sort">
-                    <select th:field="*{orderSorter}" class="form-control">
-                        <option value="">정렬기준</option>
-                        <option th:each="orderSorter : ${T(myproject.shoppingmall.domain.order.OrderSorter).values()}"
-                                th:value="${orderSorter}"
-                                th:text="${orderSorter.getSorter()}"/>
-                    </select>
-                    <select th:field="*{orderStatus}" class="form-control">
-                        <option value="">주문상태</option>
-                        <option th:each="orderStatus : ${T(myproject.shoppingmall.domain.order.OrderStatus).values()}"
-                                th:value="${orderStatus}"
-                                th:text="${orderStatus}"/>
-                    </select>
-                    <button type="submit" class="btn btn-primary mb-2">검색</button>
-                </div>
-            </form>
-            <table class="font-gray width-100">
-                <thead>
-                <tr>
-                    <th>주문번호</th>
-                    <th>주문일자</th>
-                    <th>주문상품정보</th>
-                    <th>결제금액</th>
-                    <th>주문상태</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="order : ${orders}">
-                    <td th:text="${order.orderId}"></td>
-                    <td th:text="${#temporals.format(order.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td>
-                        <a class="itemInformationContainer" th:href="@{/orders/{orderId}(orderId=${order.orderId})}">
-                            <div class="representativeImageContainer">
-                                <img class="representativeImage" th:src="@{${order.mainOrderItemImagePath}}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layout">
+<div layout:fragment="content">
+    <section class="page-section black">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase myh2">내 주문</h2>
+            </div>
+            <h1 class="no-elements" th:if="${totalPage} == 0">아직 주문이 없습니다.</h1>
+            <div th:unless="${totalPage} == 0">
+                <form th:object="${orderSearch}" class="form-check-inline">
+                    <div id="sort">
+                        <select th:field="*{orderSorter}" class="form-control">
+                            <option value="">정렬기준</option>
+                            <option th:each="orderSorter : ${T(myproject.shoppingmall.web.order.search.OrderSorter).values()}"
+                                    th:value="${orderSorter}"
+                                    th:text="${orderSorter.getSorter()}"/>
+                        </select>
+                        <select th:field="*{orderStatus}" class="form-control">
+                            <option value="">주문상태</option>
+                            <option th:each="orderStatus : ${T(myproject.shoppingmall.domain.order.constant.OrderStatus).values()}"
+                                    th:value="${orderStatus}"
+                                    th:text="${orderStatus}"/>
+                        </select>
+                        <button type="submit" class="btn btn-primary mb-2">검색</button>
+                    </div>
+                </form>
+                <table class="font-gray width-100">
+                    <thead>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>주문일자</th>
+                        <th>주문상품정보</th>
+                        <th>결제금액</th>
+                        <th>주문상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.orderId}"></td>
+                        <td th:text="${#temporals.format(order.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td>
+                            <a class="itemInformationContainer"
+                               th:href="@{/orders/{orderId}(orderId=${order.orderId})}">
+                                <div class="representativeImageContainer">
+                                    <img class="representativeImage" th:src="@{${order.mainOrderItemImagePath}}">
+                                </div>
+                                <span class="representativeName" th:text="${order.mainOrderItemName + ' 등'}"></span>
+                            </a>
+                        </td>
+                        <td th:text="${order.totalPrice}"></td>
+                        <td>
+                            <div>
+                                <span th:text="${order.orderStatus}"></span>
+
+                                <form th:if="${order.orderStatus.toString().equals('ORDER')}" class="cancel-order-form"
+                                      method="post">
+                                    <input type="text" name="orderId" style="display: none" th:value="${order.orderId}">
+                                    <button type="submit"
+                                            onclick="javascript:form.action='/orders/cancel'">
+                                        <span>&times;</span>
+                                    </button>
+                                </form>
                             </div>
-                            <span class="representativeName" th:text="${order.mainOrderItemName + ' 등'}"></span>
-                        </a>
-                    </td>
-                    <td th:text="${order.totalPrice}"></td>
-                    <td>
-                        <div>
-                            <span th:text="${order.orderStatus}"></span>
 
-                            <form th:if="${order.orderStatus.toString().equals('ORDER')}" class="cancel-order-form"
-                                  method="post">
-                                <input type="text" name="orderId" style="display: none" th:value="${order.orderId}">
-                                <button type="submit"
-                                        onclick="javascript:form.action='/orders/cancel'">
-                                    <span>&times;</span>
-                                </button>
-                            </form>
-                        </div>
-
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="pagination">
-                <ul>
-                    <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
-                        <a th:href="@{/orders(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
-                    </li>
-                </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <ul>
+                        <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
+                            <a th:href="@{/orders(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<div th:replace="fragments/footer :: footer"/>
-</body>
+    </section>
+</div>
 </html>

@@ -1,61 +1,57 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<!-- Navigation-->
-<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
-<section class="page-section black">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase myh2">상세 주문 페이지</h2>
-        </div>
-        <div class="orderInfo">
-            <h3 class="orderItem-h3">주문 정보</h3>
-            <div>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layout">
+<div layout:fragment="content">
+    <section class="page-section black">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase myh2">상세 주문 페이지</h2>
+            </div>
+            <div class="orderInfo">
+                <h3 class="orderItem-h3">주문 정보</h3>
+                <div>
                 <span class="text-color">주문일: <strong
                         th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd HH:mm')}"></strong></span>
+                </div>
+                <div>
+                    <span class="text-color">주문번호: <strong th:text="${orderDetail.orderId}"></strong></span>
+                </div>
+                <div>
+                    <span class="text-color">주문 상태: <strong th:text="${orderDetail.orderStatus}"></strong></span>
+                </div>
             </div>
             <div>
-                <span class="text-color">주문번호: <strong th:text="${orderDetail.orderId}"></strong></span>
+                <h3 class="orderItem-h3">주문 상품</h3>
             </div>
-            <div>
-                <span class="text-color">주문 상태: <strong th:text="${orderDetail.orderStatus}"></strong></span>
-            </div>
+            <table class="font-gray width-100 table">
+                <thead class="thead-color">
+                <tr>
+                    <th>상품이미지</th>
+                    <th>상품명</th>
+                    <th>상품금액</th>
+                    <th>수량</th>
+                    <th>상품합계금액</th>
+                </tr>
+                </thead>
+                <tbody class="tbody-color">
+                <tr class="tr-color" th:each="orderItem : ${orderDetail.orderItemList}">
+                    <td>
+                        <a th:href="@{/items/{itemId}(itemId=${orderItem.itemId})}">
+                            <div class="orderItem-mainImage-box">
+                                <img class="orderItemImage"
+                                     th:src="@{/{imagePath}(imagePath=${orderItem.itemMainImage})}">
+                            </div>
+                        </a>
+                    </td>
+                    <td th:text="${orderItem.itemName}"></td>
+                    <td th:text="${orderItem.itemPrice}"></td>
+                    <td th:text="${orderItem.orderQuantity}"></td>
+                    <td th:text="${orderItem.totalPrice}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div>
-            <h3 class="orderItem-h3">주문 상품</h3>
-        </div>
-        <table class="font-gray width-100 table">
-            <thead class="thead-color">
-            <tr>
-                <th>상품이미지</th>
-                <th>상품명</th>
-                <th>상품금액</th>
-                <th>수량</th>
-                <th>상품합계금액</th>
-            </tr>
-            </thead>
-            <tbody class="tbody-color">
-            <tr class="tr-color" th:each="orderItem : ${orderDetail.orderItemList}">
-                <td>
-                    <a th:href="@{/items/{itemId}(itemId=${orderItem.itemId})}">
-                        <div class="orderItem-mainImage-box">
-                            <img class="orderItemImage"
-                                 th:src="@{/{imagePath}(imagePath=${orderItem.itemMainImage})}">
-                        </div>
-                    </a>
-                </td>
-                <td th:text="${orderItem.itemName}"></td>
-                <td th:text="${orderItem.itemPrice}"></td>
-                <td th:text="${orderItem.orderQuantity}"></td>
-                <td th:text="${orderItem.totalPrice}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-<div th:replace="fragments/footer :: footer"/>
-</body>
+    </section>
+</div>
 </html>

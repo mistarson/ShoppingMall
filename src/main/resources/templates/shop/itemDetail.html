@@ -1,91 +1,90 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<!-- Navigation-->
-<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
-<section class="page-section black">
-    <div class="container">
-        <div class="item-detail-container">
-            <div class="item-image-box">
-                <div th:each="imagePath : ${item.imageList}">
-                    <img class="item-image" th:src="@{/{imagePath}(imagePath=${imagePath})}"
-                         alt="">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layout">
+<div layout:fragment="content">
+    <section class="page-section black">
+        <div class="container">
+            <div class="item-detail-container">
+                <div class="item-image-box">
+                    <div th:each="imagePath : ${item.imageList}">
+                        <img class="item-image" th:src="@{/{imagePath}(imagePath=${imagePath})}"
+                             alt="">
+                    </div>
                 </div>
-            </div>
-            <div class="item-detail-box">
-                <div class="itemNameContainer">
-                    <h2 class="h2-item" th:text="${item.name}"></h2>
-                </div>
-                <div class="itemPriceContainer">
-                    <h2 class="h2-item" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></h2>
-                </div>
-                <div th:if="${item.stockQuantity &lt; 1}" class="soldOut">
-                    <i class="fas fa-ban" style="color: #CCC;"></i> 해당 상품은 품절입니다.
-                </div>
-                <div th:unless="${item.stockQuantity &lt; 1}">
-                    <form th:action="@{/carts}" method="post">
-                        <div class="form-group">
-                            <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
-                                   style="display: none;">
-                            <div style="display: block">
-                                <div th:if="${errors?.containsKey('orderQuantity')}">
-                                    <p class="field-error" th:text="${errors['orderQuantity']}">수량 부족</p>
+                <div class="item-detail-box">
+                    <div class="itemNameContainer">
+                        <h2 class="h2-item" th:text="${item.name}"></h2>
+                    </div>
+                    <div class="itemPriceContainer">
+                        <h2 class="h2-item" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></h2>
+                    </div>
+                    <div th:if="${item.stockQuantity &lt; 1}" class="soldOut">
+                        <i class="fas fa-ban" style="color: #CCC;"></i> 해당 상품은 품절입니다.
+                    </div>
+                    <div th:unless="${item.stockQuantity &lt; 1}">
+                        <form th:action="@{/carts}" method="post">
+                            <div class="form-group">
+                                <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
+                                       style="display: none;">
+                                <div style="display: block">
+                                    <div th:if="${errors?.containsKey('orderQuantity')}">
+                                        <p class="field-error" th:text="${errors['orderQuantity']}">수량 부족</p>
+                                    </div>
+                                    <label class="itemQuantity-label">수량</label>
+                                    <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
+                                           th:max="${item.stockQuantity}"
+                                           th:name="orderQuantity">
                                 </div>
-                                <label class="itemQuantity-label">수량</label>
-                                <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
-                                       th:max="${item.stockQuantity}"
-                                       th:name="orderQuantity">
+                                <div style="display: block">
+                                    <label class="itemQuantity-label">재고</label>
+                                    <input style="width: 15%" type="number"
+                                           th:value="${item.stockQuantity}" readonly>
+                                </div>
+                                <div class="cart-btn-container">
+                                    <button type="submit" class="btn btn-light btn-order">
+                                        장바구니
+                                    </button>
+                                </div>
                             </div>
-                            <div style="display: block">
-                                <label class="itemQuantity-label">재고</label>
-                                <input style="width: 15%" type="number"
-                                       th:value="${item.stockQuantity}" readonly>
-                            </div>
-                            <div class="cart-btn-container">
-                                <button type="submit" class="btn btn-light btn-order">
-                                    장바구니
-                                </button>
-                            </div>
+                        </form>
+                        <div class="direct-btn-container">
+                            <button id="orderBtn" class="btn btn-primary btn-order">
+                                바로구매
+                            </button>
                         </div>
-                    </form>
-                    <div class="direct-btn-container">
-                        <button id="orderBtn" class="btn btn-primary btn-order">
-                            바로구매
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<div th:replace="fragments/footer :: footer"/>
-</body>
-</html>
+    </section>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
 
-<script>
-    $(function () {
+            $("#orderBtn").on("click", function () {
+                let orderItem = "";
 
-        $("#orderBtn").on("click", function () {
-            let orderItem = "";
+                let itemId = $(".form-group").find("#itemIdInput").val();
+                let orderQuantity = $(".form-group").find("#orderCountInput").val();
 
-            let itemId = $(".form-group").find("#itemIdInput").val();
-            let orderQuantity = $(".form-group").find("#orderCountInput").val();
+                orderItem += "<input type='text' name='itemId' value='" + itemId + "'>";
+                orderItem += "<input type='text' name='orderQuantity' value='" + orderQuantity + "'>";
 
-            orderItem += "<input type='text' name='itemId' value='" + itemId + "'>";
-            orderItem += "<input type='text' name='orderQuantity' value='" + orderQuantity + "'>";
+                let form = $("<form action='/orders/direct' method='post' style='display: none'>"
+                    + orderItem
+                    + "</form>");
+                $("body").append(form);
 
-            let form = $("<form action='/orders/direct' method='post' style='display: none'>"
-                + orderItem
-                + "</form>");
-            $("body").append(form);
+                form.submit();
 
-            form.submit();
+            });
 
         });
 
-    });
+    </script>
+</th:block>
+</html>
 
-</script>
+

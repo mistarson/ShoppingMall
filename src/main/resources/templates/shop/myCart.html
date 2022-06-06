@@ -1,128 +1,128 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<!-- Navigation-->
-<div th:replace="fragments/bodyHeaderTemp :: bodyHeader"/>
-<section class="page-section black">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase myh2">장바구니</h2>
-        </div>
-        <h1 class="no-elements" th:if="${totalPage} == 0">장바구니에 담긴 상품이 없습니다.</h1>
-        <div th:unless="${totalPage} == 0">
-            <table class="table">
-                <thead class="thead-color">
-                <th><input id="checkAll" type="checkbox"></th>
-                <th>이미지</th>
-                <th>상품정보</th>
-                <th>상품금액</th>
-                <th>수량</th>
-                <th>총 금액</th>
-                </thead>
-                <tbody class="tbody-color" th:each="cartItem: ${cartItems}">
-                <tr class="tr-color">
-                    <td class="checkBoxTd">
-                        <input type="checkbox" class="checkBox">
-                    </td>
-                    <td class="itemImageTd">
-                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
-                            <img class="cartItemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
-                        </a>
-                    </td>
-                    <td class="itemInfoTd">
-                        <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
-                            <span th:text="${cartItem.getItemName()}"></span>
-                        </a>
-                    </td>
-                    <td class="itemPriceTd">
-                        <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
-                    </td>
-                    <td class="orderCountTd">
-                        <form method="post">
-                            <!-- itemId를 가져오기 위한 필드 -->
-                            <input class="itemId" type="text" style="display: none;" th:value="${cartItem.getItemId()}"
-                                   th:name="itemId">
-                            <input class="orderQuantity" type="number" th:value="${cartItem.getOrderQuantity()}"
-                                   th:min="1"
-                                   th:max="${cartItem.quantity}"
-                                   th:name="orderQuantity">
-                            <button id="orderCountModifyBtn" class="btn btn-light"
-                                    type="submit" th:onclick="|javascript:form.action='@{/carts/modify}'|">
-                                변경
-                            </button>
-                            <button id="removeCartItemBtn" type="submit"
-                                    onclick="javascript:form.action='/carts/remove'">
-                                <span>&times;</span>
-                            </button>
-                        </form>
-                    </td>
-                    <td class="totalPriceTd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layout">
+<div layout:fragment="content">
+    <section class="page-section black">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase myh2">장바구니</h2>
+            </div>
+            <h1 class="no-elements" th:if="${totalPage} == 0">장바구니에 담긴 상품이 없습니다.</h1>
+            <div th:unless="${totalPage} == 0">
+                <table class="table">
+                    <thead class="thead-color">
+                    <th><input id="checkAll" type="checkbox"></th>
+                    <th>이미지</th>
+                    <th>상품정보</th>
+                    <th>상품금액</th>
+                    <th>수량</th>
+                    <th>총 금액</th>
+                    </thead>
+                    <tbody class="tbody-color" th:each="cartItem: ${cartItems}">
+                    <tr class="tr-color">
+                        <td class="checkBoxTd">
+                            <input type="checkbox" class="checkBox">
+                        </td>
+                        <td class="itemImageTd">
+                            <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                                <img class="cartItemImage" th:src="@{${cartItem.getItemMainImagePath()}}" alt="">
+                            </a>
+                        </td>
+                        <td class="itemInfoTd">
+                            <a th:href="@{/items/{itemId}(itemId=${cartItem.getItemId()})}">
+                                <span th:text="${cartItem.getItemName()}"></span>
+                            </a>
+                        </td>
+                        <td class="itemPriceTd">
+                            <span th:text="${#numbers.formatInteger(cartItem.itemPrice, 3, 'COMMA')}"></span>
+                        </td>
+                        <td class="orderCountTd">
+                            <form method="post">
+                                <!-- itemId를 가져오기 위한 필드 -->
+                                <input class="itemId" type="text" style="display: none;"
+                                       th:value="${cartItem.getItemId()}"
+                                       th:name="itemId">
+                                <input class="orderQuantity" type="number" th:value="${cartItem.getOrderQuantity()}"
+                                       th:min="1"
+                                       th:max="${cartItem.quantity}"
+                                       th:name="orderQuantity">
+                                <button id="orderCountModifyBtn" class="btn btn-light"
+                                        type="submit" th:onclick="|javascript:form.action='@{/carts/modify}'|">
+                                    변경
+                                </button>
+                                <button id="removeCartItemBtn" type="submit"
+                                        onclick="javascript:form.action='/carts/remove'">
+                                    <span>&times;</span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="totalPriceTd">
                     <span
                             th:text="${#numbers.formatInteger(cartItem.itemPrice * cartItem.orderQuantity, 3, 'COMMA')}"></span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div style="text-align: center">
-                <button id="orderBtn" class="btn btn-light btn-ordering" type="submit">주문하기</button>
-            </div>
-            <div class="pagination">
-                <ul>
-                    <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
-                        <a th:href="@{/carts(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
-                    </li>
-                </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center">
+                    <button id="orderBtn" class="btn btn-light btn-ordering" type="submit">주문하기</button>
+                </div>
+                <div class="pagination">
+                    <ul>
+                        <li th:each="page : ${#numbers.sequence(0,totalPage - 1)}">
+                            <a th:href="@{/carts(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<div th:replace="fragments/footer :: footer"/>
-</body>
+    </section>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+
+            // 전체 체크박스 컨트롤 ===================
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+
+
+            // form 생성
+            $("#orderBtn").on("click", function () {
+                let trList = $("tr");
+                let orderItemList = "";
+
+                // tr의 첫번째 줄은 head 이므로 1번째 부터
+                for (let i = 1; i < trList.length; i++) {
+                    // 체크된 아이템만 추가하도록
+                    let isSelected = $(trList[i]).find(".checkBox").is(":checked");
+                    if (isSelected) {
+                        let itemId = $(trList[i]).find(".orderCountTd .itemId").val();
+                        let orderQuantity = $(trList[i]).find(".orderCountTd .orderQuantity").val();
+
+                        let index = i - 1;
+                        orderItemList += "<input type='text' name='orderItemList[" + index + "].itemId' value='" + itemId + "'>";
+                        orderItemList += "<input type='text' name='orderItemList[" + index + "].orderQuantity' value='" + orderQuantity + "'>";
+                    }
+                }
+
+                if (orderItemList.length == 0) {
+                    throw alert("한 개 이상의 품목을 선택하세요.");
+                }
+
+                let form = $("<form action='/orders' method='post' style='display: none'>"
+                    + orderItemList
+                    + "</form>");
+                $("body").append(form);
+                form.submit();
+
+            });
+
+        });
+    </script>
+</th:block>
 </html>
 
-<script>
-    $(function () {
-
-        // 전체 체크박스 컨트롤 ===================
-        $("#checkAll").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
 
 
-        // form 생성
-        $("#orderBtn").on("click", function () {
-            let trList = $("tr");
-            let orderItemList = "";
-
-            // tr의 첫번째 줄은 head 이므로 1번째 부터
-            for (let i = 1; i < trList.length; i++) {
-                // 체크된 아이템만 추가하도록
-                let isSelected = $(trList[i]).find(".checkBox").is(":checked");
-                if (isSelected) {
-                    let itemId = $(trList[i]).find(".orderCountTd .itemId").val();
-                    let orderQuantity = $(trList[i]).find(".orderCountTd .orderQuantity").val();
-
-                    let index = i - 1;
-                    orderItemList += "<input type='text' name='orderItemList[" + index + "].itemId' value='" + itemId + "'>";
-                    orderItemList += "<input type='text' name='orderItemList[" + index + "].orderQuantity' value='" + orderQuantity + "'>";
-                }
-            }
-
-            if (orderItemList.length == 0) {
-                throw alert("한 개 이상의 품목을 선택하세요.");
-            }
-
-            let form = $("<form action='/orders' method='post' style='display: none'>"
-                + orderItemList
-                + "</form>");
-            $("body").append(form);
-            form.submit();
-
-        });
-
-    });
-
-</script>
