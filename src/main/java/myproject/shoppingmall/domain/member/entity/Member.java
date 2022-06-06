@@ -1,11 +1,14 @@
 package myproject.shoppingmall.domain.member.entity;
 
-import lombok.*;
-import myproject.shoppingmall.domain.post.entity.Post;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.audit.BaseEntity;
 import myproject.shoppingmall.domain.member.constant.Address;
+import myproject.shoppingmall.domain.member.constant.Role;
 import myproject.shoppingmall.domain.order.entity.Order;
-import org.springframework.util.Assert;
+import myproject.shoppingmall.domain.post.entity.Post;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -43,23 +46,30 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private Address address;
 
-    private String role;
-
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @Builder
-    public Member(String loginId, String password, String name, String email, Address address) {
-        Assert.hasText(loginId, "로그인아이디는 비어있으면 안됨");
-        Assert.hasText(password, "password는 비어있으면 안됨");
-        Assert.hasText(name, "name은 비어있으면 안됨");
-        Assert.hasText(email, "email은 비어있으면 안됨");
+    public Member(String loginId, String password, String name, String email, Address address, Role role) {
 
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
         this.address = address;
-        this.role = "ROLE_USER";
+        this.role = role;
+    }
+
+    public static Member createMember(Member member) {
+        return Member.builder()
+                .loginId(member.getLoginId())
+                .password(member.getPassword())
+                .name(member.getName())
+                .email(member.getEmail())
+                .address(member.getAddress())
+                .role(member.getRole())
+                .build();
     }
 
     public void updateMember(String name, Address address) {

@@ -9,7 +9,7 @@
             <div class="text-center">
                 <h2 class="section-heading text-uppercase myh2">회원가입</h2>
             </div>
-            <form id="contactForm" th:action="@{/member/new}" th:object="${joinForm}" method="post">
+            <form id="contactForm" th:action="@{/member/new}" th:object="${registerMemberForm}" method="post">
 
                 <div th:if="${#fields.hasGlobalErrors()}">
                     <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>

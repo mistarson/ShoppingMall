@@ -1,11 +1,12 @@
-package myproject.shoppingmall.web.login.controller;
+package myproject.shoppingmall.web.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.member.entity.Member;
-import myproject.shoppingmall.web.form.JoinForm;
-import myproject.shoppingmall.web.form.UpdateMemberForm;
+import myproject.shoppingmall.global.error.exception.BusinessException;
 import myproject.shoppingmall.global.security.AccountContext;
-import myproject.shoppingmall.web.login.service.MemberService;
+import myproject.shoppingmall.web.login.form.RegisterMemberForm;
+import myproject.shoppingmall.web.login.service.LoginService;
+import myproject.shoppingmall.web.member.form.UpdateMemberForm;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +20,9 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class MemberController {
+public class LoginController {
 
-    private final MemberService memberService;
+    private final LoginService loginService;
     
     @GetMapping("/member")
     public String myInfo(@AuthenticationPrincipal AccountContext accountContext, Model model) throws Exception {
@@ -55,25 +56,27 @@ public class MemberController {
 
 
     @GetMapping("/member/new")
-    public String createForm(Model model) {
+    public String registerMemberForm(Model model) {
 
-        model.addAttribute("joinForm", new JoinForm());
+        model.addAttribute("registerMemberForm", new RegisterMemberForm());
 
-        return "member/createJoinForm";
+        return "/member/registerMemberForm";
     }
 
     @PostMapping("/member/new")
-    public String create(@Valid JoinForm joinForm, BindingResult bindingResult) {
-
-        if (validateDuplicateLoginId(joinForm.getLoginId())) {
-            bindingResult.addError(new ObjectError("joinForm", "중복된 아이디가 있습니다."));
-        }
+    public String registerMember(@Valid RegisterMemberForm registerMemberForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "member/createJoinForm";
+            return "/member/registerMemberForm";
         }
 
-        memberService.join(joinForm);
+        try {
+            loginService.registerMember(registerMemberForm);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            bindingResult.addError(new ObjectError("registerMemberForm", e.getMessage()));
+            return "/member/registerMemberForm";
+        }
 
         return "redirect:/";
     }

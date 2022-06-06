@@ -3,13 +3,11 @@ package myproject.shoppingmall.web.login.service;
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.member.constant.Address;
 import myproject.shoppingmall.domain.member.entity.Member;
-import myproject.shoppingmall.web.form.JoinForm;
 import myproject.shoppingmall.web.dto.MemberDto;
-import myproject.shoppingmall.web.form.UpdateMemberForm;
+import myproject.shoppingmall.web.member.form.UpdateMemberForm;
 import myproject.shoppingmall.domain.member.repository.MemberRepository;
 import myproject.shoppingmall.global.security.AccountContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +21,10 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+
+    public Member registerMember(Member member) {
+        return memberRepository.save(member);
+    }
 
     //TODO 조회는 모든 경우, S
     // 회원 전체 조회
@@ -32,8 +33,8 @@ public class MemberService {
     }
 
     // 로그인 아이디로 조회
-    public Member findByLoginId(String loginId) throws Exception {
-        return memberRepository.findByLoginId(loginId).orElseThrow(() -> new Exception("아이디에 해당하는 회원이 없습니다."));
+    public Optional<Member> findByLoginId(String loginId){
+        return memberRepository.findByLoginId(loginId);
     }
 
     public Optional<Member> findByLoginIdForValidateDuplicate(String loginId){
@@ -45,16 +46,7 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(() -> new Exception("해당 memberId를 가진 회원은 없습니다."));
     }
 
-    //회원가입
-    @Transactional
-    public Long join(JoinForm joinForm) {
 
-        joinForm.setPassword(passwordEncoder.encode(joinForm.getPassword()));
-
-        Member member = memberRepository.save(joinForm.joinFormToEntity());
-
-        return member.getId();
-    }
 
     @Transactional
     public void updateMember(UpdateMemberForm updateMemberForm) throws Exception {
@@ -68,12 +60,4 @@ public class MemberService {
         findMember.updateMember(updateMemberForm.getName(), newAddress);
     }
 
-    //인증 회원 가져오기
-    public MemberDto getLoginMember() throws Exception {
-        AccountContext accountContext = (AccountContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member loginMember = findByLoginId(accountContext.getUsername());
-
-        return new MemberDto(loginMember);
-
-    }
 }
