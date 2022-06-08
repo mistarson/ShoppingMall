@@ -19,3 +19,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+file:
+  upload:
+    path: C:/Users/SCH/shop/
