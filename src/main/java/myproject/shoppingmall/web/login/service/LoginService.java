@@ -2,11 +2,11 @@ package myproject.shoppingmall.web.login.service;
 
 import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.member.entity.Member;
+import myproject.shoppingmall.domain.member.service.MemberService;
 import myproject.shoppingmall.global.error.exception.BusinessException;
 import myproject.shoppingmall.global.error.exception.ErrorCode;
 import myproject.shoppingmall.web.login.form.RegisterMemberForm;
-import myproject.shoppingmall.web.form.LoginForm;
-import myproject.shoppingmall.domain.member.repository.MemberRepository;
+import myproject.shoppingmall.web.login.form.UpdateMemberForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +34,13 @@ public class LoginService {
         return savedMember.getId();
     }
 
-    // null이면 로그인 실패
-    public Member login(LoginForm loginForm) throws Exception {
-        return memberRepository.findByLoginId(loginForm.getLoginId())
-                .filter( m->m.getPassword().equals(loginForm.getPassword()))
-                .orElse(null);
+    @Transactional
+    public void updateMember(UpdateMemberForm updateMemberForm) throws BusinessException {
+
+        Member member = memberService.findByLoginId(updateMemberForm.getLoginId()).orElseThrow(() -> new BusinessException(ErrorCode.NON_EXISTENT_MEMBER));
+        Member updateMember = updateMemberForm.toEntity();
+
+        member.updateMember(updateMember);
     }
 
     private void validateDuplicateMember(String loginId) {

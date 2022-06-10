@@ -1,24 +1,20 @@
 package myproject.shoppingmall.web.login.form;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import myproject.shoppingmall.domain.member.constant.Address;
-import myproject.shoppingmall.domain.member.constant.MemberRole;
 import myproject.shoppingmall.domain.member.entity.Member;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Data
-public class RegisterMemberForm {
+@Getter @Setter
+@Builder
+public class UpdateMemberForm {
 
     @NotBlank(message = "아이디는 필수입니다.")
-    @Size(min = 1, max = 10, message = "아이디는 1~10자로 입력해주세요.")
     private String loginId;
-
-    @NotBlank(message = "패스워드는 필수입니다.")
-    @Size(min = 1, max = 20, message = "비밀번호는 1~20자로 입력해주세요.")
-    private String password;
 
     @NotBlank(message = "이름은 필수입니다.")
     @Size(min = 1, max = 15, message = "이름은 1~15자로 입력해주세요.")
@@ -40,20 +36,29 @@ public class RegisterMemberForm {
     @Size(min = 1, max = 10)
     private String zipcode;
 
-    public Member toEntity(PasswordEncoder passwordEncoder) {
+    public static UpdateMemberForm from(Member member) {
 
+        Address address = member.getAddress();
+
+        return UpdateMemberForm.builder()
+                .loginId(member.getLoginId())
+                .memberName(member.getMemberName())
+                .email(member.getEmail())
+                .city(address.getCity())
+                .street(address.getStreet())
+                .zipcode(address.getZipcode())
+                .build();
+    }
+
+    public Member toEntity() {
+
+        Address address = Address.from(city, street, zipcode);
         return Member.builder()
                 .loginId(loginId)
-                .password(passwordEncoder.encode(password))
                 .name(memberName)
                 .email(email)
-                .address(new Address(city, street, zipcode))
-                .role(MemberRole.ADMIN)
+                .address(address)
                 .build();
-
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

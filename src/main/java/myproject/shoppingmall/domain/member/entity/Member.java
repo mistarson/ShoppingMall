@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.audit.BaseEntity;
 import myproject.shoppingmall.domain.member.constant.Address;
-import myproject.shoppingmall.domain.member.constant.Role;
+import myproject.shoppingmall.domain.member.constant.MemberRole;
 import myproject.shoppingmall.domain.order.entity.Order;
 import myproject.shoppingmall.domain.post.entity.Post;
 
@@ -31,7 +31,7 @@ public class Member extends BaseEntity{
     private String password;
 
     @Column(length = 15, nullable = false)
-    private String name;
+    private String memberName;
 
     @Column(length = 50, nullable = false)
     private String email;
@@ -48,32 +48,32 @@ public class Member extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private MemberRole memberRole;
 
     @Builder
-    public Member(String loginId, String password, String name, String email, Address address, Role role) {
+    public Member(String loginId, String password, String name, String email, Address address, MemberRole role) {
 
         this.loginId = loginId;
         this.password = password;
-        this.name = name;
+        this.memberName = name;
         this.email = email;
         this.address = address;
-        this.role = role;
+        this.memberRole = role;
     }
 
     public static Member createMember(Member member) {
         return Member.builder()
                 .loginId(member.getLoginId())
                 .password(member.getPassword())
-                .name(member.getName())
+                .name(member.getMemberName())
                 .email(member.getEmail())
                 .address(member.getAddress())
-                .role(member.getRole())
+                .role(member.getMemberRole())
                 .build();
     }
 
-    public void updateMember(String name, Address address) {
-        this.name = name;
-        this.address = address;
+    public void updateMember(Member member) {
+        this.memberName = member.getMemberName();
+        this.address = member.getAddress();
     }
 }

@@ -1,17 +1,27 @@
 package myproject.shoppingmall.web.login.controller;
 
 import lombok.RequiredArgsConstructor;
+import myproject.shoppingmall.domain.member.entity.Member;
+import myproject.shoppingmall.global.error.exception.BusinessException;
+import myproject.shoppingmall.global.security.AccountContext;
+import myproject.shoppingmall.web.login.form.RegisterMemberForm;
 import myproject.shoppingmall.web.login.service.LoginService;
+import myproject.shoppingmall.web.login.form.UpdateMemberForm;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,37 +35,7 @@ public class LoginController {
         model.addAttribute("error", error);
 
         return "login/loginForm";
-
     }
-
-//    @PostMapping("/login")
-//    public String login(@Valid @ModelAttribute LoginForm loginForm,
-//                          BindingResult bindingResult,
-//                          HttpServletResponse response,
-//                          HttpServletRequest request,
-//                          @RequestParam(defaultValue = "/") String redirectURL) throws Exception {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "login/loginForm";
-//        }
-//
-//        Member loginMember = loginService.login(loginForm);
-//
-//        if (loginMember == null) {
-//            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 일치하지 않습니다.");
-//            return "login/loginForm";
-//        }
-//
-//        HttpSession session = request.getSession(); //세션이 있으면 있는 세션을 반환하고, 없으면 신규 세션을 생성해서 반환
-//        /**
-//         * getSession(default: true)
-//         * true  : 세션이 있으면 기존 세션을 반환, 없으면 새로 생성
-//         * false : 세션이 있으면 기존 세션을 반환, 없으면 null 반환 (신규 session X)
-//         */
-//        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); //세션에 로그인 회원 정보를 보관
-//
-//        return "redirect:" + redirectURL;
-//    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -67,12 +47,64 @@ public class LoginController {
         }
 
         return "redirect:/";
+    }
+    
+    @GetMapping("/member")
+    public String myInfo(@AuthenticationPrincipal AccountContext accountContext, Model model) throws Exception {
 
+        Member loginMember = accountContext.getMember();
+
+        UpdateMemberForm updateMemberForm = UpdateMemberForm.from(loginMember);
+
+        model.addAttribute("updateMemberForm", updateMemberForm);
+
+        return "member/myInfo";
     }
 
-//    private void expireCookie(HttpServletResponse response, String cookieName) {
-//        Cookie cookie = new Cookie(cookieName, null);
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
-//    }
+    @PostMapping("/member")
+    public String updateMember(@Valid UpdateMemberForm updateMemberForm,
+                               BindingResult bindingResult) throws Exception {
+
+        if (bindingResult.hasErrors()) {
+            return "member/myInfo";
+        }
+
+        try {
+            loginService.updateMember(updateMemberForm);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            bindingResult.addError(new ObjectError("updateMemberForm", e.getMessage()));
+            return "member/myInfo";
+        }
+
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/member/new")
+    public String registerMemberForm(Model model) {
+
+        model.addAttribute("registerMemberForm", new RegisterMemberForm());
+
+        return "/member/registerMemberForm";
+    }
+
+    @PostMapping("/member/new")
+    public String registerMember(@Valid RegisterMemberForm registerMemberForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "/member/registerMemberForm";
+        }
+
+        try {
+            loginService.registerMember(registerMemberForm);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            bindingResult.addError(new ObjectError("registerMemberForm", e.getMessage()));
+            return "/member/registerMemberForm";
+        }
+
+        return "redirect:/";
+    }
+
 }

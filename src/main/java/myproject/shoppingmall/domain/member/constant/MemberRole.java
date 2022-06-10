@@ -1,5 +1,5 @@
 package myproject.shoppingmall.domain.member.constant;
 
-public enum Role {
+public enum MemberRole {
     ADMIN, USER
 }
