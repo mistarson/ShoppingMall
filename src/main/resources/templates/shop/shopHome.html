@@ -20,65 +20,65 @@
             <div class="text-center">
                 <h2 class="section-heading text-uppercase myh2">쇼핑</h2>
             </div>
-            <div id="categoryMenu">
-                <i class="category_icon fas fa-bars" style="font-size: 30px; color: gray;"></i>
-                <div class="category_text">카테고리</div>
-            </div>
-            <div class="categories">
-                <!--  LEVEL 1  -->
-                <div class="level1">
-                    <div th:each="category, idx : ${rootCategory.subCategories}" th:class="'level1_' + ${idx.index}">
-                        <i th:if="${category.categoryName} eq '의류'" class="fas fa-tshirt"></i>
-                        <span th:text="${category.categoryName}"></span>
-                    </div>
-                </div>
-                <!--  LEVEL 2  -->
-                <div class="level2">
-                    <!-- 패션  -->
-                    <div th:each="category, idx : ${rootCategory.subCategories.get(0).subCategories}"
-                         th:class="'category level2_0 level2_0_' + ${idx.index}">
-                        <span th:text="${category.categoryName}"></span>
-                    </div>
-                </div>
-                <!--  LEVEL 3  -->
-                <div class="level3">
-                    <!--  패션 차하위  -->
-                    <div class="">
-                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(0).subCategories}"
-                             th:class="'category level3_category level3_0_0 level3_0_0_' + ${idx.index}">
-                            <a class="level3_category_a"
-                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
-                                <span th:text="${category.categoryName}"></span>
-                            </a>
-                        </div>
-                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(1).subCategories}"
-                             th:class="'category level3_category level3_0_1 level3_0_1_' + ${idx.index}">
-                            <a class="level3_category_a"
-                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
-                                <span th:text="${category.categoryName}"></span>
-                            </a>
-                        </div>
-                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(2).subCategories}"
-                             th:class="'category level3_category level3_0_2 level3_0_2_' + ${idx.index}">
-                            <a class="level3_category_a"
-                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
-                                <span th:text="${category.categoryName}"></span>
-                            </a></div>
-                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(3).subCategories}"
-                             th:class="'category level3_category level3_0_3 level3_0_3_' + ${idx.index}">
-                            <a class="level3_category_a"
-                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
-                                <span th:text="${category.categoryName}"></span>
-                            </a></div>
-                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(4).subCategories}"
-                             th:class="'category level3_category level3_0_4 level3_0_4_' + ${idx.index}">
-                            <a class="level3_category_a"
-                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">
-                                <span th:text="${category.categoryName}"></span>
-                            </a></div>
-                    </div>
-                </div>
-            </div>
+<!--            <div id="categoryMenu">-->
+<!--                <i class="category_icon fas fa-bars" style="font-size: 30px; color: gray;"></i>-->
+<!--                <div class="category_text">카테고리</div>-->
+<!--            </div>-->
+<!--            <div class="categories">-->
+<!--                &lt;!&ndash;  LEVEL 1  &ndash;&gt;-->
+<!--                <div class="level1">-->
+<!--                    <div th:each="category, idx : ${rootCategory.subCategories}" th:class="'level1_' + ${idx.index}">-->
+<!--                        <i th:if="${category.categoryName} eq '의류'" class="fas fa-tshirt"></i>-->
+<!--                        <span th:text="${category.categoryName}"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;  LEVEL 2  &ndash;&gt;-->
+<!--                <div class="level2">-->
+<!--                    &lt;!&ndash; 패션  &ndash;&gt;-->
+<!--                    <div th:each="category, idx : ${rootCategory.subCategories.get(0).subCategories}"-->
+<!--                         th:class="'category level2_0 level2_0_' + ${idx.index}">-->
+<!--                        <span th:text="${category.categoryName}"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;  LEVEL 3  &ndash;&gt;-->
+<!--                <div class="level3">-->
+<!--                    &lt;!&ndash;  패션 차하위  &ndash;&gt;-->
+<!--                    <div class="">-->
+<!--                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(0).subCategories}"-->
+<!--                             th:class="'category level3_category level3_0_0 level3_0_0_' + ${idx.index}">-->
+<!--                            <a class="level3_category_a"-->
+<!--                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                                <span th:text="${category.categoryName}"></span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(1).subCategories}"-->
+<!--                             th:class="'category level3_category level3_0_1 level3_0_1_' + ${idx.index}">-->
+<!--                            <a class="level3_category_a"-->
+<!--                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                                <span th:text="${category.categoryName}"></span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(2).subCategories}"-->
+<!--                             th:class="'category level3_category level3_0_2 level3_0_2_' + ${idx.index}">-->
+<!--                            <a class="level3_category_a"-->
+<!--                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                                <span th:text="${category.categoryName}"></span>-->
+<!--                            </a></div>-->
+<!--                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(3).subCategories}"-->
+<!--                             th:class="'category level3_category level3_0_3 level3_0_3_' + ${idx.index}">-->
+<!--                            <a class="level3_category_a"-->
+<!--                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                                <span th:text="${category.categoryName}"></span>-->
+<!--                            </a></div>-->
+<!--                        <div th:each="category, idx: ${rootCategory.subCategories.get(0).subCategories.get(4).subCategories}"-->
+<!--                             th:class="'category level3_category level3_0_4 level3_0_4_' + ${idx.index}">-->
+<!--                            <a class="level3_category_a"-->
+<!--                               th:href="@{/items?category={categoryId}(categoryId=${category.categoryId})}">-->
+<!--                                <span th:text="${category.categoryName}"></span>-->
+<!--                            </a></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <form th:object="${itemSearch}" class="form-check-inline">
                 <div class="form-group mb-2">
@@ -87,7 +87,7 @@
                 <div id="sort">
                     <select th:field="*{sorter}" class="form-control">
                         <option value="">정렬기준</option>
-                        <option th:each="sorter : ${T(myproject.shoppingmall.web.item.search.ItemSorter).values()}"
+                        <option th:each="sorter : ${T(myproject.shoppingmall.web.shopMain.search.ItemSorter).values()}"
                                 th:value="${sorter}"
                                 th:text="${sorter.getSorter()}"/>
                     </select>
@@ -100,13 +100,13 @@
                 <div class="item-list-box">
                     <div class="item-info-box">
                         <div class="item-box" th:each="item : ${items}">
-                            <a th:href="@{/items/{itemId}(itemId=${item.getId()})}">
+                            <a th:href="@{/items/{itemId}(itemId=${item.itemId})}">
                                 <div>
                                     <img class="item-main-image"
-                                         th:src="@{{imagePath}(imagePath=${item.getImageList().get(0)})}" alt="">
+                                         th:src="${item.imageUrl}" alt="">
                                 </div>
                                 <div class="item-text-info">
-                                    <span th:text="${item.name}"></span>
+                                    <span th:text="${item.itemName}"></span>
                                     <span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></span>
                                 </div>
                             </a>

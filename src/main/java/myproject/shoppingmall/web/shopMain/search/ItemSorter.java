@@ -1,4 +1,4 @@
-package myproject.shoppingmall.web.item.search;
+package myproject.shoppingmall.web.shopMain.search;
 
 import lombok.Getter;
 

@@ -1,91 +1,52 @@
 package myproject.shoppingmall.domain.item.repository.custom;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.item.entity.Item;
-import myproject.shoppingmall.web.item.search.ItemSearch;
-import myproject.shoppingmall.web.item.search.ItemSorter;
-import myproject.shoppingmall.web.dto.ItemSearchDto;
-import myproject.shoppingmall.web.dto.QItemSearchDto;
+import myproject.shoppingmall.domain.querydsl.DynamicQuery;
+import myproject.shoppingmall.web.shopMain.search.ItemSearch;
+import myproject.shoppingmall.web.shopMain.search.ItemSorter;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.function.Supplier;
 
-import static myproject.shoppingmall.domain.item.QImage.*;
-import static myproject.shoppingmall.domain.item.QItem.*;
+import static myproject.shoppingmall.domain.item.entity.QItem.item;
+import static myproject.shoppingmall.domain.itemImage.entity.QItemImage.itemImage;
 
+
+@RequiredArgsConstructor
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public ItemRepositoryImpl(EntityManager em) {
-        this.queryFactory = new JPAQueryFactory(em);
-    }
-
     @Override
-    public Page<ItemSearchDto> findAll(ItemSearch itemSearch, Pageable pageable) {
+    public Page<Item> findAllWithSearch(ItemSearch itemSearch, Pageable pageable) {
 
-        QueryResults<ItemSearchDto> results;
+        List<Item> content = queryFactory
+                .selectFrom(item)
+                .join(item.itemImageList, itemImage).fetchJoin()
+                .where(itemNameLike(itemSearch.getName()))
+                .orderBy(sorter(itemSearch.getSorter()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
-        // TODO 이름검색 안했을 때, 메소드 수정해야함
-        if (itemSearch.getName() == null) {
+        JPAQuery<Item> countQuery = queryFactory
+                .select(item)
+                .from(item)
+                .where(itemNameLike(itemSearch.getName()));
 
-            List<Item> fetch = queryFactory
-                    .selectFrom(item)
-                    .join(item.imageList, image).fetchJoin()
-                    .where(categoryEq(itemSearch.getCategoryId()))
-                    .fetch();
-
-            results = queryFactory
-                    .select(new QItemSearchDto(item))
-                    .from(item)
-                    .where(categoryEq(itemSearch.getCategoryId()))
-                    .orderBy(sorter(itemSearch.getSorter()))
-                    .offset(pageable.getOffset())
-                    .limit(pageable.getPageSize())
-                    .fetchResults();
-
-
-
-        } else {
-
-            List<Item> fetch = queryFactory
-                    .selectFrom(item)
-                    .join(item.imageList, image).fetchJoin()
-                    .where(itemNameLike(itemSearch.getName()),
-                            categoryEq(itemSearch.getCategoryId()))
-                    .fetch();
-
-            results = queryFactory
-                    .select(new QItemSearchDto(item))
-                    .from(item)
-                    .where(itemNameLike(itemSearch.getName()),
-                            categoryEq(itemSearch.getCategoryId()))
-                    .orderBy(sorter(itemSearch.getSorter()))
-                    .offset(pageable.getOffset())
-                    .limit(pageable.getPageSize())
-                    .fetchResults();
-
-
-        }
-        List<ItemSearchDto> content = results.getResults();
-        long total = results.getTotal();
-
-        return new PageImpl<>(content, pageable, total);
-
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
     private OrderSpecifier sorter(ItemSorter sorter) {
 
-         if (sorter == ItemSorter.BYPRICE) {
+        if (sorter == ItemSorter.BYPRICE) {
             return item.price.desc();
         } else if (sorter == ItemSorter.BYDATE) {
             return item.createDate.desc();
@@ -96,18 +57,10 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     }
 
     private BooleanBuilder categoryEq(Long categoryId) {
-        return nullSafeBuilder(() -> item.categoryId.eq(categoryId));
+        return DynamicQuery.nullSafeBuilder(() -> item.categoryId.eq(categoryId));
     }
 
-    private Predicate itemNameLike(String name) {
-        return nullSafeBuilder(() -> item.name.like("%"+name+"%"));
-    }
-
-    public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
-        try {
-            return new BooleanBuilder(f.get());
-        } catch (IllegalArgumentException e) {
-            return new BooleanBuilder();
-        }
+    private BooleanBuilder itemNameLike(String name) {
+        return DynamicQuery.nullSafeBuilder(() -> item.itemName.like("%" + name + "%"));
     }
 }
