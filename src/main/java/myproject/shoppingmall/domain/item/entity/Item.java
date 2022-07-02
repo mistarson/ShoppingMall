@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import myproject.shoppingmall.domain.audit.BaseEntity;
 import myproject.shoppingmall.domain.itemImage.entity.ItemImage;
-import myproject.shoppingmall.global.exception.NotEnoughStockException;
+import myproject.shoppingmall.global.error.exception.ErrorCode;
+import myproject.shoppingmall.global.error.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,20 +17,22 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name = "ctype")
 public class Item extends BaseEntity {
-// TODO 추후에 사이즈, 컬러 추가
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(length = 100, nullable = false)
+    private String itemName;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemImage> imageList = new ArrayList<>();
+    @Lob
+    @Column(nullable = false)
+    private String itemDetail;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemImage> itemImageList = new ArrayList<>();
 
     private int price;
 
@@ -37,29 +40,40 @@ public class Item extends BaseEntity {
 
     private Long categoryId;
 
-
     @Builder
-    public Item(String name, int price, int stockQuantity, Long categoryId, ItemImage... imageList) {
-        this.name = name;
+    public Item(String name, String itemDetail, int price, int stockQuantity) {
+        this.itemName = name;
+        this.itemDetail = itemDetail;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.categoryId = categoryId;
-        for (ItemImage image : imageList) {
-            addImage(image);
-        }
+    }
+
+    public static Item createItem(Item item, List<ItemImage> itemImageList) {
+        Item saveItem = Item.builder()
+                .name(item.getItemName())
+                .itemDetail(item.getItemDetail())
+                .price(item.getPrice())
+                .stockQuantity(item.getStockQuantity())
+                .build();
+
+        saveItem.addItemList(itemImageList);
+
+        return saveItem;
     }
 
     //==연관관계 편의 메소드==//
-    public void addImage(ItemImage image) {
-        imageList.add(image);
-        image.setImage(this);
+    public void addItemList(List<ItemImage> itemImageList) {
+        this.itemImageList = itemImageList;
+        for (ItemImage itemImage : itemImageList) {
+            itemImage.addItem(this);
+        }
     }
 
     //==비즈니스 로직==//
     public void removeStock(int orderQuantity) {
         int restStock = this.stockQuantity - orderQuantity;
         if (restStock < 0) {
-            throw new NotEnoughStockException("재고가 0보다 작습니다.");
+            throw new NotEnoughStockException(ErrorCode.REST_STOCK_NOT_EXISTS);
         }
         this.stockQuantity = restStock;
     }

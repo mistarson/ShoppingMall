@@ -15,21 +15,33 @@ public class ItemImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_image_id", nullable = false)
+    @Column(name = "item_image_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    private String imagePath;
+    @Column(length = 500)
+    private String imageName;
+
+    @Column(length = 500)
+    private String imageUrl;
+
+    private boolean isRepImage;
+
+    @Column(length = 200)
+    private String originalImageName;
 
     @Builder
-    public ItemImage(String imagePath) {
-        this.imagePath = imagePath;
+    public ItemImage(String imageName, String imageUrl, boolean isRepImage, String originalImageName) {
+        this.imageName = imageName;
+        this.imageUrl = imageUrl;
+        this.isRepImage = isRepImage;
+        this.originalImageName = originalImageName;
     }
 
-    public void setImage(Item item) {
+    public void addItem(Item item) {
         this.item = item;
     }
 }
