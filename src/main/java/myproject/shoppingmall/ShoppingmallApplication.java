@@ -12,23 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class ShoppingmallApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShoppingmallApplication.class, args);
 	}
-
-	@Bean
-	public AuditorAware<String> auditorProvider() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || !authentication.isAuthenticated()) {
-			return null;
-		}
-
-		AccountContext accountContext = (AccountContext) authentication.getPrincipal();
-
-		return () -> Optional.of(accountContext.getMember().getName());
-	}
-
 }
