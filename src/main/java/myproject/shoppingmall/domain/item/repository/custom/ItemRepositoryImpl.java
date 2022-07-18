@@ -2,6 +2,7 @@ package myproject.shoppingmall.domain.item.repository.custom;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import myproject.shoppingmall.web.shopMain.search.ItemSorter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -60,7 +62,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         return DynamicQuery.nullSafeBuilder(() -> item.categoryId.eq(categoryId));
     }
 
-    private BooleanBuilder itemNameLike(String name) {
-        return DynamicQuery.nullSafeBuilder(() -> item.itemName.like("%" + name + "%"));
+    private BooleanExpression itemNameLike(String name) {
+        return StringUtils.hasText(name) ? item.itemName.like("%" + name + "%") : null;
     }
 }
