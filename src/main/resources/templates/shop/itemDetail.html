@@ -7,25 +7,25 @@
         <div class="container">
             <div class="item-detail-container">
                 <div class="item-image-box">
-                    <div th:each="imagePath : ${item.imageList}">
-                        <img class="item-image" th:src="@{/{imagePath}(imagePath=${imagePath})}"
+                    <div th:each="imagePath : ${itemDto.getImageUrlList()}">
+                        <img class="item-image" th:src="${imagePath}"
                              alt="">
                     </div>
                 </div>
                 <div class="item-detail-box">
                     <div class="itemNameContainer">
-                        <h2 class="h2-item" th:text="${item.name}"></h2>
+                        <h2 class="h2-item" th:text="${itemDto.itemName}"></h2>
                     </div>
                     <div class="itemPriceContainer">
-                        <h2 class="h2-item" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' 원'"></h2>
+                        <h2 class="h2-item" th:text="${#numbers.formatInteger(itemDto.price, 3, 'COMMA')} + ' 원'"></h2>
                     </div>
-                    <div th:if="${item.stockQuantity &lt; 1}" class="soldOut">
+                    <div th:if="${itemDto.getStockQuantity() &lt; 1}" class="soldOut">
                         <i class="fas fa-ban" style="color: #CCC;"></i> 해당 상품은 품절입니다.
                     </div>
-                    <div th:unless="${item.stockQuantity &lt; 1}">
+                    <div th:unless="${itemDto.getStockQuantity() &lt; 1}">
                         <form th:action="@{/carts}" method="post">
                             <div class="form-group">
-                                <input id="itemIdInput" type="text" th:name="itemId" th:value="${item.id}"
+                                <input id="itemIdInput" type="text" th:name="itemId" th:value="${itemDto.getItemId()}"
                                        style="display: none;">
                                 <div style="display: block">
                                     <div th:if="${errors?.containsKey('orderQuantity')}">
@@ -33,13 +33,13 @@
                                     </div>
                                     <label class="itemQuantity-label">수량</label>
                                     <input style="width: 15%" id="orderCountInput" type="number" th:value="1" th:min="1"
-                                           th:max="${item.stockQuantity}"
+                                           th:max="${itemDto.getStockQuantity()}"
                                            th:name="orderQuantity">
                                 </div>
                                 <div style="display: block">
                                     <label class="itemQuantity-label">재고</label>
                                     <input style="width: 15%" type="number"
-                                           th:value="${item.stockQuantity}" readonly>
+                                           th:value="${itemDto.getStockQuantity()}" readonly>
                                 </div>
                                 <div class="cart-btn-container">
                                     <button type="submit" class="btn btn-light btn-order">

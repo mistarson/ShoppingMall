@@ -25,16 +25,9 @@ public class ItemService {
         return itemRepository.save(item).getId();
     }
 
-
-    public Item findByItemId(Long itemId) {
-        return itemRepository.findById(itemId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NON_EXISTENT_ITEM));
-    }
-
     public Item findById(Long itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
-
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NON_EXISTENT_ITEM));
     }
 
     public Optional<Item> findByItemName(String itemName) {
@@ -43,6 +36,11 @@ public class ItemService {
 
     public Page<Item> findAllForSearch(ItemSearch itemSearch, Pageable pageable) {
         return itemRepository.findAllWithSearch(itemSearch, pageable);
+    }
+
+    public Item findByIdFetchItemImages(Long itemId) {
+        return itemRepository.findByIdFetchItemImages(itemId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NON_EXISTENT_ITEM));
     }
 
 }

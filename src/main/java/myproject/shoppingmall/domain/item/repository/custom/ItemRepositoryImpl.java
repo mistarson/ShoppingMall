@@ -16,6 +16,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static myproject.shoppingmall.domain.item.entity.QItem.item;
 import static myproject.shoppingmall.domain.itemImage.entity.QItemImage.itemImage;
@@ -46,6 +47,15 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
+    @Override
+    public Optional<Item> findByIdFetchItemImages(Long itemId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(item)
+                .join(item.itemImageList, itemImage).fetchJoin()
+                .where(itemIdEquals(itemId))
+                .fetchOne());
+    }
+
     private OrderSpecifier sorter(ItemSorter sorter) {
 
         if (sorter == ItemSorter.BYPRICE) {
@@ -64,5 +74,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private BooleanExpression itemNameLike(String name) {
         return StringUtils.hasText(name) ? item.itemName.like("%" + name + "%") : null;
+    }
+
+    private BooleanExpression itemIdEquals(Long itemId) {
+        return itemId != null ? item.id.eq(itemId) : null;
     }
 }
