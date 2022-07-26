@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CartItemRepositoryCustom {
-    Page<CartItemDto> findAllCartItem(Long memberId, Pageable pageable);
+    Page<CartItemDto> findAllCartItemForUser(Long memberId, Pageable pageable);
 }

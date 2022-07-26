@@ -1,7 +1,6 @@
 package myproject.shoppingmall.web.cart.controller;
 
 import lombok.RequiredArgsConstructor;
-import myproject.shoppingmall.domain.member.entity.Member;
 import myproject.shoppingmall.global.error.exception.NotEnoughStockException;
 import myproject.shoppingmall.global.security.AccountContext;
 import myproject.shoppingmall.web.cart.service.CartMainService;
@@ -24,14 +23,13 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class CartMainController {
 
-    private final CartMainService cartService;
+    private final CartMainService cartMainService;
 
     @GetMapping("/carts")
     public String showCart(Model model, @AuthenticationPrincipal AccountContext accountContext,
                            @PageableDefault(size = 20) Pageable pageable) throws Exception {
 
-        Member member = accountContext.getMember();
-        Page<CartItemDto> results = cartService.findAllCartItem(member, pageable);
+        Page<CartItemDto> results = cartMainService.findAllCartItem(accountContext.getMember(), pageable);
 
         model.addAttribute("cartItems", results.getContent());
         model.addAttribute("totalPage", results.getTotalPages());
@@ -49,7 +47,7 @@ public class CartMainController {
         }
 
         try {
-            cartService.addCartItem(addCartItemForm, accountContext.getMember());
+            cartMainService.addCartItem(addCartItemForm, accountContext.getMember());
         } catch (NotEnoughStockException e) {
             bindingResult.addError(new ObjectError("orderQuantity", e.getMessage()));
 
@@ -63,7 +61,7 @@ public class CartMainController {
     public String modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm,
                                       @AuthenticationPrincipal AccountContext accountContext) throws Exception {
 
-        cartService.modifyOrderQuantity(modifyOrderQuantityForm, accountContext.getMember());
+        cartMainService.modifyOrderQuantity(modifyOrderQuantityForm, accountContext.getMember());
 
         return "redirect:/carts";
     }
@@ -72,7 +70,7 @@ public class CartMainController {
     public String removeCartItem(@PathVariable("item-id") Long itemId,
                                  @AuthenticationPrincipal AccountContext accountContext) throws Exception {
 
-        cartService.removeCartItem(itemId, accountContext.getMember());
+        cartMainService.removeCartItem(itemId, accountContext.getMember());
 
         return "redirect:/carts";
     }

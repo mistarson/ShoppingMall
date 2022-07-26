@@ -1,6 +1,5 @@
 package myproject.shoppingmall.domain.cartItem.repository.custom;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
@@ -8,6 +7,7 @@ import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import myproject.shoppingmall.domain.cartItem.entity.CartItem;
+import myproject.shoppingmall.domain.item.entity.QItem;
 import myproject.shoppingmall.web.dto.CartItemDto;
 import myproject.shoppingmall.web.dto.QCartItemDto;
 import org.springframework.data.domain.Page;
@@ -16,12 +16,12 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.function.Supplier;
 
-import static myproject.shoppingmall.domain.cart.QCart.*;
-import static myproject.shoppingmall.domain.cart.QCartItem.*;
-import static myproject.shoppingmall.domain.item.QImage.*;
-import static myproject.shoppingmall.domain.item.QItem.*;
+import static myproject.shoppingmall.domain.cart.entity.QCart.cart;
+import static myproject.shoppingmall.domain.cartItem.entity.QCartItem.cartItem;
+import static myproject.shoppingmall.domain.item.entity.QItem.item;
+import static myproject.shoppingmall.domain.itemImage.entity.QItemImage.itemImage;
+
 
 public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
 
@@ -32,18 +32,18 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
     }
 
     @Override
-    public Page<CartItemDto> findAllCartItem(Long memberId, Pageable pageable) {
+    public Page<CartItemDto> findAllCartItemForUser(Long memberId, Pageable pageable) {
         List<CartItemDto> content = queryFactory
-                .select(new QCartItemDto(item.id, image.imagePath, item.name, item.price, cartItem.orderQuantity, item.stockQuantity))
+                .select(new QCartItemDto(item.id, itemImage.imageUrl, item.itemName, item.price, cartItem.orderQuantity, item.stockQuantity))
                 .from(cartItem)
-                .join(item).on(itemIdEq(item.id))
-                .join(image).on(itemIdEq(image.item.id))
+                .join(item).on(itemIdEquals(cartItem.itemId))
+                .join(itemImage).on(itemEquals())
                 .where(cartIdEq(
                         JPAExpressions
                                 .select(cart.id)
                                 .from(cart)
-                                .where(cart.member.id.eq(memberId))
-                ).and(image.imagePath.like("%main%")))
+                                .where(memberIdEquals(memberId)))
+                ,itemImage.isRepImage.eq(true))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -54,27 +54,28 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
                         JPAExpressions
                                 .select(cart.id)
                                 .from(cart)
-                                .where(cart.member.id.eq(memberId))
+                                .where(memberIdEquals(memberId))
                 ));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
 
     }
 
-    private BooleanBuilder itemIdEq(NumberPath<Long> itemId) {
-        return nullSafeBuilder(() -> cartItem.itemId.eq(itemId));
+    private BooleanExpression itemIdEquals(NumberPath<Long> itemId) {
+        return item.id.eq(itemId);
     }
 
-    private BooleanBuilder cartIdEq(JPQLQuery<Long> cartId) {
-        return nullSafeBuilder(() -> cartItem.cart.id.eq(cartId));
+    private BooleanExpression cartIdEq(JPQLQuery<Long> cartId) {
+        return cartItem.cart.id.eq(cartId);
+    }
+
+    private BooleanExpression itemEquals() {
+        return itemImage.item.eq(QItem.item);
+    }
+
+    private BooleanExpression memberIdEquals(Long memberId) {
+        return cart.member.id.eq(memberId);
     }
 
 
-    public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
-        try {
-            return new BooleanBuilder(f.get());
-        } catch (IllegalArgumentException e) {
-            return new BooleanBuilder();
-        }
-    }
 }

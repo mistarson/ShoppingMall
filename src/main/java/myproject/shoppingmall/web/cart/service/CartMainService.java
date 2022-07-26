@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import myproject.shoppingmall.domain.cart.entity.Cart;
 import myproject.shoppingmall.domain.cart.service.CartService;
 import myproject.shoppingmall.domain.cartItem.entity.CartItem;
-import myproject.shoppingmall.domain.cartItem.repository.CartItemRepository;
+import myproject.shoppingmall.domain.cartItem.service.CartItemService;
 import myproject.shoppingmall.domain.item.entity.Item;
 import myproject.shoppingmall.domain.item.service.ItemService;
 import myproject.shoppingmall.domain.member.entity.Member;
 import myproject.shoppingmall.global.error.exception.ErrorCode;
 import myproject.shoppingmall.global.error.exception.NotEnoughStockException;
 import myproject.shoppingmall.web.dto.CartItemDto;
-import myproject.shoppingmall.web.dto.MemberDto;
 import myproject.shoppingmall.web.form.AddCartItemForm;
 import myproject.shoppingmall.web.form.ModifyOrderQuantityForm;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartMainService {
 
     private final CartService cartService;
-    private final CartItemRepository cartItemRepository;
+    private final CartItemService cartItemService;
     private final ItemService itemService;
 
     @Transactional
@@ -58,7 +57,7 @@ public class CartMainService {
 
     public Page<CartItemDto> findAllCartItem(Member member, Pageable pageable) throws Exception {
 
-        return cartItemRepository.findAllCartItem(member.getId(), pageable);
+        return cartItemService.findAllCartItemForUser(member.getId(), pageable);
     }
 
 
