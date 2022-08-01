@@ -22,7 +22,7 @@ public class Cart {
     @Column(name = "cart_id", unique = true, nullable = false)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -36,36 +36,50 @@ public class Cart {
     }
 
     public void modifyOrderQuantity(ModifyOrderQuantityForm modifyOrderQuantityForm) {
-        for (int i = 0; i < cartItemList.size(); i++) {
-            if (cartItemList.get(i).getItemId().equals(modifyOrderQuantityForm.getItemId())) {
-                cartItemList.get(i).setOrderQuantity(modifyOrderQuantityForm.getOrderQuantity());
+        for (CartItem cartItem : cartItemList) {
+            if (isSameCartItem(cartItem.getItemId(), modifyOrderQuantityForm.getItemId())) {
+                cartItem.setOrderQuantity(modifyOrderQuantityForm.getOrderQuantity());
             }
         }
     }
 
     public void removeCartItem(Long itemId) {
-        for (int i = 0; i < cartItemList.size(); i++) {
-            if (cartItemList.get(i).getItemId().equals(itemId)) {
-                cartItemList.remove(i);
+        for (CartItem cartItem : cartItemList) {
+            if (isSameCartItem(cartItem.getItemId(), itemId)) {
+                cartItemList.remove(cartItem);
                 return;
             }
         }
     }
 
     //== 연관관계 편의 메서드==//
-    public boolean addCartItem(CartItem cartItem, int stockQuantity) {
-        for (int i = 0; i < cartItemList.size(); i++) {
-            if (cartItemList.get(i).getItemId().equals(cartItem.getItemId())) {
-                if (cartItemList.get(i).getOrderQuantity() + cartItem.getOrderQuantity() > stockQuantity) {
+    public boolean addCartItem(CartItem addCartItem, int stockQuantity) {
+
+        // 현재 장바구니에 추가한 상품과 같은 상품이 있는지 확인
+        for (CartItem cartItem : cartItemList) {
+            if (isSameCartItem(cartItem.getItemId(), addCartItem.getItemId())) {
+                if (cartItem.getOrderQuantity() + addCartItem.getOrderQuantity() > stockQuantity) {
                     return false;
                 }
-                cartItemList.get(i).addOrderQuantity(cartItem.getOrderQuantity());
+                cartItem.addOrderQuantity(addCartItem.getOrderQuantity());
                 return true;
             }
         }
-        cartItemList.add(cartItem);
-        cartItem.setCart(this);
+
+        // 같은 상품이 없다면 장바구니에 상품을 추가
+        cartItemList.add(addCartItem);
+        addCartItem.setCart(this);
 
         return true;
+    }
+
+    private boolean isSameCartItem(Long originCartItemId, Long newCartItemId) {
+        return originCartItemId.equals(newCartItemId);
+    }
+
+    public static Cart createCart(Member member) {
+        return Cart.builder()
+                .member(member)
+                .build();
     }
 }
